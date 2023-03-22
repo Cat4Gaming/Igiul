@@ -1,0 +1,7 @@
+{
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "fxgl-17.2-uber.jar"
+    ],
+    "java.debug.settings.onBuildFailureProceed": true
+}
