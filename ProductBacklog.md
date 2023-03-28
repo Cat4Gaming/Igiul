@@ -24,3 +24,4 @@ Die Zielgruppe sind diejenigen, die in ihrer Kindheit dieses Minispiel in den Za
 - Hand vergleich
 - Geld setzen & auszahlen
 - Sterne verdienen
+- (Mehrspielermodus)
