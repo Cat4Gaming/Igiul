@@ -2,8 +2,7 @@
 
 
 ## Product Backlog
-### Teamtitel
-- Igiul
+### Igiul-Dev
 
 ### Teammitglieder
 - Christoph Braml
