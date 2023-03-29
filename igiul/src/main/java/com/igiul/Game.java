@@ -6,55 +6,66 @@ import java.awt.Toolkit;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCombination;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 public class Game extends Application{
-    private Stage stage;
-    private Label title, subtitle;
-    private Button button;
+
     private static double scaleX, scaleY;
+
     public static void main(String[] args){
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         scaleX = screenSize.getWidth()/32;
         scaleY = screenSize.getHeight()/18;
         launch(args);
     }
+
+    private Stage window;
+    private Scene MainMenu, PicturePoker;
+
     @Override
-    public void start(Stage ps){
-        stage = ps;
-        stage.setTitle("Igiul - Gioco-d'Azzardo");
-        stage.setResizable(false);
-        title = new Label("Igiul");
-        title.setFont(new Font(40));
-        title.setAlignment(Pos.TOP_CENTER);
-        subtitle = new Label("Gioco-d'Azzardo");
-        button = new Button();
-        button.setText("joa");
-        button.setPrefSize(1*scaleX, 1*scaleY);
-        button.setOnAction(new EventHandler<ActionEvent>() {
+    public void start(Stage primaryStage){
+        window = primaryStage;
+        
+        //MainMenu-Scene
+        Label titel = new Label("Igiul");
+        Button start = new Button("Start");
+        start.setOnAction(new EventHandler<ActionEvent>(){
             @Override
-            public void handle(ActionEvent e){
-                button.setText("thx");
-                button.setDisable(true);
+            public void handle(ActionEvent event){
+                window.setScene(PicturePoker);
+                window.setFullScreen(true);
             }
         });
-        VBox box = new VBox();
-        box.getChildren().add(title);
-        box.getChildren().add(subtitle);
-        box.getChildren().add(button);
-        Scene scene0 = new Scene(box);
-        scene0.setFill(null);
-        ps.setScene(scene0);
-        ps.setFullScreen(true);
-        ps.setFullScreenExitHint("");
-        ps.setFullScreenExitKeyCombination(KeyCombination.valueOf("Ü"));
-        ps.show();
+
+        VBox mainmenu = new VBox(20);
+        mainmenu.getChildren().addAll(titel, start);
+        MainMenu = new Scene(mainmenu, scaleX*32, scaleY*18);
+
+        //PicturePoker-Scene
+        Button back = new Button("Zurück");
+        back.setOnAction(new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent event){
+                window.setScene(MainMenu);
+                window.setFullScreen(true);
+            }
+        });
+
+        StackPane picturepoker = new StackPane();
+        picturepoker.getChildren().addAll(back);
+        PicturePoker = new Scene(picturepoker, 1920, 1080);
+        
+        //First-Time-Setup
+        window.setScene(MainMenu);
+        window.setTitle("Igiul");
+        window.setFullScreen(true);
+        window.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+        window.show();
     }
 }

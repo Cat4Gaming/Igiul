@@ -1,6 +1,6 @@
 module com.igiul {
+    requires transitive javafx.graphics; 
     requires javafx.controls;
-    requires javafx.fxml;
     requires java.desktop;
 
     opens com.igiul to javafx.fxml;
