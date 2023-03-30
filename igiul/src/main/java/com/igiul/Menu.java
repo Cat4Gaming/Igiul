@@ -13,11 +13,11 @@ import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class Menu extends Application{
+public class Menu extends Application {
 
     private static double scaleX, scaleY;
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         scaleX = screenSize.getWidth()/32;
         scaleY = screenSize.getHeight()/18;
@@ -28,7 +28,7 @@ public class Menu extends Application{
     private Scene MainMenu;
 
     @Override
-    public void start(Stage primaryStage){
+    public void start(Stage primaryStage) {
         window = primaryStage;
         window.setTitle("Igiul");
         window.setFullScreen(true);
@@ -36,9 +36,9 @@ public class Menu extends Application{
         
         Label titel = new Label("Igiul");
         Button start = new Button("Start");
-        start.setOnAction(new EventHandler<ActionEvent>(){
+        start.setOnAction(new EventHandler<ActionEvent>() {
             @Override
-            public void handle(ActionEvent event){
+            public void handle(ActionEvent event) {
                 window.setScene(new PictuePoker().giveScene(window, MainMenu, scaleX, scaleY));
                 window.setFullScreen(true);
             }
