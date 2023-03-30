@@ -2,6 +2,7 @@ package com.igiul;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.util.Random;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -50,5 +51,10 @@ public class Menu extends Application {
         
         window.setScene(MainMenu);
         window.show();
+    }
+    public static int randInt(int min, int max) {
+        Random rand = new Random();
+        int randomNum = rand.nextInt((max - min) + 1) + min;
+        return randomNum;
     }
 }

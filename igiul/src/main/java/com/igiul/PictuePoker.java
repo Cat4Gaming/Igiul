@@ -1,7 +1,5 @@
 package com.igiul;
 
-import java.util.Random;
-
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -33,12 +31,12 @@ public class PictuePoker extends Game {
         return new Scene(picturepoker);
     }
     public void setRandPlayerCard(int position) {
-        playerHand[position] = randInt(0, 5);
+        playerHand[position] = Menu.randInt(0, 5);
         if(deck[playerHand[position]] == 0) {setRandPlayerCard(position);}
         else {deck[playerHand[position]] = deck[playerHand[position]] - 1;}
     }
     public void setRandComputerCard(int position) {
-        computerHand[position] = randInt(0, 5);
+        computerHand[position] = Menu.randInt(0, 5);
         if(deck[computerHand[position]] == 0) {setRandPlayerCard(position);}
         else {deck[computerHand[position]] = deck[computerHand[position]] - 1;}
     }
@@ -50,10 +48,5 @@ public class PictuePoker extends Game {
             setRandPlayerCard(i);
             setRandComputerCard(i);
         }
-    }
-    public int randInt(int min, int max) {
-        Random rand = new Random();
-        int randomNum = rand.nextInt((max - min) + 1) + min;
-        return randomNum;
     }
 }
