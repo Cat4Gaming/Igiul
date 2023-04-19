@@ -14,7 +14,6 @@ Die Zielgruppe sind diejenigen, die in ihrer Kindheit dieses Minispiel in den Za
 
 ## Software / Engine / Entwicklungsumgebung
 - Java
-- Visual Studio Code
 - BlueJ
 - JavaFX
 
@@ -24,4 +23,4 @@ Die Zielgruppe sind diejenigen, die in ihrer Kindheit dieses Minispiel in den Za
 - Hand vergleich
 - Geld setzen & auszahlen
 - Sterne verdienen
-- (Mehrspielermodus)
+- (Mehrspielermodus)???

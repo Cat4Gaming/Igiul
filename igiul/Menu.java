@@ -1,5 +1,3 @@
- 
-
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.util.Random;
@@ -37,6 +35,8 @@ public class Menu extends Application {
         
         Label titel = new Label("Igiul");
         Button start = new Button("Start");
+        
+        //Lade die eigentliche Spielszene
         start.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
