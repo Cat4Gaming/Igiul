@@ -48,10 +48,11 @@ public class Menu extends Application {
         VBox mainmenu = new VBox(20);
         mainmenu.getChildren().addAll(titel, start);
         MainMenu = new Scene(mainmenu);
-        
-        window.setScene(MainMenu);
+        //window.setScene(MainMenu);
+        window.setScene(new PicturePoker().giveScene(window, MainMenu, scaleX, scaleY));
         window.show();
     }
+    
     public static int randInt(int min, int max) {
         Random rand = new Random();
         int randomNum = rand.nextInt((max - min) + 1) + min;

@@ -1,0 +1,9 @@
+#BlueJ class context
+comment0.target=PPCard
+comment1.params=value
+comment1.target=PPCard(int)
+comment2.params=value
+comment2.target=void\ setCard(int)
+comment3.params=
+comment3.target=int\ getValue()
+numComments=4
