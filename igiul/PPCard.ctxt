@@ -1,13 +1,19 @@
 #BlueJ class context
 comment0.target=PPCard
+comment0.text=\r\n\ Die\ Klasse\ 'PPCard'\ ist\ eine\ Erweiterung\ der\ Klasse\ 'Button',\ die\ es\ erleichtern\ soll\ mit\ den\ Spielkarten\ f\u00FCr\ das\ PicturePoker-Spiel\ zu\ arbeiten.\r\n
 comment1.params=value
 comment1.target=PPCard(int)
+comment1.text=\r\n\ Setzt\ den\ Wert\ der\ Karte\ und\ zeigt\ sofort\ die\ Vorderseite\ der\ Karte.\r\n\ \r\n\ @param\ \ \ \ value\ \ \ \ \ \ \ Wert\ der\ Karte\r\n
 comment2.params=value\ isHidden
 comment2.target=PPCard(int,\ boolean)
+comment2.text=\r\n\ Setzt\ den\ Wert\ der\ Karte\ und\ die\ Sichtbarkeit\ der\ Vorderseite.\r\n\ \r\n\ @param\ \ \ value\ \ \ \ \ \ \ Wert\ der\ Karte\r\n\ @param\ \ \ isHidden\ \ \ \ Bei\ verdeckter\ Karte\ 'true',\ \r\n\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ und\ bei\ sichtbarer\ Vorderseite\ 'false'.\r\n
 comment3.params=
 comment3.target=int\ getValue()
+comment3.text=\r\n\ Gibt\ den\ Wert\ der\ Spielkarte\ zur\u00FCck.\r\n\ \r\n\ @return\ \ \ \ \ \ \ \ \ \ \ \ \ \ Wert\ der\ Karte\r\n
 comment4.params=
 comment4.target=boolean\ isHidden()
+comment4.text=\r\n\ Gibt\ zur\u00FCck,\ ob\ die\ Karte\ aktuell\ verdeckt\ ist\ oder\ nicht.\r\n\ \r\n\ @return\ \ \ \ \ \ \ \ \ \ \ \ \ \ bei\ 'true'\ ist\ die\ Karte\ verdeckt\ \r\n\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ und\ bei\ 'false'\ ist\ die\ Kartevorderseite\ sichtbar\r\n
 comment5.params=isHidden
 comment5.target=void\ setHidden(boolean)
+comment5.text=\r\n\ Setzt\ ob\ die\ Karte\ verdeckt\ sein\ soll\ oder\ nicht.\r\n\ \r\n\ @param\ \ \ isHidden\ \ \ \ Bei\ verdeckter\ Karte\ 'true',\ \r\n\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ und\ bei\ sichtbarer\ Vorderseite\ 'false'.\r\n
 numComments=6
