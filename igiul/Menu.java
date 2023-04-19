@@ -1,7 +1,6 @@
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.util.Random;
-
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;

@@ -12,7 +12,7 @@ import javafx.scene.control.ContentDisplay;
 import javafx.scene.layout.Region;
 import javafx.geometry.Insets;
 
-public class PicturePoker extends Game {
+public class PicturePoker {
     private int[] deck; 
     private PPCard[] playerHand, computerHand;
 
@@ -36,7 +36,7 @@ public class PicturePoker extends Game {
     
     public void setRandPlayerCard(int position) {
         int tmp = Menu.randInt(0, 5);
-        playerHand[position] = new PPCard(Menu.randInt(0, 5));
+        playerHand[position] = new PPCard(tmp);
         if(deck[tmp] == 0) {setRandPlayerCard(position);}
         else {deck[tmp] = deck[tmp] - 1;}
         
@@ -44,7 +44,7 @@ public class PicturePoker extends Game {
     
     public void setRandComputerCard(int position) {
         int tmp = Menu.randInt(0, 5);
-        computerHand[position] = new PPCard(Menu.randInt(0, 5));
+        computerHand[position] = new PPCard(tmp, true);
         if(deck[tmp] == 0) {setRandPlayerCard(position);}
         else {deck[tmp] = deck[tmp] - 1;}
     }

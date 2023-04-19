@@ -6,22 +6,34 @@ import javafx.geometry.Insets;
 public class PPCard extends Button {
     private ImageView view;
     private int value;
+    private boolean isHidden;
     
     public PPCard(int value) {
         super();
-        view = new ImageView(new Image("assets/gfx/cards/" + value + ".png"));
-        view.setFitHeight(200);
-        view.setPreserveRatio(true);
-        super.setGraphic(view);
-        super.setPadding(new Insets(-5, -5, -5, -5));
+        this.value = value;
+        setHidden(false);
+        super.setPadding(new Insets(-4, -4, -4, -4));
     }
     
-    public void setCard(int value) {
-        view.setImage(new Image("assets/gfx/cards/" + value + ".png"));
-        super.setGraphic(view);
+    public PPCard(int value, boolean isHidden) {
+        this(value);
+        setHidden(isHidden);
     }
     
     public int getValue() {
         return value;
+    }
+    
+    public boolean isHidden(){
+        return isHidden;
+    }
+    
+    public void setHidden(boolean isHidden) {
+        this.isHidden = isHidden;
+        if(isHidden) view = new ImageView(new Image("assets/gfx/cards/hidden.png"));
+        else view = new ImageView(new Image("assets/gfx/cards/" + value + ".png"));
+        view.setFitHeight(200);
+        view.setPreserveRatio(true);
+        this.setGraphic(view);
     }
 }
