@@ -19,6 +19,11 @@ public class PicturePoker extends Game {
             }
         });
         
+        Button ph0 = new Button("");
+        Button ph1 = new Button("");
+        Button ph2 = new Button("");
+        Button ph3 = new Button("");
+        Button ph4 = new Button("");
         //Erstelle Spielfeld
         deck = new int[6];
         playerHand = new int[5];
