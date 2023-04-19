@@ -1,4 +1,4 @@
-package com.igiul;
+ 
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;

@@ -1,4 +1,4 @@
-package com.igiul;
+ 
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -40,7 +40,7 @@ public class Menu extends Application {
         start.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                window.setScene(new PictuePoker().giveScene(window, MainMenu, scaleX, scaleY));
+                window.setScene(new PicturePoker().giveScene(window, MainMenu, scaleX, scaleY));
                 window.setFullScreen(true);
             }
         });

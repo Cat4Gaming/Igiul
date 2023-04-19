@@ -1,0 +1,13 @@
+#BlueJ class context
+comment0.target=PicturePoker
+comment1.params=window\ MainMenu\ scaleX\ scaleY
+comment1.target=javafx.scene.Scene\ giveScene(javafx.stage.Stage,\ javafx.scene.Scene,\ double,\ double)
+comment2.params=event
+comment2.target=void\ handle(javafx.event.ActionEvent)
+comment3.params=position
+comment3.target=void\ setRandPlayerCard(int)
+comment4.params=position
+comment4.target=void\ setRandComputerCard(int)
+comment5.params=
+comment5.target=void\ resetPlayingField()
+numComments=6
