@@ -12,11 +12,20 @@ import javafx.scene.control.ContentDisplay;
 import javafx.scene.layout.Region;
 import javafx.geometry.Insets;
 
+/**
+ * Die Klasse 'PicturePoker' ist die Szene für das eigentliche Spiel.
+ */
 public class PicturePoker {
     private int[] deck; 
     private PPCard[] playerHand, computerHand;
 
-    public Scene giveScene(Stage window, Scene MainMenu, double scaleX, double scaleY) {
+    /**
+     * Gibt die Szene für das Spiel PicturePoker zurück.
+     * 
+     * @param   window      Stage, die benötigt wird, um zur vorherigen Szene (Hauptmenü) zurückzukehren.
+     * @param   MainMenu    Szene, die benötigt wird, um zur vorherigen Szene (Hauptmenü) zurückzukehren.
+     */
+    public Scene giveScene(Stage window, Scene MainMenu) {
         deck = new int[6];
         computerHand = new PPCard[5];
         playerHand = new PPCard[5];
@@ -34,6 +43,11 @@ public class PicturePoker {
         return new Scene(main);
     }
     
+    /**
+     * Setzt eine neue Karte aus einem vorgegebenen Kartendeck in die Hand des Spielers
+     * 
+     * @param   position    !Werte nur zwischen 0 und 4 setzten! die Kartenposition in der Hand, die ersetzt werden soll
+     */
     public void setRandPlayerCard(int position) {
         int tmp = Menu.randInt(0, 5);
         playerHand[position] = new PPCard(tmp);
@@ -42,6 +56,11 @@ public class PicturePoker {
         
     }
     
+    /**
+     * Setzt eine neue Karte aus einem vorgegebenen Kartendeck in die Hand des Computers
+     * 
+     * @param   position    !Werte nur zwischen 0 und 4 setzten! die Kartenposition in der Hand, die ersetzt werden soll
+     */
     public void setRandComputerCard(int position) {
         int tmp = Menu.randInt(0, 5);
         computerHand[position] = new PPCard(tmp, true);
@@ -49,6 +68,9 @@ public class PicturePoker {
         else {deck[tmp] = deck[tmp] - 1;}
     }
     
+    /**
+     * Setzt das Spielfeld zum Anfang zurück, wobei die bisher gewonnene Münzanzahl und Sternanzahl nicht beeinträchtigt wird.
+     */
     public void resetPlayingField() {
         for(int i = 0; i < 6; i++) {
             deck[i] = 5;
