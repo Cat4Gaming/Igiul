@@ -1,15 +1,4 @@
 
-igiul/doc/index.html
-igiul/PPCard.ctxt
-igiul/PPCard.class
-igiul/PicturePoker.ctxt
-*.class
-*.ctxt
-*.css
-*.js
-*.html
-igiul/doc/logfile.txt
-igiul/doc/legal/LICENSE
-igiul/doc/legal/ASSEMBLY_EXCEPTION
-igiul/doc/legal/ADDITIONAL_LICENSE_INFO
-igiul/doc/element-list
+igiul/doc/*
+igiul/*.class
+igiul/*.ctxt
