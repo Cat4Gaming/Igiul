@@ -3,52 +3,74 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import javafx.scene.layout.VBox;
+import javafx.scene.layout.HBox;
+import javafx.scene.control.ContentDisplay;
+import javafx.scene.layout.Region;
+import javafx.geometry.Insets;
 
-public class PicturePoker extends Game {
-    private int[] deck, playerHand, computerHand;
+/**
+ * Die Klasse 'PicturePoker' ist die Szene für das eigentliche Spiel.
+ */
+public class PicturePoker {
+    private int[] deck; 
+    private PPCard[] playerHand, computerHand;
 
-    public Scene giveScene(Stage window, Scene MainMenu, double scaleX, double scaleY) {
-        Button back = new Button("Zurück");
-        //gehe zur Menu-Szene zurück
-        back.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event){
-                window.setScene(MainMenu);
-                window.setFullScreen(true);
-            }
-        });
-        
-        Button ph0 = new Button("");
-        Button ph1 = new Button("");
-        Button ph2 = new Button("");
-        Button ph3 = new Button("");
-        Button ph4 = new Button("");
-        //Erstelle Spielfeld
+    /**
+     * Gibt die Szene für das Spiel PicturePoker zurück.
+     * 
+     * @param   window      Stage, die benötigt wird, um zur vorherigen Szene (Hauptmenü) zurückzukehren.
+     * @param   MainMenu    Szene, die benötigt wird, um zur vorherigen Szene (Hauptmenü) zurückzukehren.
+     */
+    public Scene giveScene(Stage window, Scene MainMenu) {
         deck = new int[6];
-        playerHand = new int[5];
-        computerHand = new int[5];
+        computerHand = new PPCard[5];
+        playerHand = new PPCard[5];
+        
         resetPlayingField();
-
-        StackPane picturepoker = new StackPane();
-        picturepoker.getChildren().addAll(back);
-        return new Scene(picturepoker);
+        
+        HBox computerCards = new HBox(25);
+        HBox playerCards = new HBox(25);
+        for(int i = 0; i < 5; i++){
+            computerCards.getChildren().addAll(computerHand[i]);
+            playerCards.getChildren().addAll(playerHand[i]);
+        }
+        VBox main = new VBox(20);
+        main.getChildren().addAll(computerCards, playerCards);
+        return new Scene(main);
     }
-    //Setze eine zufällige Karte aus dem Karten-Deck als neue Spielkarte des Spielers an einer gewissen Position.
+    
+    /**
+     * Setzt eine neue Karte aus einem vorgegebenen Kartendeck in die Hand des Spielers
+     * 
+     * @param   position    !Werte nur zwischen 0 und 4 setzten! die Kartenposition in der Hand, die ersetzt werden soll
+     */
     public void setRandPlayerCard(int position) {
-        playerHand[position] = Menu.randInt(0, 5);
-        if(deck[playerHand[position]] == 0) {setRandPlayerCard(position);}
-        else {deck[playerHand[position]] = deck[playerHand[position]] - 1;}
-            System.out.println("Player " + position + " " + playerHand[position]);
+        int tmp = Menu.randInt(0, 5);
+        playerHand[position] = new PPCard(tmp);
+        if(deck[tmp] == 0) {setRandPlayerCard(position);}
+        else {deck[tmp] = deck[tmp] - 1;}
+        
     }
-    //Setze eine zufällige Karte aus dem Karten-Deck als neue Spielkarte des Computers an einer gewissen Position.
+    
+    /**
+     * Setzt eine neue Karte aus einem vorgegebenen Kartendeck in die Hand des Computers
+     * 
+     * @param   position    !Werte nur zwischen 0 und 4 setzten! die Kartenposition in der Hand, die ersetzt werden soll
+     */
     public void setRandComputerCard(int position) {
-        computerHand[position] = Menu.randInt(0, 5);
-        if(deck[computerHand[position]] == 0) {setRandPlayerCard(position);}
-        else {deck[computerHand[position]] = deck[computerHand[position]] - 1;}
-            System.out.println("Computer " + position + " " + playerHand[position]);
+        int tmp = Menu.randInt(0, 5);
+        computerHand[position] = new PPCard(tmp, true);
+        if(deck[tmp] == 0) {setRandPlayerCard(position);}
+        else {deck[tmp] = deck[tmp] - 1;}
     }
-    //Setze ein komplett neues Deck mit allen Karten und gebe sofort den Spieler und Computer gewisse Karten.
+    
+    /**
+     * Setzt das Spielfeld zum Anfang zurück, wobei die bisher gewonnene Münzanzahl und Sternanzahl nicht beeinträchtigt wird.
+     */
     public void resetPlayingField() {
         for(int i = 0; i < 6; i++) {
             deck[i] = 5;
