@@ -8,12 +8,15 @@ import javafx.scene.control.Label;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import java.util.ArrayList;
+import javafx.scene.image.Image;
+import java.util.List;
 
 /**
  * Die Klasse Menu ist das Hauptmenü.
  */
 public class Menu extends Application {
-
+    
     public static void main(String[] args) {
         launch(args);
     }

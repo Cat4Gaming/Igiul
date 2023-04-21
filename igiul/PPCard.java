@@ -6,23 +6,12 @@ import javafx.geometry.Insets;
 /**
  * Die Klasse 'PPCard' ist eine Erweiterung der Klasse 'Button', die es erleichtern soll mit den Spielkarten für das PicturePoker-Spiel zu arbeiten.
  */
-public class PPCard extends Button {
+public class PPCard extends Thread{
     private ImageView view;
     private int value;
     private boolean isHidden;
-    
-    /**
-     * Setzt den Wert der Karte und zeigt sofort die Vorderseite der Karte.
-     * 
-     * @param    value       Wert der Karte
-     */
-    public PPCard(int value) {
-        super();
-        this.value = value;
-        setHidden(false);
-        super.setPadding(new Insets(-4, -4, -4, -4));
-    }
-    
+    private Button card;
+        
     /**
      * Setzt den Wert der Karte und die Sichtbarkeit der Vorderseite.
      * 
@@ -30,9 +19,28 @@ public class PPCard extends Button {
      * @param   isHidden    Bei verdeckter Karte 'true', 
      *                      und bei sichtbarer Vorderseite 'false'.
      */
-    public PPCard(int value, boolean isHidden) {
-        this(value);
+    public PPCard(boolean isHidden) {
+        card = new Button();
+        this.isHidden = isHidden;
+        start();
+    }
+    
+    /**
+     * Damit man mehrere Spielkarten zugleich geladen werden.
+     */
+    @Override
+    public void run() {
+        setRandomCard();
         setHidden(isHidden);
+    }
+    
+    /**
+     * Gibt die Spielkarte aus.
+     * 
+     * @return              Spielkarte (PPCard)
+     */
+    public Button getPPCard(){
+        return card;
     }
     
     /**
@@ -50,7 +58,7 @@ public class PPCard extends Button {
      * @return              bei 'true' ist die Karte verdeckt 
      *                      und bei 'false' ist die Kartevorderseite sichtbar
      */
-    public boolean isHidden(){
+    public boolean getIsHidden(){
         return isHidden;
     }
     
@@ -62,10 +70,21 @@ public class PPCard extends Button {
      */
     public void setHidden(boolean isHidden) {
         this.isHidden = isHidden;
-        if(isHidden) view = new ImageView(new Image("assets/gfx/cards/hidden.png"));
-        else view = new ImageView(new Image("assets/gfx/cards/" + value + ".png"));
-        view.setFitHeight(200);
+        if(isHidden) view = new ImageView(new Image("assets/gfx/cards/hidden.png", true));
+        else view = new ImageView(new Image("assets/gfx/cards/" + value + ".png", true));
+        view.setFitWidth(150);
         view.setPreserveRatio(true);
-        this.setGraphic(view);
+        card.setGraphic(view);
+        card.setPadding(new Insets(-5, -5, -5, -5));
+    }
+    
+    /**
+     * Nimmt eine neue zufällige und mögliche Karte aus dem Deck.
+     */
+    public void setRandomCard() {
+        int tmp = Menu.randInt(0, 5);
+        value = tmp;
+        if(PicturePoker.addPossibleCard(tmp)) setHidden(isHidden);
+        else setRandomCard();
     }
 }

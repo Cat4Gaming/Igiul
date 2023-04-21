@@ -16,7 +16,7 @@ import javafx.geometry.Insets;
  * Die Klasse 'PicturePoker' ist die Szene für das eigentliche Spiel.
  */
 public class PicturePoker {
-    private int[] deck; 
+    private static int[] deck; 
     private PPCard[] playerHand, computerHand;
 
     /**
@@ -35,37 +35,12 @@ public class PicturePoker {
         HBox computerCards = new HBox(25);
         HBox playerCards = new HBox(25);
         for(int i = 0; i < 5; i++){
-            computerCards.getChildren().addAll(computerHand[i]);
-            playerCards.getChildren().addAll(playerHand[i]);
+            computerCards.getChildren().addAll(computerHand[i].getPPCard());
+            playerCards.getChildren().addAll(playerHand[i].getPPCard());
         }
         VBox main = new VBox(20);
         main.getChildren().addAll(computerCards, playerCards);
         return new Scene(main);
-    }
-    
-    /**
-     * Setzt eine neue Karte aus einem vorgegebenen Kartendeck in die Hand des Spielers
-     * 
-     * @param   position    !Werte nur zwischen 0 und 4 setzten! die Kartenposition in der Hand, die ersetzt werden soll
-     */
-    public void setRandPlayerCard(int position) {
-        int tmp = Menu.randInt(0, 5);
-        playerHand[position] = new PPCard(tmp);
-        if(deck[tmp] == 0) {setRandPlayerCard(position);}
-        else {deck[tmp] = deck[tmp] - 1;}
-        
-    }
-    
-    /**
-     * Setzt eine neue Karte aus einem vorgegebenen Kartendeck in die Hand des Computers
-     * 
-     * @param   position    !Werte nur zwischen 0 und 4 setzten! die Kartenposition in der Hand, die ersetzt werden soll
-     */
-    public void setRandComputerCard(int position) {
-        int tmp = Menu.randInt(0, 5);
-        computerHand[position] = new PPCard(tmp, true);
-        if(deck[tmp] == 0) {setRandPlayerCard(position);}
-        else {deck[tmp] = deck[tmp] - 1;}
     }
     
     /**
@@ -76,8 +51,23 @@ public class PicturePoker {
             deck[i] = 5;
         }
         for(int i = 0; i < 5; i++){
-            setRandPlayerCard(i);
-            setRandComputerCard(i);
+            playerHand[i] = new PPCard(false);
+            computerHand[i] = new PPCard(true);
+        }
+    }
+    
+    /**
+     * Überprüft ob eine Karte ein gewisser Kartenwert als Karte möglich wäre.
+     * Wenn es möglich ist wird diese sofort dem Kartendeck entnommen.
+     * 
+     * @param   cardValue   zu überprüfender Kartenwert
+     * @return              ob der Kartenwert möglich ist oder nicht
+     */
+    public static boolean addPossibleCard(int cardValue) {
+        if(deck[cardValue] == 0) return false;
+        else {
+            deck[cardValue] = deck[cardValue] -1;
+            return true;
         }
     }
 }
