@@ -72,7 +72,7 @@ public class PPCard extends Thread{
         this.isHidden = isHidden;
         if(isHidden) view = new ImageView(new Image("assets/gfx/cards/hidden.png", true));
         else view = new ImageView(new Image("assets/gfx/cards/" + value + ".png", true));
-        view.setFitWidth(150);
+        view.setFitWidth(180);
         view.setPreserveRatio(true);
         card.setGraphic(view);
         card.setPadding(new Insets(-5, -5, -5, -5));

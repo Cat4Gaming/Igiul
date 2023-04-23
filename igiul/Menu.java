@@ -21,8 +21,8 @@ public class Menu extends Application {
         launch(args);
     }
 
-    private Stage window;
-    private Scene MainMenu;
+    public static Stage window;
+    public static Scene MainMenu;
 
     /**
      * Lässt das Hauptmenü anzeigen.
@@ -39,7 +39,7 @@ public class Menu extends Application {
         start.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                window.setScene(new PicturePoker().giveScene(window, MainMenu));
+                window.setScene(new PicturePoker().giveScene());
                 window.setFullScreen(true);
             }
         });
@@ -48,7 +48,7 @@ public class Menu extends Application {
         mainmenu.getChildren().addAll(titel, start);
         MainMenu = new Scene(mainmenu);
         //window.setScene(MainMenu);
-        window.setScene(new PicturePoker().giveScene(window, MainMenu));
+        window.setScene(new PicturePoker().giveScene());
         window.show();
     }
     
