@@ -19,12 +19,19 @@ import javafx.geometry.Insets;
 public class PicturePoker {
     private static int[] deck; 
     private PPCard[] playerHand, computerHand;
+    private Menu menu;
+    private boolean[] playerCardSel;
 
+    public PicturePoker(Menu menu) {
+        this.menu = menu;
+    }
+    
     /**
      * Gibt die Szene für das Spiel PicturePoker zurück.
      */
     public Scene giveScene() {
         deck = new int[6];
+        playerCardSel = new boolean[5];
         computerHand = new PPCard[5];
         playerHand = new PPCard[5];
         resetPlayingField();
@@ -35,8 +42,8 @@ public class PicturePoker {
                 menuButton.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent event) {
-                        Menu.window.setScene(Menu.MainMenu);
-                        Menu.window.setFullScreen(true);
+                        menu.getStage().setScene(menu.getMenu());
+                        menu.getStage().setFullScreen(true);
                     }
                 });
             top_bar.getChildren().addAll(menuButton);
@@ -71,8 +78,8 @@ public class PicturePoker {
             deck[i] = 5;
         }
         for(int i = 0; i < 5; i++){
-            playerHand[i] = new PPCard(false);
-            computerHand[i] = new PPCard(false);
+            playerHand[i] = new PPCard(false, this, i);
+            computerHand[i] = new PPCard(true, this, i);
         }
     }
     
@@ -147,11 +154,33 @@ public class PicturePoker {
      * @param   cardValue   zu überprüfender Kartenwert
      * @return              ob der Kartenwert möglich ist oder nicht
      */
-    public static boolean addPossibleCard(int cardValue) {
+    public boolean addPossibleCard(int cardValue) {
         if(deck[cardValue] == 0) return false;
         else {
             deck[cardValue] = deck[cardValue] -1;
             return true;
         }
+    }
+    
+    public Menu getMenu() {
+        return menu;
+    }
+    
+    public void changeSelectedCards(boolean[] selCards) {
+        for(int i = 0; i > 5; i++) {
+            if(selCards[i]) {
+                deck[playerHand[i].getValue()] = deck[playerHand[i].getValue()] + 1;
+                playerHand[i].setRandomCard();
+            }
+        }
+    }
+    
+    public void changeSelectedStatus(int pos) {
+        if(playerCardSel[pos]) {
+            playerCardSel[pos] = false;
+        } else {
+            playerCardSel[pos] = true;
+        }
+        changeSelectedCards(playerCardSel);
     }
 }

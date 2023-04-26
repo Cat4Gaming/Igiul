@@ -2,6 +2,8 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.geometry.Insets;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 
 /**
  * Die Klasse 'PPCard' ist eine Erweiterung der Klasse 'Button', die es erleichtern soll mit den Spielkarten für das PicturePoker-Spiel zu arbeiten.
@@ -11,17 +13,27 @@ public class PPCard extends Thread{
     private int value;
     private boolean isHidden;
     private Button card;
+    private PicturePoker PP;
         
     /**
      * Setzt den Wert der Karte und die Sichtbarkeit der Vorderseite.
      * 
-     * @param   value       Wert der Karte
+     * @param   PP          übergiebt PicturePoker Klasse
      * @param   isHidden    Bei verdeckter Karte 'true', 
      *                      und bei sichtbarer Vorderseite 'false'.
      */
-    public PPCard(boolean isHidden) {
+    public PPCard(boolean isHidden, PicturePoker PP, int pos) {
         card = new Button();
+        card.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if(!isHidden) {
+                    PP.changeSelectedStatus(pos);
+                }
+            }
+        });
         this.isHidden = isHidden;
+        this.PP = PP;
         start();
     }
     
@@ -82,9 +94,9 @@ public class PPCard extends Thread{
      * Nimmt eine neue zufällige und mögliche Karte aus dem Deck.
      */
     public void setRandomCard() {
-        int tmp = Menu.randInt(0, 5);
+        int tmp = PP.getMenu().randInt(0, 5);
         value = tmp;
-        if(PicturePoker.addPossibleCard(tmp)) setHidden(isHidden);
+        if(PP.addPossibleCard(tmp)) setHidden(isHidden);
         else setRandomCard();
     }
 }
