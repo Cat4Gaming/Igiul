@@ -24,3 +24,6 @@ Die Zielgruppe sind diejenigen, die in ihrer Kindheit dieses Minispiel in den Za
 - Geld setzen & auszahlen
 - Sterne verdienen
 - (Mehrspielermodus)???
+
+## Klassendiagramm & Skizze
+(Screenshot 2023-04-26 081609.png)

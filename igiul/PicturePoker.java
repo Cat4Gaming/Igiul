@@ -27,12 +27,18 @@ public class PicturePoker {
         deck = new int[6];
         computerHand = new PPCard[5];
         playerHand = new PPCard[5];
-        
         resetPlayingField();
         
         VBox main = new VBox(50);
             HBox top_bar = new HBox();
-                MenuButton menuButton = new MenuButton();
+                Button menuButton = new Button("Menu");
+                menuButton.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        Menu.window.setScene(Menu.MainMenu);
+                        Menu.window.setFullScreen(true);
+                    }
+                });
             top_bar.getChildren().addAll(menuButton);
             HBox center = new HBox();
                 HBox instruction = new HBox(20);
