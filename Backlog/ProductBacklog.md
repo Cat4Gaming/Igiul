@@ -26,4 +26,4 @@ Die Zielgruppe sind diejenigen, die in ihrer Kindheit dieses Minispiel in den Za
 - (Mehrspielermodus)???
 
 ## Klassendiagramm & Skizze
-![Image](Backlog/Screenshot 2023-04-26 081609.png)
+![Image](/Backlog/Screenshot 2023-04-26 081609.png)
