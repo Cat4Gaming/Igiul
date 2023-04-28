@@ -1,4 +1,5 @@
 import java.util.Random;
+import java.awt.Toolkit;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -11,6 +12,7 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 import javafx.scene.image.Image;
 import java.util.List;
+import javafx.stage.Screen;
 
 /**
  * Die Klasse Menu ist das Hauptmenü.
@@ -33,6 +35,7 @@ public class Menu extends Application {
         window.setTitle("Igiul");
         window.setFullScreen(true);
         window.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+        window.setForceIntegerRenderScale(true);
         Menu menu = this;
         
         Label titel = new Label("Igiul");
@@ -66,11 +69,39 @@ public class Menu extends Application {
         return randomNum;
     }
     
+    /**
+     * Gibt die Stage des Menus zurück.
+     * 
+     * @return          Menu-Stage
+     */
     public Stage getStage() {
         return window;
     }
     
+    /**
+     * Gibt die Szene des Menus zurück.
+     * 
+     * @return          Menu-Scene
+     */
     public Scene getMenu() {
         return MainMenu;
+    }
+    
+    /**
+     * Berechnet die benötigte X-Achsen-Skalierung, um auf Bildschirmen von verschiedenen Auflösungen und Skalierungen zu laufen.
+     * 
+     * @return          Sklaierung der X-Achse
+     */
+    public double getScaleX() {
+        return Toolkit.getDefaultToolkit().getScreenSize().getWidth() / (40 * Toolkit.getDefaultToolkit().getScreenResolution());
+    }
+    
+    /**
+     * Berechnet die benötigte Y-Achsen-Skalierung, um auf Bildschirmen von verschiedenen Auflösungen und Skalierungen zu laufen.
+     * 
+     * @return          Sklaierung der Y-Achse
+     */
+    public double getScaleY() {
+        return Toolkit.getDefaultToolkit().getScreenSize().getHeight() / (22.5 * Toolkit.getDefaultToolkit().getScreenResolution());
     }
 }

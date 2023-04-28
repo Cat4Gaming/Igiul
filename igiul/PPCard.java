@@ -11,24 +11,31 @@ import javafx.event.EventHandler;
 public class PPCard extends Thread{
     private ImageView view;
     private int value;
-    private boolean isHidden;
+    private boolean isHidden, selected;
     private Button card;
     private PicturePoker PP;
         
     /**
      * Setzt den Wert der Karte und die Sichtbarkeit der Vorderseite.
+     * Setzt zudem die Funktion der Karte beim anklicken.
      * 
      * @param   PP          übergiebt PicturePoker Klasse
      * @param   isHidden    Bei verdeckter Karte 'true', 
      *                      und bei sichtbarer Vorderseite 'false'.
      */
-    public PPCard(boolean isHidden, PicturePoker PP, int pos) {
+    public PPCard(boolean isHidden, PicturePoker PP) {
         card = new Button();
         card.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 if(!isHidden) {
-                    PP.changeSelectedStatus(pos);
+                    if(selected) {
+                        card.setTranslateY(0);
+                        selected = false;
+                    } else {
+                        card.setTranslateY(-50 * PP.getScaleY());
+                        selected = true;
+                    }
                 }
             }
         });
@@ -65,6 +72,15 @@ public class PPCard extends Thread{
     }
     
     /**
+     * Gibt zurück, ob die Karte aktuell ausgewählt ist oder nicht.
+     * 
+     * @return              Auswahl-Status der Karte
+     */
+    public boolean getSelected() {
+        return selected;    
+    }
+    
+    /**
      * Gibt zurück, ob die Karte aktuell verdeckt ist oder nicht.
      * 
      * @return              bei 'true' ist die Karte verdeckt 
@@ -84,10 +100,12 @@ public class PPCard extends Thread{
         this.isHidden = isHidden;
         if(isHidden) view = new ImageView(new Image("assets/gfx/cards/hidden.png", true));
         else view = new ImageView(new Image("assets/gfx/cards/" + value + ".png", true));
-        view.setFitWidth(180);
+        view.setFitWidth(360 * PP.getScaleX());
         view.setPreserveRatio(true);
         card.setGraphic(view);
-        card.setPadding(new Insets(-5, -5, -5, -5));
+        card.setPadding(new Insets(-12 * PP.getScaleY(), -12 * PP.getScaleX(), -12 * PP.getScaleY(), -12 * PP.getScaleX()));
+        card.setTranslateY(0);
+        selected = false;
     }
     
     /**
@@ -96,7 +114,9 @@ public class PPCard extends Thread{
     public void setRandomCard() {
         int tmp = PP.getMenu().randInt(0, 5);
         value = tmp;
-        if(PP.addPossibleCard(tmp)) setHidden(isHidden);
-        else setRandomCard();
+        if(!PP.addPossibleCard(tmp)) {
+            setRandomCard();
+        }
+        setHidden(isHidden);
     }
 }

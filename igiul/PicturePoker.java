@@ -20,8 +20,12 @@ public class PicturePoker {
     private static int[] deck; 
     private PPCard[] playerHand, computerHand;
     private Menu menu;
-    private boolean[] playerCardSel;
+    private Text t, ftxt, pl, cm;
+    private double scaleX, scaleY;
 
+    /** 
+     * @param   menu        Benötigt das Menu, um wieder zurückzukehren.
+     */
     public PicturePoker(Menu menu) {
         this.menu = menu;
     }
@@ -30,13 +34,14 @@ public class PicturePoker {
      * Gibt die Szene für das Spiel PicturePoker zurück.
      */
     public Scene giveScene() {
+        scaleX = menu.getScaleX();
+        scaleY = menu.getScaleY();
         deck = new int[6];
-        playerCardSel = new boolean[5];
         computerHand = new PPCard[5];
         playerHand = new PPCard[5];
         resetPlayingField();
         
-        VBox main = new VBox(50);
+        VBox main = new VBox(100 * scaleY);
             HBox top_bar = new HBox();
                 Button menuButton = new Button("Menu");
                 menuButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -46,27 +51,35 @@ public class PicturePoker {
                         menu.getStage().setFullScreen(true);
                     }
                 });
-            top_bar.getChildren().addAll(menuButton);
+                Button drawButton = new Button("Draw");
+                drawButton.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        changeSelectedCards();
+                    }
+                });
+            top_bar.getChildren().addAll(menuButton, drawButton);
             HBox center = new HBox();
-                HBox instruction = new HBox(20);
+                HBox instruction = new HBox(40 * scaleX);
                     ImageView cardcombovalue = new ImageView(new Image("assets/gfx/cardcombocalue.png", true));
-                    cardcombovalue.setFitWidth(545);
+                    cardcombovalue.setFitWidth(1090 * scaleX);
                     cardcombovalue.setPreserveRatio(true);
                     ImageView cardvalue = new ImageView(new Image("assets/gfx/cardvalue.png", true));
-                    cardvalue.setFitWidth(150);
+                    cardvalue.setFitWidth(300 * scaleX);
                     cardvalue.setPreserveRatio(true);
                 instruction.getChildren().addAll(cardvalue, cardcombovalue);
-                VBox hands = new VBox(150);
-                    HBox computerCards = new HBox(25);
-                    HBox playerCards = new HBox(25);
+                VBox hands = new VBox(300 * scaleY);
+                    HBox computerCards = new HBox(50 * scaleX);
+                    HBox playerCards = new HBox(50 * scaleX);
                     for(int i = 0; i < 5; i++){
                         computerCards.getChildren().addAll(computerHand[i].getPPCard());
                         playerCards.getChildren().addAll(playerHand[i].getPPCard());
                     }
                 hands.getChildren().addAll(computerCards, playerCards);
             center.getChildren().addAll(instruction, hands);
-            Text t = new Text(Integer.toString(compareHands()));
-        main.getChildren().addAll(t, top_bar, center);
+            t = new Text(Integer.toString(compareHands()));
+            ftxt = new Text(scaleX + " " + scaleY);
+        main.getChildren().addAll(t, ftxt, top_bar, center);
         return new Scene(main);
     }
     
@@ -78,8 +91,8 @@ public class PicturePoker {
             deck[i] = 5;
         }
         for(int i = 0; i < 5; i++){
-            playerHand[i] = new PPCard(false, this, i);
-            computerHand[i] = new PPCard(true, this, i);
+            playerHand[i] = new PPCard(false, this);
+            computerHand[i] = new PPCard(false, this);
         }
     }
     
@@ -93,32 +106,37 @@ public class PicturePoker {
     public int compareHands(){
         int[] playerValue = new int[6];
         for(int i = 0; i < 5; i++) {
-            playerValue[playerHand[i].getValue()] = playerValue[playerHand[i].getValue()] + 1;
+            int tmp = playerHand[i].getValue();
+            playerValue[tmp] = playerValue[tmp] + 1;
         }
         int[] computerValue = new int[6];
         for(int i = 0; i < 5; i++) {
-            computerValue[computerHand[i].getValue()] = computerValue[computerHand[i].getValue()] + 1;
+            int tmp = computerHand[i].getValue();
+            computerValue[tmp] = computerValue[tmp] + 1;
         }
-        if(handValue(playerValue) > handValue(computerValue)) {
-            return 1;
-        } else if(handValue(playerValue) < handValue(computerValue)) {
-            return -1;
-        } else {
-            for(int i = 5; i >= 0; i--) {
-                if(playerValue[i] == 5 || playerValue[i] == 4 || playerValue[i] == 3) return 1;
-                if(computerValue[i] == 5 || computerValue[i] == 4 || computerValue[i] == 3) return -1;
+        if(handValue(playerValue) > handValue(computerValue)) return 11;
+        if(handValue(playerValue) < handValue(computerValue)) return -11;
+        for(int i = 5; i >= 0; i--) {
+            if(playerValue[i] == 5 || playerValue[i] == 4 || playerValue[i] == 3) {
+                if(playerValue[i] != computerValue[i]) return 12;
             }
-            for(int i = 5; i >= 0; i--) {
-                if(playerValue[i] == 2 && computerValue[i] != 2) return 1;
-                for(int y = 6; y >= 0; y--) {
+            if(computerValue[i] == 5 || computerValue[i] == 4 || computerValue[i] == 3) {
+                if(playerValue[i] != computerValue[i]) return -12;
+            }
+        }
+        for(int i = 5; i >= 0; i--) {
+            if(playerValue[i] == 2 && computerValue[i] != 2) return 13;
+            if(playerValue[i] != 2 && computerValue[i] == 2) return -13;
+            if(playerValue[i] == 2 && computerValue[i] == 2) {
+                for(int y = 5; y >= 0; y--) {
                     if(y != i) {
-                        if(playerValue[i] == 2 && computerValue[i] != 2) return 1;
-                        if(playerValue[i] != 2 && computerValue[i] == 2) return -1;
+                        if(playerValue[y] == 2 && computerValue[y] != 2) return 14;
+                        if(playerValue[y] != 2 && computerValue[y] == 2) return -14;
                     }
                 }
             }
-            return 0;
         }
+        return 0;
     }
     
     /**
@@ -132,16 +150,18 @@ public class PicturePoker {
             if(value[i] == 5) return 16;
             if(value[i] == 4) return 8;
             if(value[i] == 3) {
-                for(int y = 0; y < value.length; y++) {
-                    if(value[y] == 2) return 6;
-                    return 4;
+                for(int y = 0; y < 6; y++) {
+                    if(y != i && value[y] == 2) return 6;
                 }
+                return 4;
             }
+        }
+        for(int i = 0; i < 6; i++) {
             if(value[i] == 2) {
-                for(int y = 0; y < value.length; y++) {
-                    if(value[y] == 2) return 3;
-                    return 2;
+                for(int y = 0; y < 6; y++) {
+                    if(y != i && value[y] == 2) return 3;
                 }
+                return 2;
             }
         }
         return 0;
@@ -162,25 +182,42 @@ public class PicturePoker {
         }
     }
     
+    /**
+     * Gibt das Hauptmenu zurück
+     * 
+     * @return              Hauptmenu
+     */
     public Menu getMenu() {
         return menu;
     }
     
-    public void changeSelectedCards(boolean[] selCards) {
-        for(int i = 0; i > 5; i++) {
-            if(selCards[i]) {
-                deck[playerHand[i].getValue()] = deck[playerHand[i].getValue()] + 1;
-                playerHand[i].setRandomCard();
-            }
+    /**
+     * Ändert alle ausgewählten Karten in neue von dem KartenDeck.
+     * 
+     * @param   selCards    Array von allen Karten (jeweils 'true', wenn ausgewählt)
+     */
+    public void changeSelectedCards() {
+        for(int i = 0; i < 5; i++) {
+            if(playerHand[i].getSelected()) playerHand[i].setRandomCard();
         }
+        t.setText(Integer.toString(compareHands()));
     }
     
-    public void changeSelectedStatus(int pos) {
-        if(playerCardSel[pos]) {
-            playerCardSel[pos] = false;
-        } else {
-            playerCardSel[pos] = true;
-        }
-        changeSelectedCards(playerCardSel);
+    /**
+     * Gibt die X-Achsen-Skalierung zurück.
+     * 
+     * @return              Sklaierung der X-Achse
+     */
+    public double getScaleX() {
+        return scaleX;
+    }
+    
+    /**
+     * Gibt die X-Achsen-Skalierung zurück.
+     * 
+     * @return              Sklaierung der Y-Achse
+     */
+    public double getScaleY() {
+        return scaleY;
     }
 }
