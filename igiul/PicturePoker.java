@@ -12,6 +12,8 @@ import javafx.scene.text.Text;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.layout.Region;
 import javafx.geometry.Insets;
+import javafx.scene.text.Font;
+import javafx.scene.paint.Color;
 
 /**
  * Die Klasse 'PicturePoker' ist die Szene für das eigentliche Spiel.
@@ -40,6 +42,7 @@ public class PicturePoker {
         computerHand = new PPCard[5];
         playerHand = new PPCard[5];
         resetPlayingField();
+        Font darumadropOneFont = Font.loadFont(getClass().getResource("/assets/fonts/Darumadrop_One/DarumadropOne-Regular.ttf").toExternalForm(), 60);
         
         VBox main = new VBox(100 * scaleY);
             HBox top_bar = new HBox();
@@ -60,14 +63,7 @@ public class PicturePoker {
                 });
             top_bar.getChildren().addAll(menuButton, drawButton);
             HBox center = new HBox();
-                HBox instruction = new HBox(40 * scaleX);
-                    ImageView cardcombovalue = new ImageView(new Image("assets/gfx/cardcombocalue.png", true));
-                    cardcombovalue.setFitWidth(1090 * scaleX);
-                    cardcombovalue.setPreserveRatio(true);
-                    ImageView cardvalue = new ImageView(new Image("assets/gfx/cardvalue.png", true));
-                    cardvalue.setFitWidth(300 * scaleX);
-                    cardvalue.setPreserveRatio(true);
-                instruction.getChildren().addAll(cardvalue, cardcombovalue);
+                PPInstruction instruction = new PPInstruction(this);
                 VBox hands = new VBox(300 * scaleY);
                     HBox computerCards = new HBox(50 * scaleX);
                     HBox playerCards = new HBox(50 * scaleX);
@@ -78,6 +74,8 @@ public class PicturePoker {
                 hands.getChildren().addAll(computerCards, playerCards);
             center.getChildren().addAll(instruction, hands);
             t = new Text(Integer.toString(compareHands()));
+            t.setFont(darumadropOneFont);
+            t.setStyle("-fx-fill: RED; -fx-font-size: 16px; -fx-effect: dropshadow(gaussian, BLACK, 3,1.0, 0,0);");
             ftxt = new Text(scaleX + " " + scaleY);
         main.getChildren().addAll(t, ftxt, top_bar, center);
         return new Scene(main);
