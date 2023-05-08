@@ -1,54 +1,26 @@
-import javafx.scene.control.Button;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.geometry.Insets;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import java.awt.*;
+import javax.swing.*;
+import java.awt.event.*;
 
-/**
- * Die Klasse 'PPCard' ist eine Erweiterung der Klasse 'Button', die es erleichtern soll mit den Spielkarten für das PicturePoker-Spiel zu arbeiten.
- */
-public class PPCard extends Thread{
-    private ImageView view;
+public class PPCard {
     private int value;
     private boolean isHidden, selected;
-    private Button card;
     private PicturePoker PP;
-        
-    /**
-     * Setzt den Wert der Karte und die Sichtbarkeit der Vorderseite.
-     * Setzt zudem die Funktion der Karte beim anklicken.
-     * 
-     * @param   PP          übergiebt PicturePoker Klasse
-     * @param   isHidden    Bei verdeckter Karte 'true', 
-     *                      und bei sichtbarer Vorderseite 'false'.
-     */
+    private JButton card;
+    
     public PPCard(boolean isHidden, PicturePoker PP) {
-        card = new Button();
-        card.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                if(!isHidden) {
-                    if(selected) {
-                        card.setTranslateY(0);
-                        selected = false;
-                    } else {
-                        card.setTranslateY(-50 * PP.getScaleY());
-                        selected = true;
-                    }
-                }
-            }
-        });
         this.isHidden = isHidden;
         this.PP = PP;
-        start();
-    }
-    
-    /**
-     * Damit man mehrere Spielkarten zugleich geladen werden.
-     */
-    @Override
-    public void run() {
+        card = new JButton();
+        card.addActionListener(event -> {if(!isHidden) {
+                if(selected) {
+                    selected = false;
+                } else {
+                    selected = true;
+                }
+                setHidden(this.isHidden);
+            }
+        });
         setRandomCard();
         setHidden(isHidden);
     }
@@ -58,7 +30,7 @@ public class PPCard extends Thread{
      * 
      * @return              Spielkarte (PPCard)
      */
-    public Button getPPCard(){
+    public JButton getPPCard(){
         return card;
     }
     
@@ -98,25 +70,22 @@ public class PPCard extends Thread{
      */
     public void setHidden(boolean isHidden) {
         this.isHidden = isHidden;
-        if(isHidden) view = new ImageView(new Image("assets/gfx/cards/hidden.png", true));
-        else view = new ImageView(new Image("assets/gfx/cards/" + value + ".png", true));
-        view.setFitWidth(360 * PP.getScaleX());
-        view.setPreserveRatio(true);
-        card.setGraphic(view);
-        card.setPadding(new Insets(-12 * PP.getScaleY(), -12 * PP.getScaleX(), -12 * PP.getScaleY(), -12 * PP.getScaleX()));
-        card.setTranslateY(0);
-        selected = false;
+        if(isHidden) card.setIcon(new ImageIcon(new ImageIcon("assets/gfx/cards/hidden.png").getImage().getScaledInstance(100, 150, Image.SCALE_DEFAULT)));
+        else card.setIcon(new ImageIcon(new ImageIcon("assets/gfx/cards/" + selected + "/" + value + ".png").getImage().getScaledInstance(100, 150, Image.SCALE_DEFAULT)));
+        card.setBorder(BorderFactory.createEmptyBorder());
+        card.setContentAreaFilled(false);
     }
     
     /**
      * Nimmt eine neue zufällige und mögliche Karte aus dem Deck.
      */
     public void setRandomCard() {
-        int tmp = PP.getMenu().randInt(0, 5);
+        int tmp = PP.getMainFrame().randInt(0, 5);
         value = tmp;
         if(!PP.addPossibleCard(tmp)) {
             setRandomCard();
         }
+        selected = false;
         setHidden(isHidden);
     }
 }

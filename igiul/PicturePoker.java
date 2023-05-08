@@ -1,86 +1,62 @@
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.stage.Stage;
-import javafx.scene.layout.VBox;
-import javafx.scene.layout.HBox;
-import javafx.scene.text.Text;
-import javafx.scene.control.ContentDisplay;
-import javafx.scene.layout.Region;
-import javafx.geometry.Insets;
+import java.awt.*;
+import javax.swing.*;
+import java.awt.event.*;
 
-/**
- * Die Klasse 'PicturePoker' ist die Szene für das eigentliche Spiel.
- */
-public class PicturePoker {
+public class PicturePoker extends JPanel {
+    final private MainFrame owner;
+    private int width, height;
     private static int[] deck; 
     private PPCard[] playerHand, computerHand;
-    private Menu menu;
-    private Text t, ftxt, pl, cm;
-    private double scaleX, scaleY;
-
-    /** 
-     * @param   menu        Benötigt das Menu, um wieder zurückzukehren.
-     */
-    public PicturePoker(Menu menu) {
-        this.menu = menu;
+    
+    public PicturePoker(MainFrame owner) {
+        super();
+        this.owner = owner;
+        this.width = owner.getWidth();
+        this.height = owner.getHeight();
+        createGUI();
     }
     
-    /**
-     * Gibt die Szene für das Spiel PicturePoker zurück.
-     */
-    public Scene giveScene() {
-        scaleX = menu.getScaleX();
-        scaleY = menu.getScaleY();
+    private void createGUI() {
+        setBounds(0, 0, width, height);
+        setLayout(new BorderLayout());
+        JPanel topBarPanel = new JPanel();
+        topBarPanel.setLayout(new BorderLayout());
+            JButton menuButton = new JButton("Menu");
+            menuButton.addActionListener(event -> {
+                SwingUtilities.invokeLater(() -> owner.showView(new Menu(owner)));
+            });
+            topBarPanel.add(menuButton, BorderLayout.LINE_START);
+            JButton drawButton = new JButton("Draw");
+            drawButton.addActionListener(event -> {
+                changeSelectedCards();
+            });
+            topBarPanel.add(drawButton, BorderLayout.CENTER);
+        add(topBarPanel, BorderLayout.PAGE_START);
+        JPanel instructionPanel = new JPanel();
+        instructionPanel.setLayout(new BorderLayout());
+            JLabel cardvalue = new JLabel();
+            cardvalue.setIcon(new ImageIcon(new ImageIcon("assets/gfx/cardvalue.png").getImage().getScaledInstance(width/3, height/12, Image.SCALE_DEFAULT)));
+            instructionPanel.add(cardvalue, BorderLayout.PAGE_START);
+            JLabel cardcombovalue = new JLabel();
+            cardcombovalue.setIcon(new ImageIcon(new ImageIcon("assets/gfx/cardcombovalue.png").getImage().getScaledInstance(width/3, (int)(height/1.5), Image.SCALE_DEFAULT)));
+            instructionPanel.add(cardcombovalue, BorderLayout.CENTER);
+        add(instructionPanel, BorderLayout.LINE_START);
         deck = new int[6];
         computerHand = new PPCard[5];
         playerHand = new PPCard[5];
         resetPlayingField();
-        
-        VBox main = new VBox(100 * scaleY);
-            HBox top_bar = new HBox();
-                Button menuButton = new Button("Menu");
-                menuButton.setOnAction(new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent event) {
-                        menu.getStage().setScene(menu.getMenu());
-                        menu.getStage().setFullScreen(true);
-                    }
-                });
-                Button drawButton = new Button("Draw");
-                drawButton.setOnAction(new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent event) {
-                        changeSelectedCards();
-                    }
-                });
-            top_bar.getChildren().addAll(menuButton, drawButton);
-            HBox center = new HBox();
-                HBox instruction = new HBox(40 * scaleX);
-                    ImageView cardcombovalue = new ImageView(new Image("assets/gfx/cardcombocalue.png", true));
-                    cardcombovalue.setFitWidth(1090 * scaleX);
-                    cardcombovalue.setPreserveRatio(true);
-                    ImageView cardvalue = new ImageView(new Image("assets/gfx/cardvalue.png", true));
-                    cardvalue.setFitWidth(300 * scaleX);
-                    cardvalue.setPreserveRatio(true);
-                instruction.getChildren().addAll(cardvalue, cardcombovalue);
-                VBox hands = new VBox(300 * scaleY);
-                    HBox computerCards = new HBox(50 * scaleX);
-                    HBox playerCards = new HBox(50 * scaleX);
-                    for(int i = 0; i < 5; i++){
-                        computerCards.getChildren().addAll(computerHand[i].getPPCard());
-                        playerCards.getChildren().addAll(playerHand[i].getPPCard());
-                    }
-                hands.getChildren().addAll(computerCards, playerCards);
-            center.getChildren().addAll(instruction, hands);
-            t = new Text(Integer.toString(compareHands()));
-            ftxt = new Text(scaleX + " " + scaleY);
-        main.getChildren().addAll(t, ftxt, top_bar, center);
-        return new Scene(main);
+        JPanel gamePanel = new JPanel();
+        gamePanel.setLayout(new BorderLayout());
+        gamePanel.setBackground(Color.BLUE);
+            JPanel computerHandPanel = new JPanel();
+            JPanel playerHandPanel = new JPanel();
+                for(int i = 0; i < 5; i++) {
+                    computerHandPanel.add(computerHand[i].getPPCard()); 
+                    playerHandPanel.add(playerHand[i].getPPCard());
+                }
+            gamePanel.add(computerHandPanel, BorderLayout.PAGE_START);
+            gamePanel.add(playerHandPanel, BorderLayout.PAGE_END);
+        add(gamePanel, BorderLayout.LINE_END);
     }
     
     /**
@@ -92,7 +68,7 @@ public class PicturePoker {
         }
         for(int i = 0; i < 5; i++){
             playerHand[i] = new PPCard(false, this);
-            computerHand[i] = new PPCard(false, this);
+            computerHand[i] = new PPCard(true, this);
         }
     }
     
@@ -114,24 +90,24 @@ public class PicturePoker {
             int tmp = computerHand[i].getValue();
             computerValue[tmp] = computerValue[tmp] + 1;
         }
-        if(handValue(playerValue) > handValue(computerValue)) return 11;
-        if(handValue(playerValue) < handValue(computerValue)) return -11;
+        if(handValue(playerValue) > handValue(computerValue)) return 1;
+        if(handValue(playerValue) < handValue(computerValue)) return -1;
         for(int i = 5; i >= 0; i--) {
             if(playerValue[i] == 5 || playerValue[i] == 4 || playerValue[i] == 3) {
-                if(playerValue[i] != computerValue[i]) return 12;
+                if(playerValue[i] != computerValue[i]) return 1;
             }
             if(computerValue[i] == 5 || computerValue[i] == 4 || computerValue[i] == 3) {
-                if(playerValue[i] != computerValue[i]) return -12;
+                if(playerValue[i] != computerValue[i]) return -1;
             }
         }
         for(int i = 5; i >= 0; i--) {
-            if(playerValue[i] == 2 && computerValue[i] != 2) return 13;
-            if(playerValue[i] != 2 && computerValue[i] == 2) return -13;
+            if(playerValue[i] == 2 && computerValue[i] != 2) return 1;
+            if(playerValue[i] != 2 && computerValue[i] == 2) return -1;
             if(playerValue[i] == 2 && computerValue[i] == 2) {
                 for(int y = 5; y >= 0; y--) {
                     if(y != i) {
-                        if(playerValue[y] == 2 && computerValue[y] != 2) return 14;
-                        if(playerValue[y] != 2 && computerValue[y] == 2) return -14;
+                        if(playerValue[y] == 2 && computerValue[y] != 2) return 1;
+                        if(playerValue[y] != 2 && computerValue[y] == 2) return -1;
                     }
                 }
             }
@@ -183,15 +159,6 @@ public class PicturePoker {
     }
     
     /**
-     * Gibt das Hauptmenu zurück
-     * 
-     * @return              Hauptmenu
-     */
-    public Menu getMenu() {
-        return menu;
-    }
-    
-    /**
      * Ändert alle ausgewählten Karten in neue von dem KartenDeck.
      * 
      * @param   selCards    Array von allen Karten (jeweils 'true', wenn ausgewählt)
@@ -200,24 +167,14 @@ public class PicturePoker {
         for(int i = 0; i < 5; i++) {
             if(playerHand[i].getSelected()) playerHand[i].setRandomCard();
         }
-        t.setText(Integer.toString(compareHands()));
     }
     
     /**
-     * Gibt die X-Achsen-Skalierung zurück.
+     * Gibt das Hauptmenu zurück
      * 
-     * @return              Sklaierung der X-Achse
+     * @return              Hauptmenu
      */
-    public double getScaleX() {
-        return scaleX;
-    }
-    
-    /**
-     * Gibt die X-Achsen-Skalierung zurück.
-     * 
-     * @return              Sklaierung der Y-Achse
-     */
-    public double getScaleY() {
-        return scaleY;
+    public MainFrame getMainFrame() {
+        return owner;
     }
 }
