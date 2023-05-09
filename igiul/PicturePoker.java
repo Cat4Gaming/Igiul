@@ -7,9 +7,13 @@ public class PicturePoker extends JPanel {
     private int width, height, selectedCards;
     private static int[] deck; 
     private PPCard[] playerHand, computerHand;
-    private boolean drawEnabled;
     private JButton drawButton;
     
+    /**
+     * Hier wird das PicturePoker-Spiel erzeugt und der 'Besitzer' wird festgelegt, sowie die Auflösung des Bildschirms, und somit die Skalierfähigkeit der einzelnen Bildelemente.
+     * 
+     * @param   MainFrame   MainFrame (Besitzer)
+     */
     public PicturePoker(MainFrame owner) {
         super();
         this.owner = owner;
@@ -22,6 +26,12 @@ public class PicturePoker extends JPanel {
         setBackground(new Color(0, 153, 0));
         setBounds(0, 0, width, height);
         setLayout(new BorderLayout());
+        JPanel centerPanel = new JPanel();
+        centerPanel.setBackground(new Color(0, 153, 0));
+        centerPanel.setLayout(new BorderLayout());
+            JLabel winStat = new JLabel("", SwingConstants.CENTER);
+            centerPanel.add(winStat, BorderLayout.CENTER);
+        add(centerPanel, BorderLayout.CENTER);
         JPanel topBarPanel = new JPanel();
         topBarPanel.setBackground(new Color(0, 153, 0));
         topBarPanel.setLayout(new BorderLayout());
@@ -32,11 +42,21 @@ public class PicturePoker extends JPanel {
             topBarPanel.add(menuButton, BorderLayout.LINE_START);
             drawButton = new JButton("Hold");
             drawButton.addActionListener(event -> {
-                if(drawEnabled) {
-                    changeSelectedCards();
-                    drawEnabled = false;
+                if(selectedCards == -1) {
+                    resetPlayingField();
+                    winStat.setText("");
                 } else {
-                    compareHands();
+                    if(selectedCards != 0) {
+                        changeSelectedCards();
+                    }
+                    selectedCards = -1;
+                    drawButton.setText("New Round");
+                    for(int i = 0; i < 5; i++) {
+                        computerHand[i].setHidden(false);
+                    }
+                    if(compareHands() == 1) winStat.setText("You won!");
+                    else if(compareHands() == -1) winStat.setText("You lost!");
+                    else winStat.setText("Draw!");
                 }
             });
             topBarPanel.add(drawButton, BorderLayout.CENTER);
@@ -52,9 +72,11 @@ public class PicturePoker extends JPanel {
             instructionPanel.add(cardcombovalue, BorderLayout.CENTER);
         add(instructionPanel, BorderLayout.LINE_START);
         deck = new int[6];
+        for(int i = 0; i < 6; i++) {
+            deck[i] = 5;
+        }
         computerHand = new PPCard[5];
         playerHand = new PPCard[5];
-        resetPlayingField();
         JPanel gamePanel = new JPanel();
         gamePanel.setBackground(new Color(0, 153, 0));
         gamePanel.setLayout(new BorderLayout());
@@ -63,30 +85,29 @@ public class PicturePoker extends JPanel {
             JPanel playerHandPanel = new JPanel();
             playerHandPanel.setBackground(new Color(0, 153, 0));
                 for(int i = 0; i < 5; i++) {
-                    computerHandPanel.add(computerHand[i].getPPCard()); 
+                    computerHand[i] = new PPCard(true, this);
+                    computerHandPanel.add(computerHand[i].getPPCard());
+                    playerHand[i] = new PPCard(false, this);
                     playerHandPanel.add(playerHand[i].getPPCard());
                 }
             gamePanel.add(computerHandPanel, BorderLayout.PAGE_START);
             gamePanel.add(playerHandPanel, BorderLayout.PAGE_END);
         add(gamePanel, BorderLayout.LINE_END);
-        JPanel centerPanel = new JPanel();
-        centerPanel.setBackground(new Color(0, 153, 0));
-        centerPanel.setLayout(new BorderLayout());
-            JLabel winStat = new JLabel();
-            centerPanel.add(winStat, BorderLayout.CENTER);
-        add(centerPanel, BorderLayout.CENTER);
     }
     
     /**
      * Setzt das Spielfeld zum Anfang zurück, wobei die bisher gewonnene Münzanzahl und Sternanzahl nicht beeinträchtigt wird.
      */
     public void resetPlayingField() {
+        selectedCards = 0;
+        drawButton.setText("Hold");
         for(int i = 0; i < 6; i++) {
             deck[i] = 5;
         }
         for(int i = 0; i < 5; i++){
-            playerHand[i] = new PPCard(false, this);
-            computerHand[i] = new PPCard(true, this);
+            computerHand[i].setHidden(true);
+            computerHand[i].setRandomCard();
+            playerHand[i].setRandomCard();
         }
     }
     
@@ -188,19 +209,40 @@ public class PicturePoker extends JPanel {
     }
     
     /**
-     * Gibt das Hauptmenu zurück
+     * Gibt den MainFrame, also den 'Besitzer' aus
      * 
-     * @return              Hauptmenu
+     * @return              MainFrame (Besitzer)
      */
     public MainFrame getMainFrame() {
         return owner;
     }
     
+    /**
+     * Erhöht, falls gerade nicht verhindert ('selectedCards'-Wert gleich -1), die Anzahl der ausgewählten Karten.
+     */
     public void addSelCards() {
-        
+        if(selectedCards != -1) {
+            selectedCards++;
+            drawButton.setText("Draw");
+        }
     }
     
+    /**
+     * Erniedrigt, falls gerade nicht verhindert ('selectedCards'-Wert gleich -1), die Anzahl der ausgewählten Karten.
+     */
     public void delSelCards() {
-        
+        if(selectedCards != -1) {
+            selectedCards--;
+            if(selectedCards == 0) drawButton.setText("Hold");
+        }
+    }
+    
+    /**
+     * Gibt die Anzahl der ausgewählten Karten des Spielers aus.
+     * 
+     * @return              Anzahl der ausgewählten Karten des Spielers
+     */
+    public int getSelCards() {
+        return selectedCards;
     }
 }

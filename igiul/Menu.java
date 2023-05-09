@@ -6,6 +6,11 @@ public class Menu extends JPanel {
     final private MainFrame owner;
     private int width, height;
     
+    /**
+     * Hier wird das Menü erzeugt und der 'Besitzer' wird festgelegt, sowie die Auflösung des Bildschirms, und somit die Skalierfähigkeit der einzelnen Bildelemente.
+     * 
+     * @param   MainFrame   MainFrame (Besitzer)
+     */
     public Menu(MainFrame owner) {
         super();
         this.owner = owner;

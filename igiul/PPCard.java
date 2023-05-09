@@ -8,6 +8,13 @@ public class PPCard {
     private PicturePoker PP;
     private JButton card;
     
+    /**
+     * Erstellen einer zufälligen Karte, die verdeckt sein kann.
+     * 
+     * @param isHidden      Bei verdeckter Karte 'true', 
+     *                      und bei sichtbarer Vorderseite 'false'.
+     * @param PP            PicturePoker-Klasse
+     */
     public PPCard(boolean isHidden, PicturePoker PP) {
         this.isHidden = isHidden;
         this.PP = PP;
@@ -15,8 +22,12 @@ public class PPCard {
         card.addActionListener(event -> {if(!isHidden) {
                 if(selected) {
                     selected = false;
+                    PP.delSelCards();
                 } else {
-                    selected = true;
+                    if(PP.getSelCards() != -1) {
+                        selected = true;
+                        PP.addSelCards();
+                    }
                 }
                 setHidden(this.isHidden);
             }
