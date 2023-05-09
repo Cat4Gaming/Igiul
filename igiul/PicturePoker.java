@@ -4,9 +4,11 @@ import java.awt.event.*;
 
 public class PicturePoker extends JPanel {
     final private MainFrame owner;
-    private int width, height;
+    private int width, height, selectedCards;
     private static int[] deck; 
     private PPCard[] playerHand, computerHand;
+    private boolean drawEnabled;
+    private JButton drawButton;
     
     public PicturePoker(MainFrame owner) {
         super();
@@ -17,22 +19,30 @@ public class PicturePoker extends JPanel {
     }
     
     private void createGUI() {
+        setBackground(new Color(0, 153, 0));
         setBounds(0, 0, width, height);
         setLayout(new BorderLayout());
         JPanel topBarPanel = new JPanel();
+        topBarPanel.setBackground(new Color(0, 153, 0));
         topBarPanel.setLayout(new BorderLayout());
             JButton menuButton = new JButton("Menu");
             menuButton.addActionListener(event -> {
                 SwingUtilities.invokeLater(() -> owner.showView(new Menu(owner)));
             });
             topBarPanel.add(menuButton, BorderLayout.LINE_START);
-            JButton drawButton = new JButton("Draw");
+            drawButton = new JButton("Hold");
             drawButton.addActionListener(event -> {
-                changeSelectedCards();
+                if(drawEnabled) {
+                    changeSelectedCards();
+                    drawEnabled = false;
+                } else {
+                    compareHands();
+                }
             });
             topBarPanel.add(drawButton, BorderLayout.CENTER);
         add(topBarPanel, BorderLayout.PAGE_START);
         JPanel instructionPanel = new JPanel();
+        instructionPanel.setBackground(new Color(0, 153, 0));
         instructionPanel.setLayout(new BorderLayout());
             JLabel cardvalue = new JLabel();
             cardvalue.setIcon(new ImageIcon(new ImageIcon("assets/gfx/cardvalue.png").getImage().getScaledInstance(width/3, height/12, Image.SCALE_DEFAULT)));
@@ -46,10 +56,12 @@ public class PicturePoker extends JPanel {
         playerHand = new PPCard[5];
         resetPlayingField();
         JPanel gamePanel = new JPanel();
+        gamePanel.setBackground(new Color(0, 153, 0));
         gamePanel.setLayout(new BorderLayout());
-        gamePanel.setBackground(Color.BLUE);
             JPanel computerHandPanel = new JPanel();
+            computerHandPanel.setBackground(new Color(0, 153, 0));
             JPanel playerHandPanel = new JPanel();
+            playerHandPanel.setBackground(new Color(0, 153, 0));
                 for(int i = 0; i < 5; i++) {
                     computerHandPanel.add(computerHand[i].getPPCard()); 
                     playerHandPanel.add(playerHand[i].getPPCard());
@@ -57,6 +69,12 @@ public class PicturePoker extends JPanel {
             gamePanel.add(computerHandPanel, BorderLayout.PAGE_START);
             gamePanel.add(playerHandPanel, BorderLayout.PAGE_END);
         add(gamePanel, BorderLayout.LINE_END);
+        JPanel centerPanel = new JPanel();
+        centerPanel.setBackground(new Color(0, 153, 0));
+        centerPanel.setLayout(new BorderLayout());
+            JLabel winStat = new JLabel();
+            centerPanel.add(winStat, BorderLayout.CENTER);
+        add(centerPanel, BorderLayout.CENTER);
     }
     
     /**
@@ -176,5 +194,13 @@ public class PicturePoker extends JPanel {
      */
     public MainFrame getMainFrame() {
         return owner;
+    }
+    
+    public void addSelCards() {
+        
+    }
+    
+    public void delSelCards() {
+        
     }
 }
