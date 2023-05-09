@@ -9,8 +9,8 @@ public class MainFrame extends JFrame {
     
     public MainFrame(String title) {
         super(title);
-        width = 1920;
-        height = 1080;
+        width = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+        height = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
         createGUI();
     }
     
