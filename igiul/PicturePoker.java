@@ -59,6 +59,8 @@ public class PicturePoker extends JPanel {
                         changeSelectedCards();
                     }
                     selectedCards = -1;
+                    sortHands();
+                    replaceComputerCards();
                     drawButton.setText("New Round");
                     for(int i = 0; i < 5; i++) {
                         computerHand[i].setHidden(false);
@@ -213,7 +215,10 @@ public class PicturePoker extends JPanel {
      */
     public void changeSelectedCards() {
         for(int i = 0; i < 5; i++) {
-            if(playerHand[i].getSelected()) playerHand[i].setRandomCard();
+            if(playerHand[i].getSelected()) {
+                deck[playerHand[i].getValue()]++;
+                playerHand[i].setRandomCard();
+            }
         }
     }
     
@@ -253,5 +258,55 @@ public class PicturePoker extends JPanel {
      */
     public int getSelCards() {
         return selectedCards;
+    }
+    
+    /**
+     * Sortiert die 'Hand' des Spielers und des Computers von der am geringst gewerteten Karte zur am höchsten gewerteten Karte.
+     */
+    public void sortHands() {
+        int smaller;
+        int bigger;
+        boolean run = true;
+        for(int i = 0; i < playerHand.length && run == true; i++) {
+            run = false;
+            for(int y = 0; y < playerHand.length-1; y++) {
+                if(playerHand[y].getValue() > playerHand[y+1].getValue()) {
+                    bigger = playerHand[y].getValue();
+                    smaller = playerHand[y+1].getValue();
+                    playerHand[y].setValue(smaller);
+                    playerHand[y+1].setValue(bigger);
+                    run = true;
+                }
+            }
+        }
+        run = true;
+        for(int i = 0; i < computerHand.length && run == true; i++) {
+            run = false;
+            for(int y = 0; y < computerHand.length-1; y++) {
+                if(computerHand[y].getValue() > computerHand[y+1].getValue()) {
+                    bigger = computerHand[y].getValue();
+                    smaller = computerHand[y+1].getValue();
+                    computerHand[y].setValue(smaller);
+                    computerHand[y+1].setValue(bigger);
+                    run = true;
+                }
+            }
+        }
+    }
+    
+    public void replaceComputerCards() {
+        int[] computerValue = new int[6];
+        for(int i = 0; i < 5; i++) {
+            int tmp = computerHand[i].getValue();
+            computerValue[tmp] = computerValue[tmp] + 1;
+        }
+        int rep = 0;
+        for(int i = 0; i < 5 && rep < 3; i++) {
+            if(computerValue[i] == 1) {
+                deck[playerHand[i].getValue()]++;
+                playerHand[i].setRandomCard();
+                rep++;
+            }
+        }
     }
 }

@@ -99,4 +99,9 @@ public class PPCard {
         selected = false;
         setHidden(isHidden);
     }
+    
+    public void setValue(int value) {
+        this.value = value;
+        setHidden(isHidden);
+    }
 }
