@@ -1,6 +1,8 @@
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 
 public class PicturePoker extends JPanel {
     final private MainFrame owner;
@@ -24,6 +26,7 @@ public class PicturePoker extends JPanel {
     }
     
     private void createGUI() {
+        loadGame();
         setBackground(new Color(0, 153, 0));
         setBounds(0, 0, width, height);
         setLayout(new BorderLayout());
@@ -58,6 +61,7 @@ public class PicturePoker extends JPanel {
                     if(selectedCards != 0) {
                         changeSelectedCards();
                     }
+                    saveGame();
                     selectedCards = -1;
                     sortHands();
                     replaceComputerCards();
@@ -294,6 +298,9 @@ public class PicturePoker extends JPanel {
         }
     }
     
+    /**
+     * Ersetzt maximal 3 Karten des Computer-Spielers, wenn von einer jeweiligen Kartenart nur eine Vorhanden ist, wodurch sein Spiel eine klare und durchaus simple Strategie folgt.
+     */
     public void replaceComputerCards() {
         int[] computerValue = new int[6];
         for(int i = 0; i < 5; i++) {
@@ -308,16 +315,42 @@ public class PicturePoker extends JPanel {
                 rep++;
             }
         }
-     * Setzt die Coins und Stars aus picturepoker.xml auf die entsprechenden Attribute.
-     */
-    public void loadFromSave() {
-        
     }
     
     /**
-     * Speichert die Coins und Stars in picturepoker.xml von den entsprechenden Attributen.
+     * Speichert alle benötigten Variablen in die 'save.dat'-Datei.
      */
-    public void saveFiles() {
-        
+    public void saveGame() {
+        try {
+            FileOutputStream fos = new FileOutputStream("saves/save.dat");
+            BufferedOutputStream bos = new BufferedOutputStream(fos);
+            ObjectOutputStream oos = new ObjectOutputStream(bos);
+            DataStorage dStor = new DataStorage();
+            dStor.setCoins(coins);
+            dStor.setStars(stars);
+            oos.writeObject(dStor);
+            oos.close();
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    /**
+     * Lädt alle benötigten Variablen von der 'save.dat'-Datei.
+     */
+    public void loadGame() {
+        try {
+            FileInputStream fis = new FileInputStream("saves/save.dat");
+            BufferedInputStream bis = new BufferedInputStream(fis);
+            ObjectInputStream ois = new ObjectInputStream(bis);
+            DataStorage dStor = (DataStorage)ois.readObject();
+            coins = dStor.getCoins();
+            stars = dStor.getStars();
+            ois.close();
+        } catch(IOException e) {
+            e.printStackTrace();
+        } catch(ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 }
