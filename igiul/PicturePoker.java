@@ -254,4 +254,18 @@ public class PicturePoker extends JPanel {
     public int getSelCards() {
         return selectedCards;
     }
+    
+    /**
+     * Setzt die Coins und Stars aus picturepoker.xml auf die entsprechenden Attribute.
+     */
+    public void loadFromSave() {
+        
+    }
+    
+    /**
+     * Speichert die Coins und Stars in picturepoker.xml von den entsprechenden Attributen.
+     */
+    public void saveFiles() {
+        
+    }
 }
