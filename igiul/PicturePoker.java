@@ -4,10 +4,11 @@ import java.awt.event.*;
 
 public class PicturePoker extends JPanel {
     final private MainFrame owner;
-    private int width, height, selectedCards;
+    private int width, height, selectedCards, coins, stars;
     private static int[] deck; 
     private PPCard[] playerHand, computerHand;
     private JButton drawButton;
+    private JLabel coinsLabel, starLabel;
     
     /**
      * Hier wird das PicturePoker-Spiel erzeugt und der 'Besitzer' wird festgelegt, sowie die Auflösung des Bildschirms, und somit die Skalierfähigkeit der einzelnen Bildelemente.
@@ -40,6 +41,14 @@ public class PicturePoker extends JPanel {
                 SwingUtilities.invokeLater(() -> owner.showView(new Menu(owner)));
             });
             topBarPanel.add(menuButton, BorderLayout.LINE_START);
+            JPanel centerTop = new JPanel();
+            centerTop.setLayout(new BorderLayout());
+            centerTop.setBackground(new Color(0, 153, 0));
+                coinsLabel = new JLabel("Coins: " + coins + "         ");
+                centerTop.add(coinsLabel, BorderLayout.LINE_START);
+                starLabel = new JLabel("Stars: " + stars);
+                centerTop.add(starLabel, BorderLayout.CENTER);
+            topBarPanel.add(centerTop, BorderLayout.CENTER);
             drawButton = new JButton("Hold");
             drawButton.addActionListener(event -> {
                 if(selectedCards == -1) {
@@ -59,7 +68,7 @@ public class PicturePoker extends JPanel {
                     else winStat.setText("Draw!");
                 }
             });
-            topBarPanel.add(drawButton, BorderLayout.CENTER);
+            topBarPanel.add(drawButton, BorderLayout.LINE_END);
         add(topBarPanel, BorderLayout.PAGE_START);
         JPanel instructionPanel = new JPanel();
         instructionPanel.setBackground(new Color(0, 153, 0));
