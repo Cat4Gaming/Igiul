@@ -104,4 +104,8 @@ public class PPCard {
         this.value = value;
         setHidden(isHidden);
     }
+    
+    public void setSelected(boolean sel) {
+        selected = sel;
+    }
 }

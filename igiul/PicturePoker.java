@@ -6,11 +6,11 @@ import java.nio.charset.StandardCharsets;
 
 public class PicturePoker extends JPanel {
     final private MainFrame owner;
-    private int width, height, selectedCards, coins, stars;
-    private static int[] deck; 
+    private int width, height, selectedCards, coins, stars, betCoins;
+    private static int[] deck, playerValue, computerValue; 
     private PPCard[] playerHand, computerHand;
     private JButton drawButton;
-    private JLabel coinsLabel, starLabel;
+    private JLabel coinsLabel, starLabel, betCoinsLabel;
     
     /**
      * Hier wird das PicturePoker-Spiel erzeugt und der 'Besitzer' wird festgelegt, sowie die Auflösung des Bildschirms, und somit die Skalierfähigkeit der einzelnen Bildelemente.
@@ -27,6 +27,8 @@ public class PicturePoker extends JPanel {
     
     private void createGUI() {
         loadGame();
+        computerValue = new int[6];
+        playerValue = new int[6];
         setBackground(new Color(0, 153, 0));
         setBounds(0, 0, width, height);
         setLayout(new BorderLayout());
@@ -51,6 +53,8 @@ public class PicturePoker extends JPanel {
                 centerTop.add(coinsLabel, BorderLayout.LINE_START);
                 starLabel = new JLabel("Stars: " + stars);
                 centerTop.add(starLabel, BorderLayout.CENTER);
+                betCoinsLabel = new JLabel("Bet Coins: " + betCoins);
+                centerTop.add(betCoinsLabel, BorderLayout.LINE_END);
             topBarPanel.add(centerTop, BorderLayout.CENTER);
             drawButton = new JButton("Hold");
             drawButton.addActionListener(event -> {
@@ -62,16 +66,25 @@ public class PicturePoker extends JPanel {
                         changeSelectedCards();
                     }
                     saveGame();
-                    selectedCards = -1;
-                    sortHands();
                     replaceComputerCards();
+                    createCardLists();
+                    sortCards();
+                    selectedCards = -1;
                     drawButton.setText("New Round");
                     for(int i = 0; i < 5; i++) {
                         computerHand[i].setHidden(false);
                     }
-                    if(compareHands() == 1) winStat.setText("You won!");
+                    if(compareHands() == 1) {
+                        winStat.setText("You won!");
+                        cashoutCoins();
+                    }
                     else if(compareHands() == -1) winStat.setText("You lost!");
-                    else winStat.setText("Draw!");
+                    else {
+                        winStat.setText("Draw!");
+                        coins = coins + betCoins;
+                    }
+                    saveGame();
+                    betCoinsLabel.setText("");
                 }
             });
             topBarPanel.add(drawButton, BorderLayout.LINE_END);
@@ -89,6 +102,8 @@ public class PicturePoker extends JPanel {
         deck = new int[6];
         for(int i = 0; i < 6; i++) {
             deck[i] = 5;
+            computerValue[i] = 0;
+            playerValue[i] = 0;
         }
         computerHand = new PPCard[5];
         playerHand = new PPCard[5];
@@ -107,7 +122,37 @@ public class PicturePoker extends JPanel {
                 }
             gamePanel.add(computerHandPanel, BorderLayout.PAGE_START);
             gamePanel.add(playerHandPanel, BorderLayout.PAGE_END);
+            JButton betButton = new JButton("Bet");
+            minBetCoins();
+            betButton.addActionListener(event -> {
+                if(betCoins != 5) {
+                    coins--;
+                    coinsLabel.setText("Coins: " + coins + "         ");
+                    betCoins++;
+                    betCoinsLabel.setText("Bet Coins: " + betCoins);
+                }
+            });
+            gamePanel.add(betButton, BorderLayout.CENTER);
         add(gamePanel, BorderLayout.LINE_END);
+    }
+    
+    /**
+     * Setzt die minimale Anzahl an Münzen.
+     */
+    public void minBetCoins() {
+        betCoins = (stars / 5) + 1;
+        coins = coins - betCoins;
+        coinsLabel.setText("Coins: " + coins + "         ");
+        if(betCoins > 5) betCoins = 5;
+        betCoinsLabel.setText("Bet Coins: " + betCoins);
+    }
+    
+    /**
+     * Zahlt die Münzen aus.
+     */
+    public void cashoutCoins() {
+        coins = coins + (betCoins * handValue(playerValue));
+        coinsLabel.setText("Coins: " + coins + "         ");
     }
     
     /**
@@ -123,6 +168,50 @@ public class PicturePoker extends JPanel {
             computerHand[i].setHidden(true);
             computerHand[i].setRandomCard();
             playerHand[i].setRandomCard();
+            playerHand[i].setSelected(false);
+        }
+        minBetCoins();
+    }
+    
+    /**
+     * Erstellt Listen der Kartenhäufigkeiten beider Spielerhände, diese werden in diversen Funktionen benötigt.
+     */
+    public void createCardLists() {
+        for(int i = 0; i < 6; i++) {
+            playerValue[i] = 0;
+            computerValue[i] = 0;
+        }
+        for(int i = 0; i < 5; i++) {
+            playerValue[playerHand[i].getValue()]++;
+            computerValue[computerHand[i].getValue()]++;
+        }
+    }
+    
+    /**
+     * Sortiert die Karten nach ihrer Häufigkeit und ihrer Wertigkeit, wobei links das Beste ist.
+     */
+    public void sortCards() {
+        int tmp = 0;
+        for(int i = 5; i > 0; i--) {
+            for(int y = 5; y >= 0; y--) {
+                if(playerValue[y] == i) {
+                    for(int j = 0; j < i; j++) {
+                        playerHand[tmp].setValue(y);
+                        tmp++;
+                    }
+                }
+            }
+        }
+        tmp = 0;
+        for(int i = 5; i > 0; i--) {
+            for(int y = 5; y >= 0; y--) {
+                if(computerValue[y] == i) {
+                    for(int j = 0; j < i; j++) {
+                        computerHand[tmp].setValue(y);
+                        tmp++;
+                    }
+                }
+            }
         }
     }
     
@@ -134,38 +223,16 @@ public class PicturePoker extends JPanel {
      *                      '1' = Gewonnen
      */
     public int compareHands(){
-        int[] playerValue = new int[6];
-        for(int i = 0; i < 5; i++) {
-            int tmp = playerHand[i].getValue();
-            playerValue[tmp] = playerValue[tmp] + 1;
-        }
-        int[] computerValue = new int[6];
-        for(int i = 0; i < 5; i++) {
-            int tmp = computerHand[i].getValue();
-            computerValue[tmp] = computerValue[tmp] + 1;
-        }
         if(handValue(playerValue) > handValue(computerValue)) return 1;
         if(handValue(playerValue) < handValue(computerValue)) return -1;
-        for(int i = 5; i >= 0; i--) {
-            if(playerValue[i] == 5 || playerValue[i] == 4 || playerValue[i] == 3) {
-                if(playerValue[i] != computerValue[i]) return 1;
-            }
-            if(computerValue[i] == 5 || computerValue[i] == 4 || computerValue[i] == 3) {
-                if(playerValue[i] != computerValue[i]) return -1;
-            }
+        if(handValue(playerValue) >= 4) {
+            if(playerHand[0].getValue() > computerHand[0].getValue()) return 1;
+            return -1;
         }
-        for(int i = 5; i >= 0; i--) {
-            if(playerValue[i] == 2 && computerValue[i] != 2) return 1;
-            if(playerValue[i] != 2 && computerValue[i] == 2) return -1;
-            if(playerValue[i] == 2 && computerValue[i] == 2) {
-                for(int y = 5; y >= 0; y--) {
-                    if(y != i) {
-                        if(playerValue[y] == 2 && computerValue[y] != 2) return 1;
-                        if(playerValue[y] != 2 && computerValue[y] == 2) return -1;
-                    }
-                }
-            }
-        }
+        if(playerHand[0].getValue() > computerHand[0].getValue()) return 1;
+        if(playerHand[0].getValue() < computerHand[0].getValue()) return -1;
+        if(playerHand[3].getValue() > computerHand[3].getValue() && handValue(playerValue) != 2) return 1;
+        if(playerHand[3].getValue() < computerHand[3].getValue() && handValue(playerValue) != 2) return -1;
         return 0;
     }
     
@@ -173,26 +240,26 @@ public class PicturePoker extends JPanel {
      * Berechnet den Wert der übergebenen 'Hand' und gibt diesen aus.
      * 
      * @param   value       Array einer 'Hand', dessen Wert ausgegeben werden soll.
-     * @return             Wert der zuvor übergebenen 'Hand'
+     * @return              Wert der zuvor übergebenen 'Hand'
      */
     public int handValue(int[] value) {
-        for(int i = 0; i < 6; i++){
+        for(int i = 0; i < 6; i++) {
             if(value[i] == 5) return 16;
             if(value[i] == 4) return 8;
-            if(value[i] == 3) {
-                for(int y = 0; y < 6; y++) {
-                    if(y != i && value[y] == 2) return 6;
-                }
-                return 4;
+        }
+        for(int i = 0; i < 6; i++) {
+            for(int y = 0; y < 6; y++) {
+                if(value[i] == 3 && value[y] == 2) return 6;
             }
         }
         for(int i = 0; i < 6; i++) {
-            if(value[i] == 2) {
-                for(int y = 0; y < 6; y++) {
-                    if(y != i && value[y] == 2) return 3;
-                }
-                return 2;
+            for(int y = 0; y < 6; y++) {
+                if(value[i] == 2 && value[y] == 2 && i != y) return 3;
             }
+        }
+        for(int i = 0; i < 6; i++) {
+            if(value[i] == 3) return 4;
+            if(value[i] == 2) return 2;
         }
         return 0;
     }
@@ -262,40 +329,6 @@ public class PicturePoker extends JPanel {
      */
     public int getSelCards() {
         return selectedCards;
-    }
-    
-    /**
-     * Sortiert die 'Hand' des Spielers und des Computers von der am geringst gewerteten Karte zur am höchsten gewerteten Karte.
-     */
-    public void sortHands() {
-        int smaller;
-        int bigger;
-        boolean run = true;
-        for(int i = 0; i < playerHand.length && run == true; i++) {
-            run = false;
-            for(int y = 0; y < playerHand.length-1; y++) {
-                if(playerHand[y].getValue() > playerHand[y+1].getValue()) {
-                    bigger = playerHand[y].getValue();
-                    smaller = playerHand[y+1].getValue();
-                    playerHand[y].setValue(smaller);
-                    playerHand[y+1].setValue(bigger);
-                    run = true;
-                }
-            }
-        }
-        run = true;
-        for(int i = 0; i < computerHand.length && run == true; i++) {
-            run = false;
-            for(int y = 0; y < computerHand.length-1; y++) {
-                if(computerHand[y].getValue() > computerHand[y+1].getValue()) {
-                    bigger = computerHand[y].getValue();
-                    smaller = computerHand[y+1].getValue();
-                    computerHand[y].setValue(smaller);
-                    computerHand[y+1].setValue(bigger);
-                    run = true;
-                }
-            }
-        }
     }
     
     /**
