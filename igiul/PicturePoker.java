@@ -11,6 +11,7 @@ public class PicturePoker extends JPanel {
     private PPCard[] playerHand, computerHand;
     private JButton drawButton;
     private JLabel coinsLabel, starLabel, betCoinsLabel;
+    private Font font;
     
     /**
      * Hier wird das PicturePoker-Spiel erzeugt und der 'Besitzer' wird festgelegt, sowie die Auflösung des Bildschirms, und somit die Skalierfähigkeit der einzelnen Bildelemente.
@@ -24,8 +25,12 @@ public class PicturePoker extends JPanel {
         this.height = owner.getHeight();
         createGUI();
     }
-    
+    // assets/fonts/Darumadrop_One/DarumadropOne-Regular.ttf
     private void createGUI() {
+        try {
+            font = Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/Darumadrop_One/DarumadropOne-Regular.ttf")).deriveFont(26f);
+        } catch(IOException| FontFormatException e) {}
+        saveGame();
         loadGame();
         computerValue = new int[6];
         playerValue = new int[6];
@@ -42,6 +47,7 @@ public class PicturePoker extends JPanel {
         topBarPanel.setBackground(new Color(0, 153, 0));
         topBarPanel.setLayout(new BorderLayout());
             JButton menuButton = new JButton("Menu");
+            menuButton.setFont(font);
             menuButton.addActionListener(event -> {
                 SwingUtilities.invokeLater(() -> owner.showView(new Menu(owner)));
             });
@@ -50,13 +56,18 @@ public class PicturePoker extends JPanel {
             centerTop.setLayout(new BorderLayout());
             centerTop.setBackground(new Color(0, 153, 0));
                 coinsLabel = new JLabel("Coins: " + coins + "         ");
+                coinsLabel.setFont(font);
                 centerTop.add(coinsLabel, BorderLayout.LINE_START);
                 starLabel = new JLabel("Stars: " + stars);
+                starLabel.setFont(font);
                 centerTop.add(starLabel, BorderLayout.CENTER);
                 betCoinsLabel = new JLabel("Bet Coins: " + betCoins);
+                betCoinsLabel.setFont(font);
                 centerTop.add(betCoinsLabel, BorderLayout.LINE_END);
             topBarPanel.add(centerTop, BorderLayout.CENTER);
             drawButton = new JButton("Hold");
+            drawButton.setFont(font);
+            winStat.setFont(font);
             drawButton.addActionListener(event -> {
                 if(selectedCards == -1) {
                     resetPlayingField();
@@ -66,8 +77,8 @@ public class PicturePoker extends JPanel {
                         changeSelectedCards();
                     }
                     saveGame();
-                    replaceComputerCards();
                     createCardLists();
+                    replaceComputerCards();
                     sortCards();
                     selectedCards = -1;
                     drawButton.setText("New Round");
@@ -77,12 +88,16 @@ public class PicturePoker extends JPanel {
                     if(compareHands() == 1) {
                         winStat.setText("You won!");
                         cashoutCoins();
+                        stars++;
                     }
-                    else if(compareHands() == -1) winStat.setText("You lost!");
-                    else {
+                    else if(compareHands() == -1) {
+                        winStat.setText("You lost!");
+                        if(stars != 0) stars--;
+                    } else {
                         winStat.setText("Draw!");
                         coins = coins + betCoins;
                     }
+                    starLabel.setText("Stars: " + stars);
                     saveGame();
                     betCoinsLabel.setText("");
                 }
@@ -123,13 +138,16 @@ public class PicturePoker extends JPanel {
             gamePanel.add(computerHandPanel, BorderLayout.PAGE_START);
             gamePanel.add(playerHandPanel, BorderLayout.PAGE_END);
             JButton betButton = new JButton("Bet");
+            betButton.setFont(font);
             minBetCoins();
             betButton.addActionListener(event -> {
                 if(betCoins != 5) {
-                    coins--;
-                    coinsLabel.setText("Coins: " + coins + "         ");
-                    betCoins++;
-                    betCoinsLabel.setText("Bet Coins: " + betCoins);
+                    if(coins > 0) {
+                        coins--;
+                        coinsLabel.setText("Coins: " + coins + "         ");
+                        betCoins++;
+                        betCoinsLabel.setText("Bet Coins: " + betCoins);
+                    }
                 }
             });
             gamePanel.add(betButton, BorderLayout.CENTER);
@@ -145,6 +163,7 @@ public class PicturePoker extends JPanel {
         coinsLabel.setText("Coins: " + coins + "         ");
         if(betCoins > 5) betCoins = 5;
         betCoinsLabel.setText("Bet Coins: " + betCoins);
+        betCoinsLabel.setFont(font);
     }
     
     /**
@@ -168,7 +187,6 @@ public class PicturePoker extends JPanel {
             computerHand[i].setHidden(true);
             computerHand[i].setRandomCard();
             playerHand[i].setRandomCard();
-            playerHand[i].setSelected(false);
         }
         minBetCoins();
     }
@@ -332,7 +350,7 @@ public class PicturePoker extends JPanel {
     }
     
     /**
-     * Ersetzt maximal 3 Karten des Computer-Spielers, wenn von einer jeweiligen Kartenart nur eine Vorhanden ist, wodurch sein Spiel eine klare und durchaus simple Strategie folgt.
+     * Ersetzt maximal 4 Karten des Computer-Spielers, wenn von einer jeweiligen Kartenart nur eine Vorhanden ist, wodurch sein Spiel eine klare und durchaus simple Strategie folgt.
      */
     public void replaceComputerCards() {
         int[] computerValue = new int[6];
@@ -341,10 +359,10 @@ public class PicturePoker extends JPanel {
             computerValue[tmp] = computerValue[tmp] + 1;
         }
         int rep = 0;
-        for(int i = 0; i < 5 && rep < 3; i++) {
+        for(int i = 0; i < 5 && rep < 4; i++) {
             if(computerValue[i] == 1) {
-                deck[playerHand[i].getValue()]++;
-                playerHand[i].setRandomCard();
+                deck[computerHand[i].getValue()]++;
+                computerHand[i].setRandomCard();
                 rep++;
             }
         }
@@ -359,8 +377,8 @@ public class PicturePoker extends JPanel {
             BufferedOutputStream bos = new BufferedOutputStream(fos);
             ObjectOutputStream oos = new ObjectOutputStream(bos);
             DataStorage dStor = new DataStorage();
-            dStor.setCoins(coins);
-            dStor.setStars(stars);
+            dStor.PPcoins = coins;
+            dStor.PPStars = stars;
             oos.writeObject(dStor);
             oos.close();
         } catch(IOException e) {
@@ -377,8 +395,12 @@ public class PicturePoker extends JPanel {
             BufferedInputStream bis = new BufferedInputStream(fis);
             ObjectInputStream ois = new ObjectInputStream(bis);
             DataStorage dStor = (DataStorage)ois.readObject();
-            coins = dStor.getCoins();
-            stars = dStor.getStars();
+            if(dStor.PPfirstTime == false) {
+                dStor.PPfirstTime = true;
+                dStor.PPcoins = 10;
+            }
+            coins = dStor.PPcoins;
+            stars = dStor.PPStars;
             ois.close();
         } catch(IOException e) {
             e.printStackTrace();

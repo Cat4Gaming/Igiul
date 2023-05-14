@@ -91,13 +91,13 @@ public class PPCard {
      * Nimmt eine neue zufällige und mögliche Karte aus dem Deck.
      */
     public void setRandomCard() {
-        int tmp = PP.getMainFrame().randInt(0, 5);
-        value = tmp;
-        if(!PP.addPossibleCard(tmp)) {
+        value = PP.getMainFrame().randInt(0, 5);
+        if(PP.addPossibleCard(value)) {
+            selected = false;
+            setHidden(isHidden);
+        } else {
             setRandomCard();
         }
-        selected = false;
-        setHidden(isHidden);
     }
     
     public void setValue(int value) {

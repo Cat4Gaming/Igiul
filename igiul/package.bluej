@@ -1,18 +1,18 @@
 #BlueJ package file
-dependency1.from=PPCard
-dependency1.to=PicturePoker
+dependency1.from=Menu
+dependency1.to=MainFrame
 dependency1.type=UsesDependency
 dependency2.from=Menu
-dependency2.to=MainFrame
+dependency2.to=PicturePoker
 dependency2.type=UsesDependency
-dependency3.from=Menu
-dependency3.to=PicturePoker
+dependency3.from=Main
+dependency3.to=MainFrame
 dependency3.type=UsesDependency
-dependency4.from=Main
-dependency4.to=MainFrame
+dependency4.from=MainFrame
+dependency4.to=Menu
 dependency4.type=UsesDependency
-dependency5.from=MainFrame
-dependency5.to=Menu
+dependency5.from=PPCard
+dependency5.to=PicturePoker
 dependency5.type=UsesDependency
 dependency6.from=PicturePoker
 dependency6.to=MainFrame
