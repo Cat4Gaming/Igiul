@@ -12,6 +12,7 @@ public class PicturePoker extends JPanel {
     private JButton drawButton;
     private JLabel coinsLabel, starLabel, betCoinsLabel;
     private Font font;
+    private boolean firstTime;
     
     /**
      * Hier wird das PicturePoker-Spiel erzeugt und der 'Besitzer' wird festgelegt, sowie die Auflösung des Bildschirms, und somit die Skalierfähigkeit der einzelnen Bildelemente.
@@ -25,13 +26,16 @@ public class PicturePoker extends JPanel {
         this.height = owner.getHeight();
         createGUI();
     }
-    // assets/fonts/Darumadrop_One/DarumadropOne-Regular.ttf
     private void createGUI() {
         try {
             font = Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/Darumadrop_One/DarumadropOne-Regular.ttf")).deriveFont(26f);
         } catch(IOException| FontFormatException e) {}
-        saveGame();
         loadGame();
+        if(firstTime == false) {
+            firstTime = true;
+            coins = 10;
+            stars = 0;
+        }
         computerValue = new int[6];
         playerValue = new int[6];
         setBackground(new Color(0, 153, 0));
@@ -379,6 +383,7 @@ public class PicturePoker extends JPanel {
             DataStorage dStor = new DataStorage();
             dStor.PPcoins = coins;
             dStor.PPStars = stars;
+            dStor.PPfirstTime = firstTime;
             oos.writeObject(dStor);
             oos.close();
         } catch(IOException e) {
@@ -395,12 +400,9 @@ public class PicturePoker extends JPanel {
             BufferedInputStream bis = new BufferedInputStream(fis);
             ObjectInputStream ois = new ObjectInputStream(bis);
             DataStorage dStor = (DataStorage)ois.readObject();
-            if(dStor.PPfirstTime == false) {
-                dStor.PPfirstTime = true;
-                dStor.PPcoins = 10;
-            }
             coins = dStor.PPcoins;
             stars = dStor.PPStars;
+            firstTime = dStor.PPfirstTime;
             ois.close();
         } catch(IOException e) {
             e.printStackTrace();
