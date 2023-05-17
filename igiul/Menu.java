@@ -1,6 +1,8 @@
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
+import java.io.IOException;
+import java.nio.file.*;
 
 public class Menu extends JPanel {
     final private MainFrame owner;
@@ -35,7 +37,7 @@ public class Menu extends JPanel {
                 JButton settings = new JButton("Reset Game");
                 settings.setAlignmentX(Component.CENTER_ALIGNMENT);
                 settings.addActionListener(event -> {
-                    
+                    deleteFile("saves/save.dat");
                 });
                 optionPanel.add(settings);
                 JButton close = new JButton("Close Game");
@@ -45,5 +47,14 @@ public class Menu extends JPanel {
                 });
                 optionPanel.add(close);
             add(optionPanel);
+    }
+    
+    private void deleteFile(String file_path) {
+        Path path = Paths.get(file_path);
+        try {
+            Files.delete(path);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
