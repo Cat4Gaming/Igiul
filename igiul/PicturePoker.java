@@ -28,7 +28,7 @@ public class PicturePoker extends JPanel {
     }
     private void createGUI() {
         try {
-            font = Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/Darumadrop_One/DarumadropOne-Regular.ttf")).deriveFont(26f);
+            font = Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/Darumadrop_One/DarumadropOne-Regular.ttf")).deriveFont(32f);
         } catch(IOException| FontFormatException e) {}
         loadGame();
         if(firstTime == false) {
@@ -86,10 +86,12 @@ public class PicturePoker extends JPanel {
             JPanel centerTop = new JPanel();
             centerTop.setLayout(new BorderLayout());
             centerTop.setBackground(new Color(0, 153, 0));
-                coinsLabel = new JLabel("Coins: " + coins + "         ");
+                coinsLabel = new JLabel(" " + coins + "         ");
+                coinsLabel.setIcon(new ImageIcon(new ImageIcon("assets/gfx/coin.png").getImage().getScaledInstance(45, 45, Image.SCALE_DEFAULT)));
                 coinsLabel.setFont(font);
                 centerTop.add(coinsLabel, BorderLayout.LINE_START);
-                starLabel = new JLabel("Stars: " + stars);
+                starLabel = new JLabel(" " + stars);
+                starLabel.setIcon(new ImageIcon(new ImageIcon("assets/gfx/star.png").getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT)));
                 starLabel.setFont(font);
                 centerTop.add(starLabel, BorderLayout.CENTER);
             topBarPanel.add(centerTop, BorderLayout.CENTER);
@@ -125,7 +127,7 @@ public class PicturePoker extends JPanel {
                         winStat.setText("Draw!");
                         coins = coins + betCoins;
                     }
-                    starLabel.setText("Stars: " + stars);
+                    starLabel.setText(" " + stars);
                     saveGame();
                     betCoinsLabel.setText("Bet Coins: " + betCoins);
                 }
@@ -176,7 +178,7 @@ public class PicturePoker extends JPanel {
     public void minBetCoins() {
         betCoins = (stars / 5) + 1;
         coins = coins - betCoins;
-        coinsLabel.setText("Coins: " + coins + "         ");
+        coinsLabel.setText(" " + coins + "         ");
         if(betCoins > 5) betCoins = 5;
         betCoinsLabel.setText("Bet Coins: " + betCoins);
     }
@@ -186,7 +188,7 @@ public class PicturePoker extends JPanel {
      */
     public void cashoutCoins() {
         coins = coins + (betCoins * handValue(playerValue));
-        coinsLabel.setText("Coins: " + coins + "         ");
+        coinsLabel.setText(" " + coins + "         ");
     }
     
     /**
