@@ -1,111 +1,106 @@
 import java.awt.*;
 import javax.swing.*;
-import java.awt.event.*;
 
-public class PPCard {
-    private int value;
-    private boolean isHidden, selected;
+public class PPCard extends JButton{
+    private int cardValue;
+    private boolean isHidden, isSelected;
     private PicturePoker PP;
-    private JButton card;
     
     /**
-     * Erstellen einer zufälligen Karte, die verdeckt sein kann.
-     * 
-     * @param isHidden      Bei verdeckter Karte 'true', 
-     *                      und bei sichtbarer Vorderseite 'false'.
-     * @param PP            PicturePoker-Klasse
+     * @param isHidden      setzen ob die Karte versteckt ist
+     * @param picturePoker  JPanel in dem die Karte enthalten ist
      */
-    public PPCard(boolean isHidden, PicturePoker PP) {
+    public PPCard(boolean isHidden, PicturePoker picturePoker) {
         this.isHidden = isHidden;
-        this.PP = PP;
-        card = new JButton();
-        card.addActionListener(event -> {if(!isHidden) {
-                if(selected) {
-                    selected = false;
-                    PP.delSelCards();
-                } else {
-                    if(PP.getSelCards() != -1) {
-                        selected = true;
-                        PP.addSelCards();
-                    }
-                }
-                setHidden(this.isHidden);
-            }
-        });
-        setRandomCard();
+        this.PP = picturePoker;
+        
+        setNewRandomCard();
         setHidden(isHidden);
+        setFocusable(false);
+
+        addActionListener(event -> {
+            buttonClickAction();
+            gfxUpdate();
+        });
     }
     
+    private void buttonClickAction() {
+        if(isHidden) return;
+        if(isSelected) {
+            isSelected = false;
+            PP.delSelCards();
+            return;
+        }
+        if(PP.getSelCards() != -1) {
+            isSelected = true;
+            PP.addSelCards();
+        }
+    }
+
     /**
-     * Gibt die Spielkarte aus.
-     * 
-     * @return              Spielkarte (PPCard)
+     * @return              der Wert der Karte
      */
-    public JButton getPPCard(){
-        return card;
+    public int getCardValue() {
+        return cardValue;
     }
     
     /**
-     * Gibt den Wert der Spielkarte zurück.
-     * 
-     * @return              Wert der Karte
+     * @return              ob die Karte ausgewählt ist oder nicht
      */
-    public int getValue() {
-        return value;
+    public boolean getSelectedStatus() {
+        return isSelected;    
     }
     
     /**
-     * Gibt zurück, ob die Karte aktuell ausgewählt ist oder nicht.
-     * 
-     * @return              Auswahl-Status der Karte
-     */
-    public boolean getSelected() {
-        return selected;    
-    }
-    
-    /**
-     * Gibt zurück, ob die Karte aktuell verdeckt ist oder nicht.
-     * 
-     * @return              bei 'true' ist die Karte verdeckt 
-     *                      und bei 'false' ist die Kartevorderseite sichtbar
+     * @return              ob die Karte versteckt ist oder nicht
      */
     public boolean getIsHidden(){
         return isHidden;
     }
-    
+
     /**
-     * Setzt ob die Karte verdeckt sein soll oder nicht.
-     * 
-     * @param   isHidden    Bei verdeckter Karte 'true', 
-     *                      und bei sichtbarer Vorderseite 'false'.
+     * @param isHidden      setzen ob die Karte versteckt ist
      */
     public void setHidden(boolean isHidden) {
         this.isHidden = isHidden;
-        if(isHidden) card.setIcon(new ImageIcon(new ImageIcon("assets/gfx/cards/hidden.png").getImage().getScaledInstance(100, 150, Image.SCALE_DEFAULT)));
-        else card.setIcon(new ImageIcon(new ImageIcon("assets/gfx/cards/" + selected + "/" + value + ".png").getImage().getScaledInstance(100, 150, Image.SCALE_DEFAULT)));
-        card.setBorder(BorderFactory.createEmptyBorder());
-        card.setContentAreaFilled(false);
+        gfxUpdate();
     }
     
     /**
-     * Nimmt eine neue zufällige und mögliche Karte aus dem Deck.
+     * Lässt das Bild der Karten neu laden
      */
-    public void setRandomCard() {
-        value = PP.getMainFrame().randInt(0, 5);
-        if(PP.addPossibleCard(value)) {
-            selected = false;
-            setHidden(isHidden);
+    private void gfxUpdate() {
+        if(isHidden) setIcon(new ImageIcon(new ImageIcon("assets/gfx/cards/hidden.png").getImage().getScaledInstance(100, 150, Image.SCALE_DEFAULT)));
+        else setIcon(new ImageIcon(new ImageIcon("assets/gfx/cards/" + isSelected + "/" + cardValue + ".png").getImage().getScaledInstance(100, 150, Image.SCALE_DEFAULT)));
+        setBorder(BorderFactory.createEmptyBorder());
+        setContentAreaFilled(false);
+    }
+    
+    /**
+     * Lässt eine zufällige Karte aus dem Kartendeck ziehen
+     */
+    public void setNewRandomCard() {
+        cardValue = PP.getMainFrame().randInt(0, 5);
+        if(PP.addPossibleCard(cardValue)) {
+            isSelected = false;
+            gfxUpdate();
         } else {
-            setRandomCard();
+            setNewRandomCard();
         }
     }
     
-    public void setValue(int value) {
-        this.value = value;
-        setHidden(isHidden);
+    /**
+     * @param newCardValue  zu setzender Kartenwert
+     */
+    public void setValue(int newCardValue) {
+        cardValue = newCardValue;
+        gfxUpdate();
     }
     
-    public void setSelected(boolean sel) {
-        selected = sel;
+    /**
+     * @param isSelected    Auswahlstatus der Karte setzen
+     */
+    public void setSelected(boolean isSelected) {
+        this.isSelected = isSelected;
     }
 }

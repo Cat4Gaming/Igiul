@@ -1,8 +1,6 @@
 import java.awt.*;
 import javax.swing.*;
-import java.awt.event.*;
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 
 public class PicturePoker extends JPanel {
     final private MainFrame owner;
@@ -14,167 +12,191 @@ public class PicturePoker extends JPanel {
     private Font font;
     private boolean firstTime;
     
-    /**
-     * Hier wird das PicturePoker-Spiel erzeugt und der 'Besitzer' wird festgelegt, sowie die Auflösung des Bildschirms, und somit die Skalierfähigkeit der einzelnen Bildelemente.
-     * 
-     * @param   MainFrame   MainFrame (Besitzer)
-     */
     public PicturePoker(MainFrame owner) {
         super();
         this.owner = owner;
-        this.width = owner.getWidth();
-        this.height = owner.getHeight();
+        this.width = owner.getScreenWidth();
+        this.height = owner.getScreenHeight();
         createGUI();
     }
     private void createGUI() {
+        loadGame();
         try {
             font = Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/Darumadrop_One/DarumadropOne-Regular.ttf")).deriveFont(32f);
         } catch(IOException| FontFormatException e) {}
-        loadGame();
-        if(firstTime == false) {
-            firstTime = true;
-            coins = 10;
-            stars = 0;
-        }
         computerValue = new int[6];
         playerValue = new int[6];
-        setBackground(new Color(0, 153, 0));
-        setBounds(0, 0, width, height);
-        setLayout(new BorderLayout());
-        JPanel centerPanel = new JPanel();
-        centerPanel.setBackground(new Color(0, 153, 0));
-        centerPanel.setLayout(new BorderLayout());
-            JPanel centerTopPanel = new JPanel();
-            centerTopPanel.setLayout(new BorderLayout());
-            centerTopPanel.setBackground(new Color(0, 153, 0));
-                betCoinsLabel = new JLabel("Bet Coins: " + betCoins, SwingConstants.CENTER);
-                betCoinsLabel.setFont(font);
-                centerTopPanel.add(betCoinsLabel, BorderLayout.PAGE_START);
-                JPanel betPanel = new JPanel();
-                betPanel.setBackground(new Color(0, 153, 0));
-                    JButton betButton = new JButton("");
-                    betButton.setIcon(new ImageIcon(new ImageIcon("assets/gfx/bet.png").getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT)));
-                    betButton.setBorder(BorderFactory.createEmptyBorder());
-                    betButton.setContentAreaFilled(false);
-                    betButton.addActionListener(event -> {
-                        if(betCoins != 5) {
-                            if(coins > 0) {
-                                coins--;
-                                coinsLabel.setText("Coins: " + coins + "         ");
-                                betCoins++;
-                                betCoinsLabel.setText("Bet Coins: " + betCoins);
-                            }
-                        }
-                    });
-                    betPanel.add(betButton);
-                centerTopPanel.add(betPanel, BorderLayout.PAGE_END);
-            centerPanel.add(centerTopPanel, BorderLayout.PAGE_START);
-            
-            JLabel winStat = new JLabel("", SwingConstants.CENTER);
-            centerPanel.add(winStat, BorderLayout.CENTER);
-            
-        add(centerPanel, BorderLayout.CENTER);
-        JPanel topBarPanel = new JPanel();
-        topBarPanel.setBackground(new Color(0, 153, 0));
-        topBarPanel.setLayout(new BorderLayout());
-            JButton menuButton = new JButton("Menu");
-            menuButton.setFont(font);
-            menuButton.addActionListener(event -> {
-                SwingUtilities.invokeLater(() -> owner.showView(new Menu(owner)));
-            });
-            topBarPanel.add(menuButton, BorderLayout.LINE_START);
-            JPanel centerTop = new JPanel();
-            centerTop.setLayout(new BorderLayout());
-            centerTop.setBackground(new Color(0, 153, 0));
-                coinsLabel = new JLabel(" " + coins + "         ");
-                coinsLabel.setIcon(new ImageIcon(new ImageIcon("assets/gfx/coin.png").getImage().getScaledInstance(45, 45, Image.SCALE_DEFAULT)));
-                coinsLabel.setFont(font);
-                centerTop.add(coinsLabel, BorderLayout.LINE_START);
-                starLabel = new JLabel(" " + stars);
-                starLabel.setIcon(new ImageIcon(new ImageIcon("assets/gfx/star.png").getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT)));
-                starLabel.setFont(font);
-                centerTop.add(starLabel, BorderLayout.CENTER);
-            topBarPanel.add(centerTop, BorderLayout.CENTER);
-            drawButton = new JButton("Hold");
-            drawButton.setFont(font);
-            winStat.setFont(font);
-            drawButton.addActionListener(event -> {
-                if(selectedCards == -1) {
-                    resetPlayingField();
-                    winStat.setText("");
-                } else {
-                    if(selectedCards != 0) {
-                        changeSelectedCards();
-                    }
-                    saveGame();
-                    createCardLists();
-                    replaceComputerCards();
-                    sortCards();
-                    selectedCards = -1;
-                    drawButton.setText("New Round");
-                    for(int i = 0; i < 5; i++) {
-                        computerHand[i].setHidden(false);
-                    }
-                    if(compareHands() == 1) {
-                        winStat.setText("You won!");
-                        cashoutCoins();
-                        stars++;
-                    }
-                    else if(compareHands() == -1) {
-                        winStat.setText("You lost!");
-                        if(stars != 0) stars--;
-                    } else {
-                        winStat.setText("Draw!");
-                        coins = coins + betCoins;
-                    }
-                    starLabel.setText(" " + stars);
-                    saveGame();
-                    betCoinsLabel.setText("Bet Coins: " + betCoins);
-                }
-            });
-            topBarPanel.add(drawButton, BorderLayout.LINE_END);
-        add(topBarPanel, BorderLayout.PAGE_START);
-        JPanel instructionPanel = new JPanel();
-        instructionPanel.setBackground(new Color(0, 153, 0));
-        instructionPanel.setLayout(new BorderLayout());
-            JLabel cardvalue = new JLabel();
-            cardvalue.setIcon(new ImageIcon(new ImageIcon("assets/gfx/cardvalue.png").getImage().getScaledInstance(width/3, height/12, Image.SCALE_DEFAULT)));
-            instructionPanel.add(cardvalue, BorderLayout.PAGE_START);
-            JLabel cardcombovalue = new JLabel();
-            cardcombovalue.setIcon(new ImageIcon(new ImageIcon("assets/gfx/cardcombovalue.png").getImage().getScaledInstance(width/3, (int)(height/1.5), Image.SCALE_DEFAULT)));
-            instructionPanel.add(cardcombovalue, BorderLayout.CENTER);
-        add(instructionPanel, BorderLayout.LINE_START);
         deck = new int[6];
+        computerHand = new PPCard[5];
+        playerHand = new PPCard[5];
         for(int i = 0; i < 6; i++) {
             deck[i] = 5;
             computerValue[i] = 0;
             playerValue[i] = 0;
         }
-        minBetCoins();
-        computerHand = new PPCard[5];
-        playerHand = new PPCard[5];
+
+        setBackground(new Color(0, 153, 0));
+        setBounds(0, 0, width, height);
+        setLayout(new BorderLayout());
+
+        JPanel centerPanel = new JPanel();
+        centerPanel.setOpaque(false);
+        centerPanel.setLayout(new BorderLayout());
+
+        JPanel centerTopPanel = new JPanel();
+        centerTopPanel.setOpaque(false);
+        centerTopPanel.setLayout(new BorderLayout());
+
+        JPanel betPanel = new JPanel();
+        betPanel.setOpaque(false);
+
+        JPanel topBarPanel = new JPanel();
+        topBarPanel.setOpaque(false);
+        topBarPanel.setLayout(new BorderLayout());
+        
+        JPanel centerTop = new JPanel();
+        centerTop.setOpaque(false);
+        centerTop.setLayout(new BorderLayout());
+        
+        JPanel instructionPanel = new JPanel();
+        instructionPanel.setOpaque(false);
+        instructionPanel.setLayout(new BorderLayout());
+        
         JPanel gamePanel = new JPanel();
         gamePanel.setBackground(new Color(0, 153, 0));
         gamePanel.setLayout(new BorderLayout());
-            JPanel computerHandPanel = new JPanel();
-            computerHandPanel.setBackground(new Color(0, 153, 0));
-            JPanel playerHandPanel = new JPanel();
-            playerHandPanel.setBackground(new Color(0, 153, 0));
-                for(int i = 0; i < 5; i++) {
-                    computerHand[i] = new PPCard(true, this);
-                    computerHandPanel.add(computerHand[i].getPPCard());
-                    playerHand[i] = new PPCard(false, this);
-                    playerHandPanel.add(playerHand[i].getPPCard());
-                }
-            gamePanel.add(computerHandPanel, BorderLayout.PAGE_START);
-            gamePanel.add(playerHandPanel, BorderLayout.PAGE_END);
-            
+
+        JPanel computerHandPanel = new JPanel();
+        computerHandPanel.setOpaque(false);
+
+        JPanel playerHandPanel = new JPanel();
+        playerHandPanel.setOpaque(false);
+
+        betCoinsLabel = new JLabel("Bet Coins: " + betCoins, SwingConstants.CENTER);
+        betCoinsLabel.setFont(font);
+
+        JLabel winStat = new JLabel("", SwingConstants.CENTER);
+        winStat.setFont(font);
+
+        coinsLabel = new JLabel(" " + coins + "         ");
+        coinsLabel.setIcon(new ImageIcon(new ImageIcon("assets/gfx/coin.png").getImage().getScaledInstance(45, 45, Image.SCALE_DEFAULT)));
+        coinsLabel.setFont(font);
+
+        starLabel = new JLabel(" " + stars);
+        starLabel.setIcon(new ImageIcon(new ImageIcon("assets/gfx/star.png").getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT)));
+        starLabel.setFont(font);
+        
+        JLabel cardvalue = new JLabel();
+        cardvalue.setIcon(new ImageIcon(new ImageIcon("assets/gfx/cardvalue.png").getImage().getScaledInstance(width/3, height/12, Image.SCALE_DEFAULT)));
+        
+        JLabel cardcombovalue = new JLabel();
+        cardcombovalue.setIcon(new ImageIcon(new ImageIcon("assets/gfx/cardcombovalue.png").getImage().getScaledInstance(width/3, (int)(height/1.5), Image.SCALE_DEFAULT)));
+
+        JButton betButton = new JButton("");
+        betButton.setFocusable(false);
+        betButton.setIcon(new ImageIcon(new ImageIcon("assets/gfx/bet.png").getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT)));
+        betButton.setBorder(BorderFactory.createEmptyBorder());
+        betButton.setContentAreaFilled(false);
+        betButton.addActionListener(event -> {
+            betButtonClickAction();
+        });
+
+        JButton menuButton = new JButton("Menu");
+        menuButton.setFocusable(false);
+        menuButton.setFont(font);
+        menuButton.addActionListener(event -> {
+            SwingUtilities.invokeLater(() -> owner.showView(new Menu(owner)));
+        });
+
+        drawButton = new JButton("Hold");
+        drawButton.setFocusable(false);
+        drawButton.setFont(font);
+        drawButton.addActionListener(event -> {
+            drawButtonClickAction(winStat);
+            starLabel.setText("" + stars);
+            betCoinsLabel.setText("Bet Coins: " + betCoins);
+        });
+
+        minBetCoins();
+
+        for(int i = 0; i < 5; i++) {
+            computerHand[i] = new PPCard(true, this);
+            computerHandPanel.add(computerHand[i]);
+            playerHand[i] = new PPCard(false, this);
+            playerHandPanel.add(playerHand[i]);
+        }
+
+        betPanel.add(betButton);
+
+        centerTopPanel.add(betCoinsLabel, BorderLayout.PAGE_START);
+        centerTopPanel.add(betPanel, BorderLayout.PAGE_END);
+
+        centerPanel.add(centerTopPanel, BorderLayout.PAGE_START);
+        centerPanel.add(winStat, BorderLayout.CENTER);
+
+        centerTop.add(coinsLabel, BorderLayout.LINE_START);
+        centerTop.add(starLabel, BorderLayout.CENTER);
+
+        topBarPanel.add(menuButton, BorderLayout.LINE_START);
+        topBarPanel.add(centerTop, BorderLayout.CENTER);
+        topBarPanel.add(drawButton, BorderLayout.LINE_END);
+
+        instructionPanel.add(cardvalue, BorderLayout.PAGE_START);
+        instructionPanel.add(cardcombovalue, BorderLayout.CENTER);
+
+        gamePanel.add(computerHandPanel, BorderLayout.PAGE_START);
+        gamePanel.add(playerHandPanel, BorderLayout.PAGE_END);
+        
+        add(centerPanel, BorderLayout.CENTER);
+        add(instructionPanel, BorderLayout.LINE_START);
+        add(topBarPanel, BorderLayout.PAGE_START);
         add(gamePanel, BorderLayout.LINE_END);
     }
+
+    private void betButtonClickAction() {
+        if(betCoins != 5 && coins >0) {
+            coins--;
+            coinsLabel.setText("" + coins + "         ");
+            betCoins++;
+            betCoinsLabel.setText("Bet Coins: " + betCoins);
+        }
+    }
+
+    private void drawButtonClickAction(JLabel winStat) {
+        if(selectedCards == -1) {
+            resetPlayingField();
+            winStat.setText("");
+            return;
+        }
+        if(selectedCards != 0) {
+            changeSelectedCards();
+        }
+        createCardLists();
+        replaceComputerCards();
+        sortHands();
+        selectedCards = -1;
+        drawButton.setText("New Round");
+        for(int i = 0; i < 5; i++) {
+            computerHand[i].setHidden(false);
+        }
+        if(compareHands() == 1) {
+            winStat.setText("You won!");
+            cashoutCoins();
+            stars++;
+            saveGame();
+            return;
+        }
+        if(compareHands() == -1) {
+            winStat.setText("You lost!");
+            if(stars != 0) stars--;
+            saveGame();
+            return;
+        }
+        winStat.setText("Draw!");
+        coins = coins + betCoins;
+        betCoins = 0;
+    }
     
-    /**
-     * Setzt die minimale Anzahl an Münzen.
-     */
     public void minBetCoins() {
         betCoins = (stars / 5) + 1;
         coins = coins - betCoins;
@@ -183,17 +205,11 @@ public class PicturePoker extends JPanel {
         betCoinsLabel.setText("Bet Coins: " + betCoins);
     }
     
-    /**
-     * Zahlt die Münzen aus.
-     */
     public void cashoutCoins() {
-        coins = coins + (betCoins * handValue(playerValue));
+        coins = coins + (betCoins * handValue(playerValue)) + betCoins;
         coinsLabel.setText(" " + coins + "         ");
     }
     
-    /**
-     * Setzt das Spielfeld zum Anfang zurück, wobei die bisher gewonnene Münzanzahl und Sternanzahl nicht beeinträchtigt wird.
-     */
     public void resetPlayingField() {
         selectedCards = 0;
         drawButton.setText("Hold");
@@ -202,48 +218,38 @@ public class PicturePoker extends JPanel {
         }
         for(int i = 0; i < 5; i++){
             computerHand[i].setHidden(true);
-            computerHand[i].setRandomCard();
-            playerHand[i].setRandomCard();
+            computerHand[i].setNewRandomCard();
+            playerHand[i].setNewRandomCard();
         }
         minBetCoins();
     }
     
-    /**
-     * Erstellt Listen der Kartenhäufigkeiten beider Spielerhände, diese werden in diversen Funktionen benötigt.
-     */
     public void createCardLists() {
         for(int i = 0; i < 6; i++) {
             playerValue[i] = 0;
             computerValue[i] = 0;
         }
         for(int i = 0; i < 5; i++) {
-            playerValue[playerHand[i].getValue()]++;
-            computerValue[computerHand[i].getValue()]++;
+            playerValue[playerHand[i].getCardValue()]++;
+            computerValue[computerHand[i].getCardValue()]++;
         }
     }
     
-    /**
-     * Sortiert die Karten nach ihrer Häufigkeit und ihrer Wertigkeit, wobei links das Beste ist.
-     */
-    public void sortCards() {
-        int tmp = 0;
+    public void sortHands() {
+        int pTmp = 0;
+        int cTmp = 0;
         for(int i = 5; i > 0; i--) {
             for(int y = 5; y >= 0; y--) {
                 if(playerValue[y] == i) {
                     for(int j = 0; j < i; j++) {
-                        playerHand[tmp].setValue(y);
-                        tmp++;
+                        playerHand[pTmp].setValue(y);
+                        pTmp++;
                     }
                 }
-            }
-        }
-        tmp = 0;
-        for(int i = 5; i > 0; i--) {
-            for(int y = 5; y >= 0; y--) {
                 if(computerValue[y] == i) {
                     for(int j = 0; j < i; j++) {
-                        computerHand[tmp].setValue(y);
-                        tmp++;
+                        computerHand[cTmp].setValue(y);
+                        cTmp++;
                     }
                 }
             }
@@ -251,31 +257,28 @@ public class PicturePoker extends JPanel {
     }
     
     /**
-     * Vergleicht die 'Hand' des Spielers mit der des Computers und gibt das ergebnis aus.
-     * 
-     * @return             '-1' = Verloren; 
-     *                      '0' = Gleichstand; 
-     *                      '1' = Gewonnen
+     * @return              bei 1: Spieler gewinnt;
+     *                      bei 0: Unentschieden;
+     *                      bei -1: Computer gewinnt;
      */
     public int compareHands(){
         if(handValue(playerValue) > handValue(computerValue)) return 1;
         if(handValue(playerValue) < handValue(computerValue)) return -1;
         if(handValue(playerValue) >= 4) {
-            if(playerHand[0].getValue() > computerHand[0].getValue()) return 1;
+            if(playerHand[0].getCardValue() > computerHand[0].getCardValue()) return 1;
             return -1;
         }
-        if(playerHand[0].getValue() > computerHand[0].getValue()) return 1;
-        if(playerHand[0].getValue() < computerHand[0].getValue()) return -1;
-        if(playerHand[3].getValue() > computerHand[3].getValue() && handValue(playerValue) != 2) return 1;
-        if(playerHand[3].getValue() < computerHand[3].getValue() && handValue(playerValue) != 2) return -1;
+        if(playerHand[0].getCardValue() > computerHand[0].getCardValue()) return 1;
+        if(playerHand[0].getCardValue() < computerHand[0].getCardValue()) return -1;
+        if(playerHand[3].getCardValue() > computerHand[3].getCardValue() && handValue(playerValue) != 2) return 1;
+        if(playerHand[3].getCardValue() < computerHand[3].getCardValue() && handValue(playerValue) != 2) return -1;
         return 0;
     }
     
     /**
-     * Berechnet den Wert der übergebenen 'Hand' und gibt diesen aus.
      * 
-     * @param   value       Array einer 'Hand', dessen Wert ausgegeben werden soll.
-     * @return              Wert der zuvor übergebenen 'Hand'
+     * @param value         zu überprüfende Karten, welche zuvor schon gezählt wurden
+     * @return              Wertigkeit des Kartendecks
      */
     public int handValue(int[] value) {
         for(int i = 0; i < 6; i++) {
@@ -300,11 +303,8 @@ public class PicturePoker extends JPanel {
     }
     
     /**
-     * Überprüft ob eine Karte ein gewisser Kartenwert als Karte möglich wäre.
-     * Wenn es möglich ist wird diese sofort dem Kartendeck entnommen.
-     * 
-     * @param   cardValue   zu überprüfender Kartenwert
-     * @return              ob der Kartenwert möglich ist oder nicht
+     * @param cardValue     Kartenwert, der aus dem Kartenstapel genommen werden soll
+     * @return              ob diese Karte noch im Kartenstapel existiert
      */
     public boolean addPossibleCard(int cardValue) {
         if(deck[cardValue] == 0) return false;
@@ -313,33 +313,21 @@ public class PicturePoker extends JPanel {
             return true;
         }
     }
-    
-    /**
-     * Ändert alle ausgewählten Karten in neue von dem KartenDeck.
-     * 
-     * @param   selCards    Array von allen Karten (jeweils 'true', wenn ausgewählt)
-     */
-    public void changeSelectedCards() {
-        for(int i = 0; i < 5; i++) {
-            if(playerHand[i].getSelected()) {
-                deck[playerHand[i].getValue()]++;
-                playerHand[i].setRandomCard();
-            }
-        }
-    }
-    
-    /**
-     * Gibt den MainFrame, also den 'Besitzer' aus
-     * 
-     * @return              MainFrame (Besitzer)
-     */
+
     public MainFrame getMainFrame() {
         return owner;
     }
     
-    /**
-     * Erhöht, falls gerade nicht verhindert ('selectedCards'-Wert gleich -1), die Anzahl der ausgewählten Karten.
-     */
+    public void changeSelectedCards() {
+        for(int i = 0; i < 5; i++) {
+            if(playerHand[i].getSelectedStatus()) {
+                deck[playerHand[i].getCardValue()]++;
+                playerHand[i].setNewRandomCard();
+            }
+        }
+    }
+    
+    
     public void addSelCards() {
         if(selectedCards != -1) {
             selectedCards++;
@@ -347,9 +335,6 @@ public class PicturePoker extends JPanel {
         }
     }
     
-    /**
-     * Erniedrigt, falls gerade nicht verhindert ('selectedCards'-Wert gleich -1), die Anzahl der ausgewählten Karten.
-     */
     public void delSelCards() {
         if(selectedCards != -1) {
             selectedCards--;
@@ -358,35 +343,33 @@ public class PicturePoker extends JPanel {
     }
     
     /**
-     * Gibt die Anzahl der ausgewählten Karten des Spielers aus.
-     * 
-     * @return              Anzahl der ausgewählten Karten des Spielers
+     * @return              Anzahl der gerade ausgewählten Karten
      */
     public int getSelCards() {
         return selectedCards;
     }
     
     /**
-     * Ersetzt maximal 4 Karten des Computer-Spielers, wenn von einer jeweiligen Kartenart nur eine Vorhanden ist, wodurch sein Spiel eine klare und durchaus simple Strategie folgt.
+     * Ersetzt gewisse Karten des Computer-Spielers
      */
     public void replaceComputerCards() {
         int[] computerValue = new int[6];
         for(int i = 0; i < 5; i++) {
-            int tmp = computerHand[i].getValue();
+            int tmp = computerHand[i].getCardValue();
             computerValue[tmp] = computerValue[tmp] + 1;
         }
         int rep = 0;
         for(int i = 0; i < 5 && rep < 4; i++) {
             if(computerValue[i] == 1) {
-                deck[computerHand[i].getValue()]++;
-                computerHand[i].setRandomCard();
+                deck[computerHand[i].getCardValue()]++;
+                computerHand[i].setNewRandomCard();
                 rep++;
             }
         }
     }
     
     /**
-     * Speichert alle benötigten Variablen in die 'save.dat'-Datei.
+     * Speichert gewisse Daten, wie die Sternanzahl oder die Münzanzahl in einer '.dat'-Datei
      */
     public void saveGame() {
         try {
@@ -402,10 +385,11 @@ public class PicturePoker extends JPanel {
         } catch(IOException e) {
             e.printStackTrace();
         }
+        betCoins = 0;
     }
     
     /**
-     * Lädt alle benötigten Variablen von der 'save.dat'-Datei.
+     * Lädt die gespeicherten Daten aus einer '.dat'-Datei
      */
     public void loadGame() {
         try {
@@ -421,6 +405,11 @@ public class PicturePoker extends JPanel {
             e.printStackTrace();
         } catch(ClassNotFoundException e) {
             e.printStackTrace();
+        }
+        if(firstTime == false) {
+            firstTime = true;
+            coins = 10;
+            stars = 0;
         }
     }
 }

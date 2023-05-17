@@ -1,32 +1,28 @@
 import java.util.Random;
 import java.awt.*;
 import javax.swing.*;
-import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.nio.file.*;
 
 public class MainFrame extends JFrame {
-    private int width, height;
+    private int screenWidth, screenHeight;
     private JPanel viewPanel;
     
     /**
-     * Erstellt das sogenannte 'MainFrame' mit einen Titel, den man hier festlegen muss. Zudem wird die Breite und Höhe des Bildschirms ermittelt.
-     * 
-     * @param   title   Titel des Programms
+     * @param appName       Name der Anwendung
      */
-    public MainFrame(String title) {
-        super(title);
-        width = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
-        height = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+    public MainFrame(String appName) {
+        super(appName);
+        screenWidth = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+        screenHeight = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
         createGUI();
     }
     
-    /**
-     * Legt die erste Startszene (hier: 'Menu') fest, es werden auch wichtige Elemente für einen funktionierenden Vollbildmodus festgelegt.
-     */
-    public void createGUI() {
+    private void createGUI() {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout());
         setResizable(false);
-        setMinimumSize(new Dimension(width, height));
+        setMinimumSize(new Dimension(screenWidth, screenHeight));
         setUndecorated(true);
         viewPanel = new JPanel(new BorderLayout());
         add(viewPanel, BorderLayout.CENTER);
@@ -35,23 +31,19 @@ public class MainFrame extends JFrame {
     }
     
     /**
-     * Diese Funktion kann verwendet werden, um eine Szene zu wechseln oder auch zu 'updaten', wenn die ausführende Klasse, welche im vorgesehenen Fall ein 'JPanel' ist, sich selbst als Parameter übergitbt.
-     * 
-     * @param   panel   Szene eines Programms
+     * @param newViewPanel  zu anzeigendes JPanel
      */
-    public void showView(JPanel panel) {
+    public void showView(JPanel newViewPanel) {
         viewPanel.removeAll();
-        viewPanel.add(panel, BorderLayout.CENTER);
+        viewPanel.add(newViewPanel, BorderLayout.CENTER);
         viewPanel.revalidate();
         viewPanel.repaint();
     }
     
     /**
-     * Gibt eine zufällige Zahl (als int) zwischen zwei Werten, die man mit 'min' und 'max' festlegen kann, aus.
-     * 
-     * @param   min     kleinste Zahl, die ausgegeben werden kann
-     * @param   max     größte Zahl, die ausgegeben werden kann
-     * @return          zufällig generierte Zahl (int)
+     * @param min           Kleinster Wert der zufälligen Zahl
+     * @param max           Größter Wert der zufälligen Zahl
+     * @return              zufällige Zahl zwischen 'min' und 'max'
      */
     public int randInt(int min, int max) {
         Random rand = new Random();
@@ -60,20 +52,28 @@ public class MainFrame extends JFrame {
     }
     
     /**
-     * Gibt die Breite des Bildschirms, auf den das Programm läuft, aus.
-     * 
-     * @return          Bildschirmbreite
+     * @param filePath      zu löschende(-r) Datei(-pfad)
      */
-    public int getWidth() {
-        return width;
+    public void deleteFile(String filePath) {
+        Path path = Paths.get(filePath);
+        try {
+            Files.delete(path);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
-    
+
     /**
-     * Gibt die Höhe des Bildschirms, auf den das Programm läuft, aus.
-     * 
-     * @return          Bildschirmhöhe
+     * @return              Bildschirmbreite
      */
-    public int getHeight() {
-        return height;
+    public int getScreenWidth() {
+        return screenWidth;
+    }
+
+    /**
+     * @return              Bildschirmhöhe
+     */
+    public int getScreenHeight() {
+        return screenHeight;
     }
 }
