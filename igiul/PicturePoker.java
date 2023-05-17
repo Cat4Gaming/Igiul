@@ -72,6 +72,9 @@ public class PicturePoker extends JPanel {
         JPanel playerHandPanel = new JPanel();
         playerHandPanel.setOpaque(false);
 
+        Box drawButtonPanel = new Box(BoxLayout.Y_AXIS);
+        drawButtonPanel.setOpaque(false);
+
         betCoinsLabel = new JLabel("Bet Coins: " + betCoins, SwingConstants.CENTER);
         betCoinsLabel.setFont(font);
 
@@ -110,6 +113,7 @@ public class PicturePoker extends JPanel {
 
         drawButton = new JButton("Hold");
         drawButton.setFocusable(false);
+        drawButton.setAlignmentX(JComponent.CENTER_ALIGNMENT);
         drawButton.setFont(font);
         drawButton.addActionListener(event -> {
             drawButtonClickAction(winStat);
@@ -126,6 +130,10 @@ public class PicturePoker extends JPanel {
             playerHandPanel.add(playerHand[i]);
         }
 
+        drawButtonPanel.add(Box.createVerticalGlue());
+        drawButtonPanel.add(drawButton);
+        drawButtonPanel.add(Box.createVerticalGlue());
+
         betPanel.add(betButton);
 
         centerTopPanel.add(betCoinsLabel, BorderLayout.PAGE_START);
@@ -139,13 +147,13 @@ public class PicturePoker extends JPanel {
 
         topBarPanel.add(menuButton, BorderLayout.LINE_START);
         topBarPanel.add(centerTop, BorderLayout.CENTER);
-        topBarPanel.add(drawButton, BorderLayout.LINE_END);
 
         instructionPanel.add(cardvalue, BorderLayout.PAGE_START);
         instructionPanel.add(cardcombovalue, BorderLayout.CENTER);
 
         gamePanel.add(computerHandPanel, BorderLayout.PAGE_START);
         gamePanel.add(playerHandPanel, BorderLayout.PAGE_END);
+        gamePanel.add(drawButtonPanel, BorderLayout.CENTER);
         
         add(centerPanel, BorderLayout.CENTER);
         add(instructionPanel, BorderLayout.LINE_START);
