@@ -26,19 +26,13 @@ public class Menu extends JPanel {
             add(title, BorderLayout.PAGE_START);
             JPanel optionPanel = new JPanel();
             optionPanel.setLayout(new BoxLayout(optionPanel, BoxLayout.Y_AXIS));
-                JButton start = new JButton("Start");
+                JButton start = new JButton("Start Game");
                 start.setAlignmentX(Component.CENTER_ALIGNMENT);
                 start.addActionListener(event -> {
                     SwingUtilities.invokeLater(() -> owner.showView(new PicturePoker(owner)));
                 });
                 optionPanel.add(start);
-                JButton stats = new JButton("Stats");
-                stats.setAlignmentX(Component.CENTER_ALIGNMENT);
-                stats.addActionListener(event -> {
-                    
-                });
-                optionPanel.add(stats);
-                JButton settings = new JButton("Settings");
+                JButton settings = new JButton("Reset Game");
                 settings.setAlignmentX(Component.CENTER_ALIGNMENT);
                 settings.addActionListener(event -> {
                     

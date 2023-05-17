@@ -46,11 +46,10 @@ public class PicturePoker extends JPanel {
         centerPanel.setLayout(new BorderLayout());
             JPanel centerTopPanel = new JPanel();
             centerTopPanel.setLayout(new BorderLayout());
-            centerTopPanel.setBackground(new Color(0, 153, 155));
-                    betCoinsLabel = new JLabel("Bet Coins: " + betCoins, SwingConstants.CENTER);
-                    betCoinsLabel.setFont(font);
-                    betCoinsLabel.setBackground(new Color(0, 153, 0));
-                    centerTopPanel.add(betCoinsLabel, BorderLayout.LINE_START);
+            centerTopPanel.setBackground(new Color(0, 153, 0));
+                betCoinsLabel = new JLabel("Bet Coins: " + betCoins, SwingConstants.CENTER);
+                betCoinsLabel.setFont(font);
+                centerTopPanel.add(betCoinsLabel, BorderLayout.PAGE_START);
                 JPanel betPanel = new JPanel();
                 betPanel.setBackground(new Color(0, 153, 0));
                     JButton betButton = new JButton("Bet");
@@ -126,7 +125,7 @@ public class PicturePoker extends JPanel {
                     }
                     starLabel.setText("Stars: " + stars);
                     saveGame();
-                    betCoinsLabel.setText("");
+                    betCoinsLabel.setText("Bet Coins: " + betCoins);
                 }
             });
             topBarPanel.add(drawButton, BorderLayout.LINE_END);
@@ -178,7 +177,6 @@ public class PicturePoker extends JPanel {
         coinsLabel.setText("Coins: " + coins + "         ");
         if(betCoins > 5) betCoins = 5;
         betCoinsLabel.setText("Bet Coins: " + betCoins);
-        betCoinsLabel.setFont(font);
     }
     
     /**
