@@ -52,8 +52,10 @@ public class PicturePoker extends JPanel {
                 centerTopPanel.add(betCoinsLabel, BorderLayout.PAGE_START);
                 JPanel betPanel = new JPanel();
                 betPanel.setBackground(new Color(0, 153, 0));
-                    JButton betButton = new JButton("Bet");
-                    betButton.setFont(font);
+                    JButton betButton = new JButton("");
+                    betButton.setIcon(new ImageIcon(new ImageIcon("assets/gfx/bet.png").getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT)));
+                    betButton.setBorder(BorderFactory.createEmptyBorder());
+                    betButton.setContentAreaFilled(false);
                     betButton.addActionListener(event -> {
                         if(betCoins != 5) {
                             if(coins > 0) {
