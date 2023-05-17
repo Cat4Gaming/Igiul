@@ -44,8 +44,34 @@ public class PicturePoker extends JPanel {
         JPanel centerPanel = new JPanel();
         centerPanel.setBackground(new Color(0, 153, 0));
         centerPanel.setLayout(new BorderLayout());
+            JPanel centerTopPanel = new JPanel();
+            centerTopPanel.setLayout(new BorderLayout());
+            centerTopPanel.setBackground(new Color(0, 153, 155));
+                    betCoinsLabel = new JLabel("Bet Coins: " + betCoins, SwingConstants.CENTER);
+                    betCoinsLabel.setFont(font);
+                    betCoinsLabel.setBackground(new Color(0, 153, 0));
+                    centerTopPanel.add(betCoinsLabel, BorderLayout.LINE_START);
+                JPanel betPanel = new JPanel();
+                betPanel.setBackground(new Color(0, 153, 0));
+                    JButton betButton = new JButton("Bet");
+                    betButton.setFont(font);
+                    betButton.addActionListener(event -> {
+                        if(betCoins != 5) {
+                            if(coins > 0) {
+                                coins--;
+                                coinsLabel.setText("Coins: " + coins + "         ");
+                                betCoins++;
+                                betCoinsLabel.setText("Bet Coins: " + betCoins);
+                            }
+                        }
+                    });
+                    betPanel.add(betButton);
+                centerTopPanel.add(betPanel, BorderLayout.PAGE_END);
+            centerPanel.add(centerTopPanel, BorderLayout.PAGE_START);
+            
             JLabel winStat = new JLabel("", SwingConstants.CENTER);
             centerPanel.add(winStat, BorderLayout.CENTER);
+            
         add(centerPanel, BorderLayout.CENTER);
         JPanel topBarPanel = new JPanel();
         topBarPanel.setBackground(new Color(0, 153, 0));
@@ -65,9 +91,6 @@ public class PicturePoker extends JPanel {
                 starLabel = new JLabel("Stars: " + stars);
                 starLabel.setFont(font);
                 centerTop.add(starLabel, BorderLayout.CENTER);
-                betCoinsLabel = new JLabel("Bet Coins: " + betCoins);
-                betCoinsLabel.setFont(font);
-                centerTop.add(betCoinsLabel, BorderLayout.LINE_END);
             topBarPanel.add(centerTop, BorderLayout.CENTER);
             drawButton = new JButton("Hold");
             drawButton.setFont(font);
@@ -124,6 +147,7 @@ public class PicturePoker extends JPanel {
             computerValue[i] = 0;
             playerValue[i] = 0;
         }
+        minBetCoins();
         computerHand = new PPCard[5];
         playerHand = new PPCard[5];
         JPanel gamePanel = new JPanel();
@@ -141,20 +165,7 @@ public class PicturePoker extends JPanel {
                 }
             gamePanel.add(computerHandPanel, BorderLayout.PAGE_START);
             gamePanel.add(playerHandPanel, BorderLayout.PAGE_END);
-            JButton betButton = new JButton("Bet");
-            betButton.setFont(font);
-            minBetCoins();
-            betButton.addActionListener(event -> {
-                if(betCoins != 5) {
-                    if(coins > 0) {
-                        coins--;
-                        coinsLabel.setText("Coins: " + coins + "         ");
-                        betCoins++;
-                        betCoinsLabel.setText("Bet Coins: " + betCoins);
-                    }
-                }
-            });
-            gamePanel.add(betButton, BorderLayout.CENTER);
+            
         add(gamePanel, BorderLayout.LINE_END);
     }
     
