@@ -114,7 +114,7 @@ public class PicturePoker extends JPanel {
         });
     
         JButton menuButton = new JButton("Menu");
-        menuButton.setIcon(new ImageIcon(new ImageIcon("assets/gfx/middlebutton.png").getImage().getScaledInstance(100, 50, Image.SCALE_DEFAULT)));
+        menuButton.setIcon(new ImageIcon(new ImageIcon("assets/gfx/middlebutton.png").getImage().getScaledInstance(120, 55, Image.SCALE_DEFAULT)));
         menuButton.setBorder(BorderFactory.createEmptyBorder());
         menuButton.setContentAreaFilled(false);
         menuButton.setFocusable(false);
