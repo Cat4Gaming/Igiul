@@ -113,11 +113,13 @@ public class PicturePoker extends JPanel {
             betButtonClickAction();
         });
     
-        JButton menuButton = new JButton("");
-        menuButton.setIcon(new ImageIcon(new ImageIcon("assets/gfx/menubutton.png").getImage().getScaledInstance(60, 60, Image.SCALE_DEFAULT)));
+        JButton menuButton = new JButton("Menu");
+        menuButton.setIcon(new ImageIcon(new ImageIcon("assets/gfx/middlebutton.png").getImage().getScaledInstance(100, 50, Image.SCALE_DEFAULT)));
         menuButton.setBorder(BorderFactory.createEmptyBorder());
-        //menuButton.setContentAreaFilled(false);
+        menuButton.setContentAreaFilled(false);
         menuButton.setFocusable(false);
+        menuButton.setVerticalTextPosition(SwingConstants.CENTER);
+        menuButton.setHorizontalTextPosition(SwingConstants.CENTER);
         menuButton.setFont(font);
         menuButton.addActionListener(event -> {
             SwingUtilities.invokeLater(() -> owner.showView(new Menu(owner)));
@@ -185,7 +187,6 @@ public class PicturePoker extends JPanel {
         add(topBarPanel, BorderLayout.PAGE_START);
         add(gamePanel, BorderLayout.LINE_END);
     }
-
 
     private void betButtonClickAction() {
         if(betCoins != 5 && coins >0) {

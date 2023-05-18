@@ -76,4 +76,9 @@ public class MainFrame extends JFrame {
     public int getScreenHeight() {
         return screenHeight;
     }
+
+    public ImageIcon resizedImageIcon(int width, int hight) {
+        //new ImageIcon("assets/gfx/coin.png").getImage().getScaledInstance(45, 45, Image.SCALE_DEFAULT))
+        @return null;
+    }
 }
