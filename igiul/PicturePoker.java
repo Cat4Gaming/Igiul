@@ -54,9 +54,9 @@ public class PicturePoker extends JPanel {
         topBarPanel.setOpaque(false);
         topBarPanel.setLayout(new BorderLayout());
         
-        JPanel centerTop = new JPanel();
-        centerTop.setOpaque(false);
-        centerTop.setLayout(new BorderLayout());
+        JPanel coinsStarsPanel = new JPanel();
+        coinsStarsPanel.setOpaque(false);
+        coinsStarsPanel.setLayout(new BorderLayout());
         
         JPanel instructionPanel = new JPanel();
         instructionPanel.setOpaque(false);
@@ -71,6 +71,11 @@ public class PicturePoker extends JPanel {
 
         JPanel playerHandPanel = new JPanel();
         playerHandPanel.setOpaque(false);
+        
+        JPanel computerContainerPanel = new JPanel(new BorderLayout());
+        computerContainerPanel.setOpaque(false);
+        
+        Box centerBox = Box.createVerticalBox();
         
         Box drawButtonPanel = new Box(BoxLayout.Y_AXIS);
         drawButtonPanel.setOpaque(false);
@@ -91,7 +96,6 @@ public class PicturePoker extends JPanel {
         
         JLabel cardvalue = new JLabel();
         cardvalue.setIcon(new ImageIcon(new ImageIcon("assets/gfx/cardvalue.png").getImage().getScaledInstance(width/3, height/12, Image.SCALE_DEFAULT)));
-        cardvalue.setBorder(BorderFactory.createEmptyBorder(15, 0, 0, 0));
         
         JLabel cardcombovalue = new JLabel();
         cardcombovalue.setIcon(new ImageIcon(new ImageIcon("assets/gfx/cardcombovalue.png").getImage().getScaledInstance(width/3, (int)(height/1.5), Image.SCALE_DEFAULT)));
@@ -142,6 +146,17 @@ public class PicturePoker extends JPanel {
             playerHandPanel.add(playerHand[i]);
         }
 
+        centerBox.add(Box.createVerticalGlue());
+        centerBox.add(coinsStarsPanel);
+        centerBox.add(Box.createVerticalStrut(20)); // Add some spacing between coinsStarsPanel and computerHandPanel
+        centerBox.add(centerTopPanel);
+        
+        coinsStarsPanel.add(coinsLabel, BorderLayout.CENTER);
+        coinsStarsPanel.add(starLabel, BorderLayout.LINE_END);
+        
+        computerContainerPanel.add(coinsStarsPanel, BorderLayout.PAGE_START);
+        computerContainerPanel.add(computerHandPanel, BorderLayout.CENTER);
+        
         drawButtonPanel.add(Box.createVerticalGlue());
         drawButtonPanel.add(drawButton);
         drawButtonPanel.add(Box.createVerticalGlue());
@@ -150,22 +165,18 @@ public class PicturePoker extends JPanel {
 
         centerTopPanel.add(betCoinsLabel, BorderLayout.PAGE_START);
         centerTopPanel.add(betPanel, BorderLayout.PAGE_END);
-
-        centerTop.add(coinsLabel, BorderLayout.LINE_START);
-        centerTop.add(starLabel, BorderLayout.CENTER);
         
-        centerPanel.add(centerTopPanel, BorderLayout.PAGE_START);
+        centerPanel.add(centerBox, BorderLayout.PAGE_START);
         centerPanel.add(winStat, BorderLayout.CENTER);
 
         topBarPanel.add(menuButton, BorderLayout.LINE_START);
-        topBarPanel.add(centerTop, BorderLayout.CENTER);
 
         instructionPanel.add(cardvalue, BorderLayout.PAGE_START);
         instructionPanel.add(cardcombovalue, BorderLayout.CENTER);
-
-        gamePanel.add(computerHandPanel, BorderLayout.PAGE_START);
+    
         gamePanel.add(playerHandPanel, BorderLayout.PAGE_END);
         gamePanel.add(drawButtonPanel, BorderLayout.CENTER);
+        gamePanel.add(computerContainerPanel, BorderLayout.PAGE_START);
         
         add(centerPanel, BorderLayout.CENTER);
         add(instructionPanel, BorderLayout.LINE_START);
