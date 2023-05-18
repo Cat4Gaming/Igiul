@@ -93,7 +93,7 @@ public class PicturePoker extends JPanel {
         coinsLabel.setFont(font);
         coinsLabel.setForeground(Color.WHITE); // Set text color to white
     
-        starLabel = new JLabel(" " + stars);
+        starLabel = new JLabel(" " + stars + "  ");
         starLabel.setIcon(new ImageIcon(new ImageIcon("assets/gfx/star.png").getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT)));
         starLabel.setFont(font);
         starLabel.setForeground(Color.WHITE); // Set text color to white
