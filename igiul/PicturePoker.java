@@ -82,21 +82,21 @@ public class PicturePoker extends JPanel {
     
         betCoinsLabel = new JLabel("Bet Coins: " + betCoins, SwingConstants.CENTER);
         betCoinsLabel.setFont(font);
-        betCoinsLabel.setForeground(Color.WHITE); // Set text color to white
+        betCoinsLabel.setForeground(Color.WHITE); 
     
         JLabel winStat = new JLabel("", SwingConstants.CENTER);
         winStat.setFont(font);
-        winStat.setForeground(Color.WHITE); // Set text color to white
+        winStat.setForeground(Color.WHITE); 
     
         coinsLabel = new JLabel(" " + coins + "         ");
         coinsLabel.setIcon(new ImageIcon(new ImageIcon("assets/gfx/coin.png").getImage().getScaledInstance(45, 45, Image.SCALE_DEFAULT)));
         coinsLabel.setFont(font);
-        coinsLabel.setForeground(Color.WHITE); // Set text color to white
+        coinsLabel.setForeground(Color.WHITE); 
     
         starLabel = new JLabel(" " + stars);
         starLabel.setIcon(new ImageIcon(new ImageIcon("assets/gfx/star.png").getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT)));
         starLabel.setFont(font);
-        starLabel.setForeground(Color.WHITE); // Set text color to white
+        starLabel.setForeground(Color.WHITE); 
     
         JLabel cardvalue = new JLabel();
         cardvalue.setIcon(new ImageIcon(new ImageIcon("assets/gfx/cardvalue.png").getImage().getScaledInstance(width/3, height/12, Image.SCALE_DEFAULT)));
@@ -114,11 +114,9 @@ public class PicturePoker extends JPanel {
         });
     
         JButton menuButton = new JButton("");
-        menuButton.setIcon(new ImageIcon(new ImageIcon("assets/gfx/menubutton.png").getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT)));
+        menuButton.setIcon(new ImageIcon(new ImageIcon("assets/gfx/menubutton.png").getImage().getScaledInstance(60, 60, Image.SCALE_DEFAULT)));
         menuButton.setBorder(BorderFactory.createEmptyBorder());
-        menuButton.setContentAreaFilled(false);
-        menuButton.setVerticalTextPosition(SwingConstants.CENTER);
-        menuButton.setHorizontalTextPosition(SwingConstants.CENTER);
+        //menuButton.setContentAreaFilled(false);
         menuButton.setFocusable(false);
         menuButton.setFont(font);
         menuButton.addActionListener(event -> {
@@ -152,7 +150,7 @@ public class PicturePoker extends JPanel {
     
         centerBox.add(Box.createVerticalGlue());
         centerBox.add(coinsStarsPanel);
-        centerBox.add(Box.createVerticalStrut(20)); // Add some spacing between coinsStarsPanel and computerHandPanel
+        centerBox.add(Box.createVerticalStrut(20));
         centerBox.add(centerTopPanel);
     
         coinsStarsPanel.add(coinsLabel, BorderLayout.CENTER);
