@@ -89,24 +89,24 @@ public class PicturePoker extends JPanel {
         winStat.setForeground(Color.WHITE); 
     
         coinsLabel = new JLabel(" " + coins + "         ");
-        coinsLabel.setIcon(new ImageIcon(new ImageIcon("assets/gfx/coin.png").getImage().getScaledInstance(45, 45, Image.SCALE_DEFAULT)));
+        coinsLabel.setIcon(owner.resizedImageIcon("assets/gfx/coin.png", 45, 45));
         coinsLabel.setFont(font);
         coinsLabel.setForeground(Color.WHITE); 
     
         starLabel = new JLabel(" " + stars + "  ");
-        starLabel.setIcon(new ImageIcon(new ImageIcon("assets/gfx/star.png").getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT)));
+        starLabel.setIcon(owner.resizedImageIcon("assets/gfx/star.png", 50, 50));
         starLabel.setFont(font);
         starLabel.setForeground(Color.WHITE); 
     
         JLabel cardvalue = new JLabel();
-        cardvalue.setIcon(new ImageIcon(new ImageIcon("assets/gfx/cardvalue.png").getImage().getScaledInstance(width/3, height/12, Image.SCALE_DEFAULT)));
+        cardvalue.setIcon(owner.resizedImageIcon("assets/gfx/cardvalue.png", 640, 90));
     
         JLabel cardcombovalue = new JLabel();
-        cardcombovalue.setIcon(new ImageIcon(new ImageIcon("assets/gfx/cardcombovalue.png").getImage().getScaledInstance(width/3, (int)(height/1.5), Image.SCALE_DEFAULT)));
+        cardcombovalue.setIcon(owner.resizedImageIcon("assets/gfx/cardcombovalue.png", 640, 720));
     
         JButton betButton = new JButton("");
         betButton.setFocusable(false);
-        betButton.setIcon(new ImageIcon(new ImageIcon("assets/gfx/bet.png").getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT)));
+        betButton.setIcon(owner.resizedImageIcon("assets/gfx/bet.png", 100, 100));
         betButton.setBorder(BorderFactory.createEmptyBorder());
         betButton.setContentAreaFilled(false);
         betButton.addActionListener(event -> {
@@ -114,7 +114,7 @@ public class PicturePoker extends JPanel {
         });
     
         JButton menuButton = new JButton("Menu");
-        menuButton.setIcon(new ImageIcon(new ImageIcon("assets/gfx/middlebutton.png").getImage().getScaledInstance(120, 55, Image.SCALE_DEFAULT)));
+        menuButton.setIcon(owner.resizedImageIcon("assets/gfx/middlebutton.png", 120, 55));
         menuButton.setBorder(BorderFactory.createEmptyBorder());
         menuButton.setContentAreaFilled(false);
         menuButton.setFocusable(false);
@@ -126,7 +126,7 @@ public class PicturePoker extends JPanel {
         });
     
         drawButton = new JButton("Hold");
-        drawButton.setIcon(new ImageIcon(new ImageIcon("assets/gfx/middlebutton.png").getImage().getScaledInstance(400, 80, Image.SCALE_DEFAULT)));
+        drawButton.setIcon(owner.resizedImageIcon("assets/gfx/middlebutton.png", 400, 50));
         drawButton.setBorder(BorderFactory.createEmptyBorder());
         drawButton.setContentAreaFilled(false);
         drawButton.setFocusable(false);
@@ -401,6 +401,10 @@ public class PicturePoker extends JPanel {
                 rep++;
             }
         }
+    }
+
+    public MainFrame getOwner() {
+        return owner;
     }
     
     /**

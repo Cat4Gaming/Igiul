@@ -77,8 +77,8 @@ public class MainFrame extends JFrame {
         return screenHeight;
     }
 
-    public ImageIcon resizedImageIcon(int width, int hight) {
-        //new ImageIcon("assets/gfx/coin.png").getImage().getScaledInstance(45, 45, Image.SCALE_DEFAULT))
-        return null;
+    public ImageIcon resizedImageIcon(String filePath, int imageWidth, int imageHeight) {
+        ImageIcon ii = new ImageIcon(new ImageIcon(filePath).getImage().getScaledInstance(imageWidth, imageHeight, Image.SCALE_DEFAULT));
+        return ii;
     }
 }

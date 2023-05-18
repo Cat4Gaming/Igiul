@@ -1,4 +1,3 @@
-import java.awt.*;
 import javax.swing.*;
 
 public class PPCard extends JButton{
@@ -70,8 +69,8 @@ public class PPCard extends JButton{
      * Lässt das Bild der Karten neu laden
      */
     private void gfxUpdate() {
-        if(isHidden) setIcon(new ImageIcon(new ImageIcon("assets/gfx/cards/hidden.png").getImage().getScaledInstance(100, 150, Image.SCALE_DEFAULT)));
-        else setIcon(new ImageIcon(new ImageIcon("assets/gfx/cards/" + isSelected + "/" + cardValue + ".png").getImage().getScaledInstance(100, 150, Image.SCALE_DEFAULT)));
+        if(isHidden) setIcon(PP.getOwner().resizedImageIcon("assets/gfx/cards/hidden.png", 100, 150));
+        else setIcon(PP.getOwner().resizedImageIcon("assets/gfx/cards/" + isSelected + "/" + cardValue + ".png", 100, 150));
         setBorder(BorderFactory.createEmptyBorder());
         setContentAreaFilled(false);
     }
