@@ -137,7 +137,7 @@ public class PicturePoker extends JPanel {
     
         drawButton.addActionListener(event -> {
             drawButtonClickAction(winStat);
-            starLabel.setText("" + stars);
+            starLabel.setText("" + stars + "  ");
             betCoinsLabel.setText("Bet Coins: " + betCoins);
         });
     
