@@ -35,7 +35,7 @@ public class PicturePoker extends JPanel {
             playerValue[i] = 0;
         }
 
-        setBackground(new Color(0, 153, 0));
+        setBackground(new Color(0, 100, 0));
         setBounds(0, 0, width, height);
         setLayout(new BorderLayout());
 
@@ -63,7 +63,7 @@ public class PicturePoker extends JPanel {
         instructionPanel.setLayout(new BorderLayout());
         
         JPanel gamePanel = new JPanel();
-        gamePanel.setBackground(new Color(0, 153, 0));
+        gamePanel.setBackground(new Color(0, 100, 0));
         gamePanel.setLayout(new BorderLayout());
 
         JPanel computerHandPanel = new JPanel();
@@ -71,7 +71,7 @@ public class PicturePoker extends JPanel {
 
         JPanel playerHandPanel = new JPanel();
         playerHandPanel.setOpaque(false);
-
+        
         Box drawButtonPanel = new Box(BoxLayout.Y_AXIS);
         drawButtonPanel.setOpaque(false);
 
@@ -91,6 +91,7 @@ public class PicturePoker extends JPanel {
         
         JLabel cardvalue = new JLabel();
         cardvalue.setIcon(new ImageIcon(new ImageIcon("assets/gfx/cardvalue.png").getImage().getScaledInstance(width/3, height/12, Image.SCALE_DEFAULT)));
+        cardvalue.setBorder(BorderFactory.createEmptyBorder(15, 0, 0, 0));
         
         JLabel cardcombovalue = new JLabel();
         cardcombovalue.setIcon(new ImageIcon(new ImageIcon("assets/gfx/cardcombovalue.png").getImage().getScaledInstance(width/3, (int)(height/1.5), Image.SCALE_DEFAULT)));
@@ -104,7 +105,12 @@ public class PicturePoker extends JPanel {
             betButtonClickAction();
         });
 
-        JButton menuButton = new JButton("Menu");
+        JButton menuButton = new JButton("");
+        menuButton.setIcon(new ImageIcon(new ImageIcon("assets/gfx/menubutton.png").getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT)));
+        menuButton.setBorder(BorderFactory.createEmptyBorder());
+        menuButton.setContentAreaFilled(false);
+        menuButton.setVerticalTextPosition(SwingConstants.CENTER);
+        menuButton.setHorizontalTextPosition(SwingConstants.CENTER);
         menuButton.setFocusable(false);
         menuButton.setFont(font);
         menuButton.addActionListener(event -> {
@@ -112,9 +118,15 @@ public class PicturePoker extends JPanel {
         });
 
         drawButton = new JButton("Hold");
+        drawButton.setIcon(new ImageIcon(new ImageIcon("assets/gfx/middlebutton.png").getImage().getScaledInstance(400, 80, Image.SCALE_DEFAULT)));
+        drawButton.setBorder(BorderFactory.createEmptyBorder());
+        drawButton.setContentAreaFilled(false);
         drawButton.setFocusable(false);
         drawButton.setAlignmentX(JComponent.CENTER_ALIGNMENT);
         drawButton.setFont(font);
+        drawButton.setVerticalTextPosition(SwingConstants.CENTER);
+        drawButton.setHorizontalTextPosition(SwingConstants.CENTER);
+
         drawButton.addActionListener(event -> {
             drawButtonClickAction(winStat);
             starLabel.setText("" + stars);
@@ -139,11 +151,11 @@ public class PicturePoker extends JPanel {
         centerTopPanel.add(betCoinsLabel, BorderLayout.PAGE_START);
         centerTopPanel.add(betPanel, BorderLayout.PAGE_END);
 
-        centerPanel.add(centerTopPanel, BorderLayout.PAGE_START);
-        centerPanel.add(winStat, BorderLayout.CENTER);
-
         centerTop.add(coinsLabel, BorderLayout.LINE_START);
         centerTop.add(starLabel, BorderLayout.CENTER);
+        
+        centerPanel.add(centerTopPanel, BorderLayout.PAGE_START);
+        centerPanel.add(winStat, BorderLayout.CENTER);
 
         topBarPanel.add(menuButton, BorderLayout.LINE_START);
         topBarPanel.add(centerTop, BorderLayout.CENTER);
