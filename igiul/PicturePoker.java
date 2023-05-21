@@ -413,7 +413,7 @@ public class PicturePoker extends JPanel {
      */
     public void saveGame() {
         try {
-            FileOutputStream fos = new FileOutputStream("saves/save.dat");
+            FileOutputStream fos = new FileOutputStream("saves/PicturePoker/save.dat");
             BufferedOutputStream bos = new BufferedOutputStream(fos);
             ObjectOutputStream oos = new ObjectOutputStream(bos);
             DataStorage dStor = new DataStorage();
@@ -433,7 +433,7 @@ public class PicturePoker extends JPanel {
      */
     public void loadGame() {
         try {
-            FileInputStream fis = new FileInputStream("saves/save.dat");
+            FileInputStream fis = new FileInputStream("saves/PicturePoker/save.dat");
             BufferedInputStream bis = new BufferedInputStream(fis);
             ObjectInputStream ois = new ObjectInputStream(bis);
             DataStorage dStor = (DataStorage)ois.readObject();

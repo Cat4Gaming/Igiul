@@ -33,7 +33,7 @@ public class Menu extends JPanel {
         resetButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         resetButton.setFocusable(false);
         resetButton.addActionListener(event -> {
-            owner.deleteFile("saves/save.dat");
+            owner.deleteFile("saves/PicturePoker/save.dat");
         });
 
         JButton closeButton = new JButton("Close Game");
