@@ -1,9 +1,11 @@
 import java.awt.*;
 import javax.swing.*;
+import java.io.*;
 
 public class Menu extends JPanel {
     final private MainFrame owner;
     private int screenWidth, screenHeight;
+    private Font font;
     
     public Menu(MainFrame owner) {
         super();
@@ -14,13 +16,20 @@ public class Menu extends JPanel {
     }
     
     private void createGUI() {
+        try {
+            font = Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/Darumadrop_One/DarumadropOne-Regular.ttf")).deriveFont(32f);
+        } catch(IOException| FontFormatException e) {}
         setBounds(0, 0, screenWidth, screenHeight);
         setLayout(new BorderLayout());
+        setBackground(new Color(0, 90, 0));
 
         JPanel optionPanel = new JPanel();
         optionPanel.setLayout(new BoxLayout(optionPanel, BoxLayout.Y_AXIS));
+        optionPanel.setOpaque(false);
 
         JLabel titleText = new JLabel("Igiul", SwingConstants.CENTER);
+        titleText.setFont(font);
+        titleText.setForeground(Color.WHITE); 
 
         JButton startButton = new JButton("Start Game");
         startButton.setAlignmentX(Component.CENTER_ALIGNMENT);
