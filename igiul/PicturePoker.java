@@ -11,6 +11,7 @@ public class PicturePoker extends JPanel {
     private JLabel coinsLabel, starLabel, betCoinsLabel;
     private Font font;
     private boolean firstTime;
+    private JButton betButton;
     
     public PicturePoker(MainFrame owner) {
         super();
@@ -107,7 +108,7 @@ public class PicturePoker extends JPanel {
         JLabel cardcombovalue = new JLabel();
         cardcombovalue.setIcon(owner.resizedImageIcon("assets/gfx/cardcombovalue.png", 640, 720));
     
-        JButton betButton = new JButton("");
+        betButton = new JButton("");
         betButton.setFocusable(false);
         betButton.setIcon(owner.resizedImageIcon("assets/gfx/bet.png", 100, 100));
         betButton.setBorder(BorderFactory.createEmptyBorder());
@@ -202,6 +203,7 @@ public class PicturePoker extends JPanel {
         if(selectedCards == -1) {
             resetPlayingField();
             winStat.setText("");
+            betButton.setEnabled(true);
             return;
         }
         if(selectedCards != 0) {
@@ -212,6 +214,7 @@ public class PicturePoker extends JPanel {
         sortHands();
         selectedCards = -1;
         drawButton.setText("New Round");
+        betButton.setEnabled(false);
         for(int i = 0; i < 5; i++) {
             computerHand[i].setHidden(false);
         }
