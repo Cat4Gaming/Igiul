@@ -19,6 +19,7 @@ public class PicturePoker extends JPanel {
         this.height = owner.getScreenHeight();
         createGUI();
     }
+    
     private void createGUI() {
         loadGame();
         try {
@@ -117,7 +118,6 @@ public class PicturePoker extends JPanel {
     
         JButton menuButton = new JButton("Menu");
         menuButton.setIcon(owner.resizedImageIcon("assets/gfx/middlebutton.png", 120, 50));
-        menuButton.setBorder(BorderFactory.createEmptyBorder());
         menuButton.setContentAreaFilled(false);
         menuButton.setFocusable(false);
         menuButton.setVerticalTextPosition(SwingConstants.CENTER);
