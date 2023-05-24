@@ -7,6 +7,7 @@ import java.nio.file.*;
 public class MainFrame extends JFrame {
     private int screenWidth, screenHeight;
     private JPanel viewPanel;
+    public PlaySound backgroundPlayer;
     
     /**
      * @param appName       Name der Anwendung
@@ -16,10 +17,12 @@ public class MainFrame extends JFrame {
         screenWidth = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
         screenHeight = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
         createGUI();
+        backgroundPlayer = new PlaySound("assets/sfx/backgroundMusic/PicturePoker.wav");
+        backgroundPlayer.start();
     }
     
     private void createGUI() {
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
         setResizable(false);
         setMinimumSize(new Dimension(screenWidth, screenHeight));

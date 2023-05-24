@@ -1,35 +1,34 @@
 import javax.sound.sampled.*;
-import javax.swing.*;
 import java.io.*;
 
-public class Player extends Thread{
+public class PlaySound extends Thread{
     private Clip clip;
+    private File musicPath;
+
+    public PlaySound(String musicPath) {
+        this.musicPath = new File(musicPath);
+    }
     
-    public void playMusic(String musicLoc) {
+    public void playMusic() {
         try {
-            File musicPath = new File(musicLoc);
             if(musicPath.exists()) { 
                 AudioInputStream audioInput = AudioSystem.getAudioInputStream(musicPath);
                 clip = AudioSystem.getClip();
                 clip.open(audioInput);
                 clip.start();
+                clip.loop(99999);
             }
         } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
     
-    void stopMusic() {
+    public void stopMusic() {
         clip.stop();
     }
     
     @Override
     public void run() {
-        playMusic("assets/sfx/backgroundMusic/1.wav");
-        while(true) {
-            if(clip.isRunning() == false) {
-                playMusic("assets/sfx/backgroundMusic/1.wav");
-            }
-        }
+        playMusic();
     }
 }

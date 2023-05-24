@@ -74,6 +74,7 @@ public class Menu extends JPanel {
         closeButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         closeButton.setContentAreaFilled(false);
         closeButton.addActionListener(event -> {
+            owner.backgroundPlayer.stopMusic();
             owner.dispose();
         });
 
