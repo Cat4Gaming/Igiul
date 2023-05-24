@@ -22,6 +22,8 @@ public class PicturePoker extends JPanel {
     }
     
     private void createGUI() {
+        Player backgroundMusic = new Player();
+        backgroundMusic.start();
         loadGame();
         try {
             font = Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/Darumadrop_One/DarumadropOne-Regular.ttf")).deriveFont(32f);
