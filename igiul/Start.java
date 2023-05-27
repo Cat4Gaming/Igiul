@@ -1,9 +1,9 @@
 import javax.swing.*;
 
-public class Main {
+public class Start {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            new MainFrame("Igiul").setVisible(true);
+            new main.MainFrame("Igiul").setVisible(true);
         });
     }
 }

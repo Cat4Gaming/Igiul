@@ -1,19 +1,23 @@
+package picturePoker;
+
 import java.awt.*;
 import javax.swing.*;
 import java.io.*;
+import main.*;
 
-public class PicturePoker extends JPanel {
+public class Game extends JPanel {
     final private MainFrame owner;
     private int width, height, selectedCards, coins, stars, betCoins;
     private static int[] deck, playerValue, computerValue; 
-    private PPCard[] playerHand, computerHand;
+    private Card[] playerHand, computerHand;
     private JButton drawButton;
     private JLabel coinsLabel, starLabel, betCoinsLabel;
     private Font font;
     private boolean firstTime;
     private JButton betButton;
+    private JPanel topBarPanel;
     
-    public PicturePoker(MainFrame owner) {
+    public Game(MainFrame owner) {
         super();
         this.owner = owner;
         this.width = owner.getScreenWidth();
@@ -21,7 +25,7 @@ public class PicturePoker extends JPanel {
         createGUI();
     }
     
-    private void createGUI() {
+    public void createGUI() {
         loadGame();
         try {
             font = Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/Darumadrop_One/DarumadropOne-Regular.ttf")).deriveFont(32f);
@@ -29,8 +33,8 @@ public class PicturePoker extends JPanel {
         computerValue = new int[6];
         playerValue = new int[6];
         deck = new int[6];
-        computerHand = new PPCard[5];
-        playerHand = new PPCard[5];
+        computerHand = new Card[5];
+        playerHand = new Card[5];
         for(int i = 0; i < 6; i++) {
             deck[i] = 5;
             computerValue[i] = 0;
@@ -52,7 +56,7 @@ public class PicturePoker extends JPanel {
         JPanel betPanel = new JPanel();
         betPanel.setOpaque(false);
     
-        JPanel topBarPanel = new JPanel();
+        topBarPanel = new JPanel();
         topBarPanel.setOpaque(false);
         topBarPanel.setLayout(new BorderLayout());
     
@@ -126,7 +130,7 @@ public class PicturePoker extends JPanel {
         menuButton.setFont(font);
         menuButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         menuButton.addActionListener(event -> {
-            SwingUtilities.invokeLater(() -> owner.showView(new Menu(owner)));
+            SwingUtilities.invokeLater(() -> owner.showView(new main.Menu(owner)));
         });
     
         drawButton = new JButton("Hold");
@@ -148,9 +152,9 @@ public class PicturePoker extends JPanel {
         minBetCoins();
     
         for(int i = 0; i < 5; i++) {
-            computerHand[i] = new PPCard(true, this);
+            computerHand[i] = new Card(true, this);
             computerHandPanel.add(computerHand[i]);
-            playerHand[i] = new PPCard(false, this);
+            playerHand[i] = new Card(false, this);
             playerHandPanel.add(playerHand[i]);
         }
     
@@ -188,6 +192,10 @@ public class PicturePoker extends JPanel {
         add(instructionPanel, BorderLayout.LINE_START);
         add(topBarPanel, BorderLayout.PAGE_START);
         add(gamePanel, BorderLayout.LINE_END);
+    }
+
+    public void setCenterTopBarPanel(JPanel panel) {
+        topBarPanel.add(panel, BorderLayout.CENTER);
     }
 
     private void betButtonClickAction() {
@@ -416,10 +424,10 @@ public class PicturePoker extends JPanel {
      */
     public void saveGame() {
         try {
-            FileOutputStream fos = new FileOutputStream("saves/PicturePoker/save.dat");
+            FileOutputStream fos = new FileOutputStream("saves/PicturePoker/sp.dat");
             BufferedOutputStream bos = new BufferedOutputStream(fos);
             ObjectOutputStream oos = new ObjectOutputStream(bos);
-            DataStorage dStor = new DataStorage();
+            Data dStor = new Data();
             dStor.PPcoins = coins;
             dStor.PPStars = stars;
             dStor.PPfirstTime = firstTime;
@@ -436,10 +444,10 @@ public class PicturePoker extends JPanel {
      */
     public void loadGame() {
         try {
-            FileInputStream fis = new FileInputStream("saves/PicturePoker/save.dat");
+            FileInputStream fis = new FileInputStream("saves/PicturePoker/sp.dat");
             BufferedInputStream bis = new BufferedInputStream(fis);
             ObjectInputStream ois = new ObjectInputStream(bis);
-            DataStorage dStor = (DataStorage)ois.readObject();
+            Data dStor = (Data)ois.readObject();
             coins = dStor.PPcoins;
             stars = dStor.PPStars;
             firstTime = dStor.PPfirstTime;

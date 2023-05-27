@@ -1,3 +1,5 @@
+package main;
+
 import java.util.Random;
 import java.awt.*;
 import javax.swing.*;
@@ -34,6 +36,18 @@ public class MainFrame extends JFrame {
     }
     
     /**
+     * @param filePath      zu löschende(-r) Datei(-pfad)
+     */
+    public void deleteFile(String filePath) {
+        Path path = Paths.get(filePath);
+        try {
+            Files.delete(path);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    /**
      * @param newViewPanel  zu anzeigendes JPanel
      */
     public void showView(JPanel newViewPanel) {
@@ -52,18 +66,6 @@ public class MainFrame extends JFrame {
         Random rand = new Random();
         int randomNum = rand.nextInt((max - min) + 1) + min;
         return randomNum;
-    }
-    
-    /**
-     * @param filePath      zu löschende(-r) Datei(-pfad)
-     */
-    public void deleteFile(String filePath) {
-        Path path = Paths.get(filePath);
-        try {
-            Files.delete(path);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     /**

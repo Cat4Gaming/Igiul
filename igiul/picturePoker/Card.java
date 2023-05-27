@@ -1,15 +1,17 @@
+package picturePoker;
+
 import javax.swing.*;
 
-public class PPCard extends JButton{
+public class Card extends JButton{
     private int cardValue;
     private boolean isHidden, isSelected;
-    private PicturePoker PP;
+    private Game PP;
     
     /**
      * @param isHidden      setzen ob die Karte versteckt ist
      * @param picturePoker  JPanel in dem die Karte enthalten ist
      */
-    public PPCard(boolean isHidden, PicturePoker picturePoker) {
+    public Card(boolean isHidden, Game picturePoker) {
         this.isHidden = isHidden;
         this.PP = picturePoker;
         
