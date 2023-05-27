@@ -6,14 +6,11 @@ import java.io.*;
 
 public class Menu extends JPanel {
     final private MainFrame owner;
-    private int screenWidth, screenHeight;
     private Font font;
     
     public Menu(MainFrame owner) {
         super();
         this.owner = owner;
-        this.screenWidth = owner.getScreenWidth();
-        this.screenHeight = owner.getScreenHeight();
         createGUI();
     }
     
@@ -21,7 +18,7 @@ public class Menu extends JPanel {
         try {
             font = Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/Darumadrop_One/DarumadropOne-Regular.ttf")).deriveFont(128f);
         } catch(IOException| FontFormatException e) {}
-        setBounds(0, 0, screenWidth, screenHeight);
+        setBounds(0, 0, owner.getScreenWidth(), owner.getScreenHeight());
         setLayout(new BorderLayout());
         setBackground(new Color(0, 90, 0));
 
@@ -41,7 +38,7 @@ public class Menu extends JPanel {
         JButton startButton = new JButton("Singleplayer");
         startButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         startButton.setFocusable(false);
-        startButton.setIcon(owner.resizedImageIcon("assets/gfx/middlebutton.png", 200, 50));
+        startButton.setIcon(owner.resizedImageIcon("assets/gfx/middlebutton.png", 300, 50));
         startButton.setBorder(BorderFactory.createEmptyBorder());
         startButton.setVerticalTextPosition(SwingConstants.CENTER);
         startButton.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -55,7 +52,7 @@ public class Menu extends JPanel {
         JButton startMultiButton = new JButton("Multiplayer");
         startMultiButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         startMultiButton.setFocusable(false);
-        startMultiButton.setIcon(owner.resizedImageIcon("assets/gfx/middlebutton.png", 200, 50));
+        startMultiButton.setIcon(owner.resizedImageIcon("assets/gfx/middlebutton.png", 300, 50));
         startMultiButton.setBorder(BorderFactory.createEmptyBorder());
         startMultiButton.setVerticalTextPosition(SwingConstants.CENTER);
         startMultiButton.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -66,10 +63,10 @@ public class Menu extends JPanel {
             SwingUtilities.invokeLater(() -> owner.showView(new picturePoker.MPGame(owner, false)));
         });
 
-        JButton resetButton = new JButton("Reset Game");
+        JButton resetButton = new JButton("Options");
         resetButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         resetButton.setFocusable(false);
-        resetButton.setIcon(owner.resizedImageIcon("assets/gfx/middlebutton.png", 200, 50));
+        resetButton.setIcon(owner.resizedImageIcon("assets/gfx/middlebutton.png", 300, 50));
         resetButton.setBorder(BorderFactory.createEmptyBorder());
         resetButton.setVerticalTextPosition(SwingConstants.CENTER);
         resetButton.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -77,13 +74,13 @@ public class Menu extends JPanel {
         resetButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         resetButton.setContentAreaFilled(false);
         resetButton.addActionListener(event -> {
-            owner.deleteFile("saves/PicturePoker/sp.dat");
+            SwingUtilities.invokeLater(() -> owner.showView(new Options(owner)));
         });
 
-        JButton closeButton = new JButton("Close Game");
+        JButton closeButton = new JButton("Close");
         closeButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         closeButton.setFocusable(false);
-        closeButton.setIcon(owner.resizedImageIcon("assets/gfx/middlebutton.png", 200, 50));
+        closeButton.setIcon(owner.resizedImageIcon("assets/gfx/middlebutton.png", 300, 50));
         closeButton.setBorder(BorderFactory.createEmptyBorder());
         closeButton.setVerticalTextPosition(SwingConstants.CENTER);
         closeButton.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -96,7 +93,7 @@ public class Menu extends JPanel {
         });
 
         optionPanel.add(startButton);
-        //optionPanel.add(startMultiButton);
+        optionPanel.add(startMultiButton);
         optionPanel.add(resetButton);
         optionPanel.add(closeButton);
 

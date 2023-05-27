@@ -142,7 +142,6 @@ public class Game extends JPanel {
         drawButton.setFont(font);
         drawButton.setVerticalTextPosition(SwingConstants.CENTER);
         drawButton.setHorizontalTextPosition(SwingConstants.CENTER);
-    
         drawButton.addActionListener(event -> {
             drawButtonClickAction(winStat);
             starLabel.setText("" + stars);
@@ -424,7 +423,7 @@ public class Game extends JPanel {
      */
     public void saveGame() {
         try {
-            FileOutputStream fos = new FileOutputStream("saves/PicturePoker/sp.dat");
+            FileOutputStream fos = new FileOutputStream("saves/PicturePoker/save.dat");
             BufferedOutputStream bos = new BufferedOutputStream(fos);
             ObjectOutputStream oos = new ObjectOutputStream(bos);
             Data dStor = new Data();
@@ -444,7 +443,7 @@ public class Game extends JPanel {
      */
     public void loadGame() {
         try {
-            FileInputStream fis = new FileInputStream("saves/PicturePoker/sp.dat");
+            FileInputStream fis = new FileInputStream("saves/PicturePoker/save.dat");
             BufferedInputStream bis = new BufferedInputStream(fis);
             ObjectInputStream ois = new ObjectInputStream(bis);
             Data dStor = (Data)ois.readObject();

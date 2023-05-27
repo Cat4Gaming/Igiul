@@ -1,4 +1,5 @@
 package main;
+
 import javax.sound.sampled.*;
 import java.io.*;
 
@@ -39,5 +40,12 @@ public class SoundPlayer extends Thread{
     @Override
     public void run() {
         playMusic();
+    }
+
+    public void setVolume(float volume) {
+        if (volume < 0f || volume > 1f)
+            throw new IllegalArgumentException("Volume not valid: " + volume);
+        FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);        
+        gainControl.setValue(20f * (float) Math.log10(volume));
     }
 }
