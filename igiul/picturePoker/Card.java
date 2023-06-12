@@ -1,6 +1,7 @@
 package picturePoker;
 
 import javax.swing.*;
+import main.MainFrame;
 
 public class Card extends JButton{
     private int cardValue;
@@ -71,8 +72,8 @@ public class Card extends JButton{
      * Lässt das Bild der Karten neu laden
      */
     private void gfxUpdate() {
-        if(isHidden) setIcon(PP.getOwner().resizedImageIcon("assets/gfx/cards/hidden.png", 100, 150));
-        else setIcon(PP.getOwner().resizedImageIcon("assets/gfx/cards/" + isSelected + "/" + cardValue + ".png", 100, 150));
+        if(isHidden) setIcon(MainFrame.resizedImageIcon("assets/gfx/cards/hidden.png", 100, 150));
+        else setIcon(MainFrame.resizedImageIcon("assets/gfx/cards/" + isSelected + "/" + cardValue + ".png", 100, 150));
         setBorder(BorderFactory.createEmptyBorder());
         setContentAreaFilled(false);
     }

@@ -1,7 +1,9 @@
-package main;
+package menu;
 
 import java.awt.*;
 import javax.swing.*;
+
+import main.MainFrame;
 
 import java.io.*;
 
@@ -32,8 +34,9 @@ public class Options extends JPanel {
         JPanel userNameInputPanel = new JPanel(new BorderLayout());
         userNameInputPanel.setOpaque(false);
         userNameInputPanel.setMaximumSize(new Dimension(300, 50));
+        userNameInputPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
-        JLabel titleText = new JLabel("Options", SwingConstants.CENTER);
+        JLabel titleText = new JLabel("Igiul - Options", SwingConstants.CENTER);
         titleText.setFont(font);
         titleText.setForeground(Color.WHITE); 
         titleText.setBorder(BorderFactory.createEmptyBorder(5, 5, 200, 5));
@@ -51,10 +54,10 @@ public class Options extends JPanel {
         playerNameField.setBackground(new Color(0, 60, 0));
         playerNameField.setForeground(Color.WHITE);
 
-        JButton acceptButton = new JButton("Apply");
+        JButton acceptButton = new JButton("Apply Changes");
         acceptButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         acceptButton.setFocusable(false);
-        acceptButton.setIcon(owner.resizedImageIcon("assets/gfx/middlebutton.png", 300, 50));
+        acceptButton.setIcon(MainFrame.resizedImageIcon("assets/gfx/middlebutton.png", 300, 50));
         acceptButton.setBorder(BorderFactory.createEmptyBorder());
         acceptButton.setVerticalTextPosition(SwingConstants.CENTER);
         acceptButton.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -69,7 +72,7 @@ public class Options extends JPanel {
         JButton resetButton = new JButton("Reset Stats");
         resetButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         resetButton.setFocusable(false);
-        resetButton.setIcon(owner.resizedImageIcon("assets/gfx/middlebutton.png", 300, 50));
+        resetButton.setIcon(MainFrame.resizedImageIcon("assets/gfx/middlebutton.png", 300, 50));
         resetButton.setBorder(BorderFactory.createEmptyBorder());
         resetButton.setVerticalTextPosition(SwingConstants.CENTER);
         resetButton.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -82,7 +85,7 @@ public class Options extends JPanel {
 
         JButton backButton = new JButton("Back");
         backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        backButton.setIcon(owner.resizedImageIcon("assets/gfx/middlebutton.png", 300, 50));
+        backButton.setIcon(MainFrame.resizedImageIcon("assets/gfx/middlebutton.png", 300, 50));
         backButton.setContentAreaFilled(false);
         backButton.setFocusable(false);
         backButton.setVerticalTextPosition(SwingConstants.CENTER);

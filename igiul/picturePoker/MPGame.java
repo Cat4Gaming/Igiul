@@ -2,24 +2,24 @@ package picturePoker;
 
 import java.awt.*;
 import javax.swing.*;
+import main.*;
 
-public class MPGame extends Game {
+public class MPGame extends main.MPGame {
     private boolean isServer;
+    private MPServer seCli;
     
-    public MPGame(main.MainFrame owner, boolean isServer) {
-        super(owner);
+    public MPGame(main.MainFrame owner, boolean isServer, String opponent, int startCoins) {
         this.isServer = isServer;
     }
+
+    public void setServer(MPServer seCli) {
+        this.seCli = seCli;
+    }
     
-    @Override
     public void createGUI() {
-        super.createGUI();
-        JPanel panel = new JPanel(new BorderLayout());
-        JButton text = new JButton("text");
-        panel.add(text);
-        if(isServer) {
-            
-        }
-        super.setCenterTopBarPanel(panel);
+    }
+
+    public void recieveMsg(String msg) {
+
     }
 }

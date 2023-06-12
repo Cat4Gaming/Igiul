@@ -3,8 +3,9 @@ package main;
 import java.util.Random;
 import java.awt.*;
 import javax.swing.*;
-import java.io.IOException;
+import menu.Menu;
 import java.nio.file.*;
+import java.io.*;
 
 public class MainFrame extends JFrame {
     private int screenWidth, screenHeight;
@@ -82,7 +83,7 @@ public class MainFrame extends JFrame {
         return screenHeight;
     }
 
-    public ImageIcon resizedImageIcon(String filePath, int imageWidth, int imageHeight) {
+    public static ImageIcon resizedImageIcon(String filePath, int imageWidth, int imageHeight) {
         ImageIcon ii = new ImageIcon(new ImageIcon(filePath).getImage().getScaledInstance(imageWidth, imageHeight, Image.SCALE_DEFAULT));
         return ii;
     }

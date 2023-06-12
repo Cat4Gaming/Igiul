@@ -96,25 +96,25 @@ public class Game extends JPanel {
         winStat.setForeground(Color.WHITE); 
     
         coinsLabel = new JLabel("" + coins);
-        coinsLabel.setIcon(owner.resizedImageIcon("assets/gfx/coin.png", 45, 45));
+        coinsLabel.setIcon(MainFrame.resizedImageIcon("assets/gfx/coin.png", 45, 45));
         coinsLabel.setFont(font);
         coinsLabel.setForeground(Color.WHITE); 
     
         starLabel = new JLabel("" + stars);
-        starLabel.setIcon(owner.resizedImageIcon("assets/gfx/star.png", 50, 50));
+        starLabel.setIcon(MainFrame.resizedImageIcon("assets/gfx/star.png", 50, 50));
         starLabel.setFont(font);
         starLabel.setHorizontalTextPosition(SwingConstants.LEFT);
         starLabel.setForeground(Color.WHITE); 
     
         JLabel cardvalue = new JLabel();
-        cardvalue.setIcon(owner.resizedImageIcon("assets/gfx/cardvalue.png", 640, 90));
+        cardvalue.setIcon(MainFrame.resizedImageIcon("assets/gfx/cardvalue.png", 640, 90));
     
         JLabel cardcombovalue = new JLabel();
-        cardcombovalue.setIcon(owner.resizedImageIcon("assets/gfx/cardcombovalue.png", 640, 720));
+        cardcombovalue.setIcon(MainFrame.resizedImageIcon("assets/gfx/cardcombovalue.png", 640, 720));
     
         betButton = new JButton("");
         betButton.setFocusable(false);
-        betButton.setIcon(owner.resizedImageIcon("assets/gfx/bet.png", 100, 100));
+        betButton.setIcon(MainFrame.resizedImageIcon("assets/gfx/bet.png", 100, 100));
         betButton.setBorder(BorderFactory.createEmptyBorder());
         betButton.setContentAreaFilled(false);
         betButton.addActionListener(event -> {
@@ -122,7 +122,7 @@ public class Game extends JPanel {
         });
     
         JButton menuButton = new JButton("Menu");
-        menuButton.setIcon(owner.resizedImageIcon("assets/gfx/middlebutton.png", 120, 50));
+        menuButton.setIcon(MainFrame.resizedImageIcon("assets/gfx/middlebutton.png", 120, 50));
         menuButton.setContentAreaFilled(false);
         menuButton.setFocusable(false);
         menuButton.setVerticalTextPosition(SwingConstants.CENTER);
@@ -130,11 +130,11 @@ public class Game extends JPanel {
         menuButton.setFont(font);
         menuButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         menuButton.addActionListener(event -> {
-            SwingUtilities.invokeLater(() -> owner.showView(new main.Menu(owner)));
+            SwingUtilities.invokeLater(() -> owner.showView(new menu.Menu(owner)));
         });
     
         drawButton = new JButton("Hold");
-        drawButton.setIcon(owner.resizedImageIcon("assets/gfx/middlebutton.png", 190, 60));
+        drawButton.setIcon(MainFrame.resizedImageIcon("assets/gfx/middlebutton.png", 190, 60));
         drawButton.setBorder(BorderFactory.createEmptyBorder());
         drawButton.setContentAreaFilled(false);
         drawButton.setFocusable(false);

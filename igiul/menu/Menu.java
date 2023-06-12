@@ -1,7 +1,8 @@
-package main;
+package menu;
 
 import java.awt.*;
 import javax.swing.*;
+import main.MainFrame;
 import java.io.*;
 
 public class Menu extends JPanel {
@@ -38,7 +39,7 @@ public class Menu extends JPanel {
         JButton startButton = new JButton("Singleplayer");
         startButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         startButton.setFocusable(false);
-        startButton.setIcon(owner.resizedImageIcon("assets/gfx/middlebutton.png", 300, 50));
+        startButton.setIcon(MainFrame.resizedImageIcon("assets/gfx/middlebutton.png", 300, 50));
         startButton.setBorder(BorderFactory.createEmptyBorder());
         startButton.setVerticalTextPosition(SwingConstants.CENTER);
         startButton.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -52,7 +53,7 @@ public class Menu extends JPanel {
         JButton startMultiButton = new JButton("Multiplayer");
         startMultiButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         startMultiButton.setFocusable(false);
-        startMultiButton.setIcon(owner.resizedImageIcon("assets/gfx/middlebutton.png", 300, 50));
+        startMultiButton.setIcon(MainFrame.resizedImageIcon("assets/gfx/middlebutton.png", 300, 50));
         startMultiButton.setBorder(BorderFactory.createEmptyBorder());
         startMultiButton.setVerticalTextPosition(SwingConstants.CENTER);
         startMultiButton.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -60,13 +61,13 @@ public class Menu extends JPanel {
         startMultiButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         startMultiButton.setContentAreaFilled(false);
         startMultiButton.addActionListener(event -> {
-            SwingUtilities.invokeLater(() -> owner.showView(new picturePoker.MPGame(owner, false)));
+            SwingUtilities.invokeLater(() -> owner.showView(new picturePoker.MPMenu(owner)));
         });
 
         JButton resetButton = new JButton("Options");
         resetButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         resetButton.setFocusable(false);
-        resetButton.setIcon(owner.resizedImageIcon("assets/gfx/middlebutton.png", 300, 50));
+        resetButton.setIcon(MainFrame.resizedImageIcon("assets/gfx/middlebutton.png", 300, 50));
         resetButton.setBorder(BorderFactory.createEmptyBorder());
         resetButton.setVerticalTextPosition(SwingConstants.CENTER);
         resetButton.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -80,7 +81,7 @@ public class Menu extends JPanel {
         JButton closeButton = new JButton("Close");
         closeButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         closeButton.setFocusable(false);
-        closeButton.setIcon(owner.resizedImageIcon("assets/gfx/middlebutton.png", 300, 50));
+        closeButton.setIcon(MainFrame.resizedImageIcon("assets/gfx/middlebutton.png", 300, 50));
         closeButton.setBorder(BorderFactory.createEmptyBorder());
         closeButton.setVerticalTextPosition(SwingConstants.CENTER);
         closeButton.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -90,6 +91,7 @@ public class Menu extends JPanel {
         closeButton.addActionListener(event -> {
             owner.backgroundPlayer.stopMusic();
             owner.dispose();
+            System.exit(0);
         });
 
         optionPanel.add(startButton);
