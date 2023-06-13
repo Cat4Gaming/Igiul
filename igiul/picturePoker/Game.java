@@ -15,7 +15,6 @@ public class Game extends JPanel {
     private Font font;
     private boolean firstTime;
     private JButton betButton;
-    private JPanel topBarPanel;
     
     public Game(MainFrame owner) {
         super();
@@ -55,7 +54,8 @@ public class Game extends JPanel {
     
         JPanel betPanel = new JPanel();
         betPanel.setOpaque(false);
-    
+        
+        JPanel topBarPanel = new JPanel();
         topBarPanel = new JPanel();
         topBarPanel.setOpaque(false);
         topBarPanel.setLayout(new BorderLayout());

@@ -35,7 +35,7 @@ public class Menu extends JPanel {
             font = Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/Darumadrop_One/DarumadropOne-Regular.ttf")).deriveFont(32f);
         } catch(IOException| FontFormatException e) {}
 
-        JButton startButton = new JButton("Singleplayer");
+        JButton startButton = new JButton("Play Game");
         startButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         startButton.setFocusable(false);
         startButton.setIcon(owner.resizedImageIcon("assets/gfx/middlebutton.png", 300, 50));
@@ -47,20 +47,6 @@ public class Menu extends JPanel {
         startButton.setContentAreaFilled(false);
         startButton.addActionListener(event -> {
             SwingUtilities.invokeLater(() -> owner.showView(new picturePoker.Game(owner)));
-        });
-
-        JButton startMultiButton = new JButton("Multiplayer");
-        startMultiButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        startMultiButton.setFocusable(false);
-        startMultiButton.setIcon(owner.resizedImageIcon("assets/gfx/middlebutton.png", 300, 50));
-        startMultiButton.setBorder(BorderFactory.createEmptyBorder());
-        startMultiButton.setVerticalTextPosition(SwingConstants.CENTER);
-        startMultiButton.setHorizontalTextPosition(SwingConstants.CENTER);
-        startMultiButton.setFont(font);
-        startMultiButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        startMultiButton.setContentAreaFilled(false);
-        startMultiButton.addActionListener(event -> {
-            SwingUtilities.invokeLater(() -> owner.showView(new picturePoker.MPGame(owner, false)));
         });
 
         JButton resetButton = new JButton("Options");
@@ -92,8 +78,8 @@ public class Menu extends JPanel {
             owner.dispose();
         });
 
+
         optionPanel.add(startButton);
-        optionPanel.add(startMultiButton);
         optionPanel.add(resetButton);
         optionPanel.add(closeButton);
 
