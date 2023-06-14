@@ -8,11 +8,11 @@ public class MPServer extends Thread{
     private ObjectOutputStream out;
     private ObjectInputStream in;
     private String message;
-    private main.MPGame game;
+    private Game game;
     private int port;
     private boolean running;
 
-    public MPServer(int port, main.MPGame game) {
+    public MPServer(int port, main.Game game) {
         this.game = game;
         this.port = port;
     }
@@ -65,7 +65,7 @@ public class MPServer extends Thread{
         }
     }
     
-    public void setOwner(main.MPGame owner) {
+    public void setOwner(main.Game owner) {
         game = owner;
     }
 }

@@ -5,7 +5,7 @@ import java.awt.*;
 import javax.swing.*;
 import java.io.*;
 
-public class MPRoom extends main.MPGame{
+public class MPRoom extends main.Game{
     final private MainFrame owner;
     private MPServer seCli;
     private Font font;
@@ -18,7 +18,7 @@ public class MPRoom extends main.MPGame{
         this.owner = owner;
         this.isServer = isServer;
         startBetCoins = 10;
-        loadData();
+        loadGame();
         createGUI();
         if(isServer) {seCli = new MPServer(port, this);}
         else {seCli = new MPClient(ip, port, this);}
@@ -169,7 +169,7 @@ public class MPRoom extends main.MPGame{
         add(optionPanel, BorderLayout.CENTER);
     }
 
-    public void loadData() {
+    public void loadGame() {
         try {
             FileInputStream fis = new FileInputStream("saves/options.dat");
             BufferedInputStream bis = new BufferedInputStream(fis);
@@ -188,4 +188,6 @@ public class MPRoom extends main.MPGame{
         if(ip == null) ip = "0";
         if(port == 0) port = 19256;
     }
+    
+    public void saveGame(){}
 }

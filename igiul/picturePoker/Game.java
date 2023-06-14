@@ -5,7 +5,7 @@ import javax.swing.*;
 import java.io.*;
 import main.*;
 
-public class Game extends JPanel {
+public class Game extends main.Game {
     final private MainFrame owner;
     private int width, height, selectedCards, coins, stars, betCoins;
     private static int[] deck, playerValue, computerValue; 
@@ -24,6 +24,8 @@ public class Game extends JPanel {
         this.height = owner.getScreenHeight();
         createGUI();
     }
+    
+    public void recieveMsg(String msg){}
     
     public void createGUI() {
         loadGame();
