@@ -55,7 +55,7 @@ public class MPRoom extends main.MPGame{
                 start.setEnabled(true);
                 break;
             case "startGame":
-                MPGame game = new MPGame(owner, isServer, opponent.getText(), startBetCoins);
+                MPGame game = new MPGame(owner, isServer, opponent.getText(), startBetCoins, seCli);
                 seCli.setOwner(game);
                 SwingUtilities.invokeLater(() -> owner.showView(game));
                 break;
@@ -131,7 +131,7 @@ public class MPRoom extends main.MPGame{
         start.setBorder(BorderFactory.createEmptyBorder(20, 5, 5, 5));
         start.addActionListener(event -> {
             seCli.sendMessage("sbc:" + startBetCoins);
-            MPGame game = new MPGame(owner, isServer, opponent.getText(), startBetCoins);
+            MPGame game = new MPGame(owner, isServer, opponent.getText(), startBetCoins, seCli);
             seCli.setOwner(game);
             seCli.sendMessage("startGame");
             SwingUtilities.invokeLater(() -> owner.showView(game));

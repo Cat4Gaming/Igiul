@@ -1,0 +1,9 @@
+#BlueJ class context
+comment0.target=MPGame
+comment1.params=owner\ isServer\ opponent\ startCoins\ seCli
+comment1.target=MPGame(main.MainFrame,\ boolean,\ java.lang.String,\ int,\ main.MPServer)
+comment2.params=
+comment2.target=void\ createGUI()
+comment3.params=msg
+comment3.target=void\ recieveMsg(java.lang.String)
+numComments=4

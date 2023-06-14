@@ -1,0 +1,25 @@
+#BlueJ class context
+comment0.target=MainFrame
+comment1.params=appName
+comment1.target=MainFrame(java.lang.String)
+comment1.text=\r\n\ @param\ appName\ \ \ \ \ \ \ Name\ der\ Anwendung\r\n
+comment2.params=
+comment2.target=void\ createGUI()
+comment3.params=filePath
+comment3.target=void\ deleteFile(java.lang.String)
+comment3.text=\r\n\ @param\ filePath\ \ \ \ \ \ zu\ l\u00F6schende(-r)\ Datei(-pfad)\r\n
+comment4.params=newViewPanel
+comment4.target=void\ showView(javax.swing.JPanel)
+comment4.text=\r\n\ @param\ newViewPanel\ \ zu\ anzeigendes\ JPanel\r\n
+comment5.params=min\ max
+comment5.target=int\ randInt(int,\ int)
+comment5.text=\r\n\ @param\ min\ \ \ \ \ \ \ \ \ \ \ Kleinster\ Wert\ der\ zuf\u00E4lligen\ Zahl\r\n\ @param\ max\ \ \ \ \ \ \ \ \ \ \ Gr\u00F6\u00DFter\ Wert\ der\ zuf\u00E4lligen\ Zahl\r\n\ @return\ \ \ \ \ \ \ \ \ \ \ \ \ \ zuf\u00E4llige\ Zahl\ zwischen\ 'min'\ und\ 'max'\r\n
+comment6.params=
+comment6.target=int\ getScreenWidth()
+comment6.text=\r\n\ @return\ \ \ \ \ \ \ \ \ \ \ \ \ \ Bildschirmbreite\r\n
+comment7.params=
+comment7.target=int\ getScreenHeight()
+comment7.text=\r\n\ @return\ \ \ \ \ \ \ \ \ \ \ \ \ \ Bildschirmh\u00F6he\r\n
+comment8.params=filePath\ imageWidth\ imageHeight
+comment8.target=javax.swing.ImageIcon\ resizedImageIcon(java.lang.String,\ int,\ int)
+numComments=9

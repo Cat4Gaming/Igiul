@@ -1,0 +1,7 @@
+#BlueJ class context
+comment0.target=Menu
+comment1.params=owner
+comment1.target=Menu(main.MainFrame)
+comment2.params=
+comment2.target=void\ createGUI()
+numComments=3

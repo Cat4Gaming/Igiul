@@ -15,7 +15,6 @@ public class Game extends JPanel {
     private Font font;
     private boolean firstTime;
     private JButton betButton;
-    private JPanel topBarPanel;
     
     public Game(MainFrame owner) {
         super();
@@ -55,10 +54,6 @@ public class Game extends JPanel {
     
         JPanel betPanel = new JPanel();
         betPanel.setOpaque(false);
-    
-        topBarPanel = new JPanel();
-        topBarPanel.setOpaque(false);
-        topBarPanel.setLayout(new BorderLayout());
     
         JPanel coinsStarsPanel = new JPanel();
         coinsStarsPanel.setOpaque(false);
@@ -177,9 +172,6 @@ public class Game extends JPanel {
         centerPanel.add(centerBox, BorderLayout.PAGE_START);
         centerPanel.add(winStat, BorderLayout.CENTER);
     
-        topBarPanel.add(coinsStarsPanel, BorderLayout.LINE_END);
-        topBarPanel.add(menuButton, BorderLayout.LINE_START);
-    
         instructionPanel.add(cardvalue, BorderLayout.PAGE_START);
         instructionPanel.add(cardcombovalue, BorderLayout.CENTER);
     
@@ -189,12 +181,7 @@ public class Game extends JPanel {
     
         add(centerPanel, BorderLayout.CENTER);
         add(instructionPanel, BorderLayout.LINE_START);
-        add(topBarPanel, BorderLayout.PAGE_START);
         add(gamePanel, BorderLayout.LINE_END);
-    }
-
-    public void setCenterTopBarPanel(JPanel panel) {
-        topBarPanel.add(panel, BorderLayout.CENTER);
     }
 
     private void betButtonClickAction() {
