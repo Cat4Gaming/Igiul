@@ -193,10 +193,6 @@ public class Game extends JPanel {
         add(gamePanel, BorderLayout.LINE_END);
     }
 
-    public void setCenterTopBarPanel(JPanel panel) {
-        topBarPanel.add(panel, BorderLayout.CENTER);
-    }
-
     private void betButtonClickAction() {
         if(betCoins != 5 && coins >0) {
             coins--;
