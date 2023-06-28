@@ -203,7 +203,6 @@ public class Game extends JPanel {
     }
 
     private void drawButtonClickAction(JLabel winStat) {
-        replaceComputerCards();
         if(selectedCards == -1) {
             resetPlayingField();
             winStat.setText("");
@@ -213,6 +212,7 @@ public class Game extends JPanel {
         if(selectedCards != 0) {
             changeSelectedCards();
         }
+        replaceComputerCards();
         createCardLists();
         sortHands();
         selectedCards = -1;
