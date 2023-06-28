@@ -203,6 +203,7 @@ public class Game extends JPanel {
     }
 
     private void drawButtonClickAction(JLabel winStat) {
+        replaceComputerCards();
         if(selectedCards == -1) {
             resetPlayingField();
             winStat.setText("");
@@ -213,7 +214,6 @@ public class Game extends JPanel {
             changeSelectedCards();
         }
         createCardLists();
-        replaceComputerCards();
         sortHands();
         selectedCards = -1;
         drawButton.setText("New Round");
@@ -395,21 +395,26 @@ public class Game extends JPanel {
      * Ersetzt gewisse Karten des Computer-Spielers
      */
     public void replaceComputerCards() {
-        int[] computerValue = new int[6];
-        for(int i = 0; i < 5; i++) {
-            int tmp = computerHand[i].getCardValue();
-            computerValue[tmp] = computerValue[tmp] + 1;
-        }
-        int rep = 0;
-        for(int i = 0; i < 5 && rep < 4; i++) {
-            if(computerValue[i] == 1) {
-                deck[computerHand[i].getCardValue()]++;
-                computerHand[i].setNewRandomCard();
-                rep++;
-            }
-        }
+        createCardLists();
+        sortHands();
+        switch(handValue(computerValue)){
+            case 0: for(int i = 2; i < 5; i++){
+                        computerHand[i].setNewRandomCard();
+                    }
+                    break;
+            case 2: for(int i = 3; i < 5; i++){
+                        computerHand[i].setNewRandomCard();
+                    }
+                    break;
+            case 3: 
+            case 4: 
+            case 8: for(int i = 4; i < 5; i++){
+                        computerHand[i].setNewRandomCard();
+                    }
+                    break;
+        }  
     }
-
+        
     public MainFrame getOwner() {
         return owner;
     }
