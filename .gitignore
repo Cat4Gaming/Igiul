@@ -2,9 +2,13 @@
 igiul/doc/*
 igiul/*.class
 igiul/*.ctxt
+igiul/main/*.class
+igiul/main/*.ctxt
+igiul/menu/*.class
+igiul/menu/*.ctxt
+igiul/picturePoker/*.class
+igiul/picturePoker/*.ctxt
 *.dat
 *.jar
-*.class
-*.ctxt
 *.ctxt
 *.class
