@@ -36,7 +36,7 @@ public class Menu extends JPanel {
             font = Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/Darumadrop_One/DarumadropOne-Regular.ttf")).deriveFont(32f);
         } catch(IOException| FontFormatException e) {}
 
-        JButton startButton = new JButton("Play Game");
+        JButton startButton = new JButton("Singleplayer");
         startButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         startButton.setFocusable(false);
         startButton.setIcon(MainFrame.resizedImageIcon("assets/gfx/middlebutton.png", 300, 50));
@@ -96,6 +96,7 @@ public class Menu extends JPanel {
 
 
         optionPanel.add(startButton);
+        optionPanel.add(startMultiButton);
         optionPanel.add(resetButton);
         optionPanel.add(closeButton);
 

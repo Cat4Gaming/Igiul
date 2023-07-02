@@ -81,6 +81,8 @@ public class Options extends JPanel {
         resetButton.setContentAreaFilled(false);
         resetButton.addActionListener(event -> {
             owner.deleteFile("saves/PicturePoker/save.dat");
+            owner.deleteFile("saves/options.dat");
+            SwingUtilities.invokeLater(() -> owner.showView(new Menu(owner)));
         });
 
         JButton backButton = new JButton("Back");
@@ -96,6 +98,11 @@ public class Options extends JPanel {
             SwingUtilities.invokeLater(() -> owner.showView(new Menu(owner)));
         });
 
+        userNameInputPanel.add(nameText, BorderLayout.LINE_START);
+        userNameInputPanel.add(playerNameField, BorderLayout.CENTER);
+
+        optionPanel.add(userNameInputPanel);
+        optionPanel.add(acceptButton);
         optionPanel.add(resetButton);
         optionPanel.add(backButton);
 

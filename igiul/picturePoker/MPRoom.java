@@ -5,7 +5,7 @@ import java.awt.*;
 import javax.swing.*;
 import java.io.*;
 
-public class MPRoom extends main.Game{
+public class MPRoom extends main.MPGame{
     final private MainFrame owner;
     private MPServer seCli;
     private Font font;

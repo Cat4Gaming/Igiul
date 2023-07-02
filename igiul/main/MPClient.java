@@ -8,11 +8,11 @@ public class MPClient extends MPServer{
     private ObjectOutputStream out;
     private ObjectInputStream in;
     private String message, ip;
-    private Game game;
+    private MPGame game;
     private int port;
     private boolean running;
 
-    public MPClient(String ip, int port, Game game){
+    public MPClient(String ip, int port, MPGame game){
         super(port, game);
         this.ip = ip;
         this.port = port;
@@ -75,7 +75,7 @@ public class MPClient extends MPServer{
     }
 
     @Override
-    public void setOwner(main.Game owner) {
+    public void setOwner(MPGame owner) {
         game = owner;
     }
 }
