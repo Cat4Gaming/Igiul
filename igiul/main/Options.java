@@ -42,30 +42,6 @@ public class Options extends JPanel {
             font = Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/Darumadrop_One/DarumadropOne-Regular.ttf")).deriveFont(32f);
         } catch(IOException| FontFormatException e) {}
 
-        JLabel nameText = new JLabel("Name: ");
-        nameText.setFont(font);
-        nameText.setForeground(Color.WHITE); 
-
-        JTextField playerNameField = new JTextField(playerName);
-        playerNameField.setFont(font);
-        playerNameField.setBackground(new Color(0, 60, 0));
-        playerNameField.setForeground(Color.WHITE);
-
-        JButton acceptButton = new JButton("Apply");
-        acceptButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        acceptButton.setFocusable(false);
-        acceptButton.setIcon(owner.resizedImageIcon("assets/gfx/middlebutton.png", 300, 50));
-        acceptButton.setBorder(BorderFactory.createEmptyBorder());
-        acceptButton.setVerticalTextPosition(SwingConstants.CENTER);
-        acceptButton.setHorizontalTextPosition(SwingConstants.CENTER);
-        acceptButton.setFont(font);
-        acceptButton.setContentAreaFilled(false);
-        acceptButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        acceptButton.addActionListener(event -> {
-            playerName = playerNameField.getText();
-            saveData();
-        });
-
         JButton resetButton = new JButton("Reset Stats");
         resetButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         resetButton.setFocusable(false);
@@ -93,11 +69,6 @@ public class Options extends JPanel {
             SwingUtilities.invokeLater(() -> owner.showView(new Menu(owner)));
         });
 
-        userNameInputPanel.add(nameText, BorderLayout.LINE_START);
-        userNameInputPanel.add(playerNameField, BorderLayout.CENTER);
-
-        optionPanel.add(userNameInputPanel);
-        optionPanel.add(acceptButton);
         optionPanel.add(resetButton);
         optionPanel.add(backButton);
 
