@@ -96,11 +96,6 @@ public class Options extends JPanel {
             SwingUtilities.invokeLater(() -> owner.showView(new Menu(owner)));
         });
 
-        userNameInputPanel.add(nameText, BorderLayout.LINE_START);
-        userNameInputPanel.add(playerNameField, BorderLayout.CENTER);
-
-        optionPanel.add(userNameInputPanel);
-        optionPanel.add(acceptButton);
         optionPanel.add(resetButton);
         optionPanel.add(backButton);
 

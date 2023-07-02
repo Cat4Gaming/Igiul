@@ -15,7 +15,6 @@ public class Game extends main.Game {
     private Font font;
     private boolean firstTime;
     private JButton betButton;
-    private JPanel topBarPanel;
     
     public Game(MainFrame owner) {
         super();
@@ -57,7 +56,8 @@ public class Game extends main.Game {
     
         JPanel betPanel = new JPanel();
         betPanel.setOpaque(false);
-    
+        
+        JPanel topBarPanel = new JPanel();
         topBarPanel = new JPanel();
         topBarPanel.setOpaque(false);
         topBarPanel.setLayout(new BorderLayout());
@@ -195,10 +195,6 @@ public class Game extends main.Game {
         add(gamePanel, BorderLayout.LINE_END);
     }
 
-    public void setCenterTopBarPanel(JPanel panel) {
-        topBarPanel.add(panel, BorderLayout.CENTER);
-    }
-
     private void betButtonClickAction() {
         if(betCoins != 5 && coins >0) {
             coins--;
@@ -218,8 +214,8 @@ public class Game extends main.Game {
         if(selectedCards != 0) {
             changeSelectedCards();
         }
-        createCardLists();
         replaceComputerCards();
+        createCardLists();
         sortHands();
         selectedCards = -1;
         drawButton.setText("New Round");
@@ -401,21 +397,26 @@ public class Game extends main.Game {
      * Ersetzt gewisse Karten des Computer-Spielers
      */
     public void replaceComputerCards() {
-        int[] computerValue = new int[6];
-        for(int i = 0; i < 5; i++) {
-            int tmp = computerHand[i].getCardValue();
-            computerValue[tmp] = computerValue[tmp] + 1;
-        }
-        int rep = 0;
-        for(int i = 0; i < 5 && rep < 4; i++) {
-            if(computerValue[i] == 1) {
-                deck[computerHand[i].getCardValue()]++;
-                computerHand[i].setNewRandomCard();
-                rep++;
-            }
-        }
+        createCardLists();
+        sortHands();
+        switch(handValue(computerValue)){
+            case 0: for(int i = 2; i < 5; i++){
+                        computerHand[i].setNewRandomCard();
+                    }
+                    break;
+            case 2: for(int i = 3; i < 5; i++){
+                        computerHand[i].setNewRandomCard();
+                    }
+                    break;
+            case 3: 
+            case 4: 
+            case 8: for(int i = 4; i < 5; i++){
+                        computerHand[i].setNewRandomCard();
+                    }
+                    break;
+        }  
     }
-
+        
     public MainFrame getOwner() {
         return owner;
     }
