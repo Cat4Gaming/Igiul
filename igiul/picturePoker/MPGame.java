@@ -34,7 +34,8 @@ public class MPGame extends main.MPGame {
     
     @Override
     public void recieveMsg(String msg){
-    
+        System.out.println("in>" + msg);
+        String sData = "";        
     }
 
     @Override
@@ -143,7 +144,9 @@ public class MPGame extends main.MPGame {
         menuButton.setFont(font);
         menuButton.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         menuButton.addActionListener(event -> {
-            SwingUtilities.invokeLater(() -> owner.showView(new menu.Menu(owner)));
+            seCli.sendMessage("exit");
+            seCli.stopSeCli();
+            SwingUtilities.invokeLater(() -> owner.showView(new MPMenu(owner)));
         });
     
         drawButton = new JButton("Hold");
