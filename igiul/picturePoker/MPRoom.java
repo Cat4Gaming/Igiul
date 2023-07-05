@@ -17,7 +17,7 @@ public class MPRoom extends main.MPGame{
     public MPRoom(MainFrame owner, boolean isServer) {
         this.owner = owner;
         this.isServer = isServer;
-        startBetCoins = 10;
+        startBetCoins = 50;
         loadGame();
         createGUI();
         if(isServer) {seCli = new MPServer(port, this);}

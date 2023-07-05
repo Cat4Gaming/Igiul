@@ -40,6 +40,7 @@ public class MPGame extends main.MPGame {
 
     @Override
     public void createGUI() {
+        coins = startCoins;
         try {
             font = Font.createFont(Font.TRUETYPE_FONT, new File("assets/fonts/Darumadrop_One/DarumadropOne-Regular.ttf")).deriveFont(32f);
         } catch(IOException| FontFormatException e) {}
@@ -254,10 +255,9 @@ public class MPGame extends main.MPGame {
     }
     
     public void minBetCoins() {
-        betCoins = (stars / 5) + 1;
+        betCoins = 1;
         coins = coins - betCoins;
         coinsLabel.setText("" + coins);
-        if(betCoins > 5) betCoins = 5;
         betCoinsLabel.setText("Bet Coins: " + betCoins);
     }
     
